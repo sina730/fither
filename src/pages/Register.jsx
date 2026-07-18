@@ -51,6 +51,43 @@ export default function Register() {
       className="min-h-screen flex items-center justify-center relative overflow-hidden px-4"
       style={{ backgroundImage: 'url(./其他页面底图.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
     >
+      {/* ====== 柔粉泡泡装饰 ====== */}
+      <style>{`
+        @keyframes floatBubble1 {
+          0%, 100% { transform: scale(0.85); opacity: 0.5; }
+          50% { transform: scale(1.15); opacity: 0.8; }
+        }
+        @keyframes floatBubble2 {
+          0%, 100% { transform: scale(0.82); opacity: 0.4; }
+          50% { transform: scale(1.18); opacity: 0.7; }
+        }
+      `}</style>
+      {/* 中心大泡泡 */}
+      <div
+        className="absolute rounded-full pointer-events-none z-[1]"
+        style={{
+          top: '50%', left: '50%',
+          marginTop: '-550px', marginLeft: '-550px',
+          width: '1100px', height: '1100px',
+          background: 'radial-gradient(circle, rgba(245, 105, 140, 0.35) 0%, rgba(245, 105, 140, 0.12) 40%, transparent 65%)',
+          filter: 'blur(40px)',
+          animation: 'floatBubble1 7s ease-in-out infinite',
+        }}
+      />
+      {/* 中心小泡泡 */}
+      <div
+        className="absolute rounded-full pointer-events-none z-[1]"
+        style={{
+          top: '50%', left: '50%',
+          marginTop: '-400px', marginLeft: '-400px',
+          width: '800px', height: '800px',
+          background: 'radial-gradient(circle, rgba(255, 141, 181, 0.3) 0%, rgba(255, 141, 181, 0.1) 40%, transparent 65%)',
+          filter: 'blur(35px)',
+          animation: 'floatBubble2 8s ease-in-out infinite',
+          animationDelay: '3s',
+        }}
+      />
+
       {/* 径向渐变遮罩 */}
       <div className="absolute inset-0 pointer-events-none z-0"
         style={{ background: 'radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.06) 100%)' }}

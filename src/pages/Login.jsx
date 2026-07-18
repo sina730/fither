@@ -14,7 +14,7 @@ export default function Login() {
     setError('');
     const result = login(email, password);
     if (result.ok) {
-      navigate('/plan');
+      navigate('/onboarding');
     } else {
       setError(result.error);
     }

@@ -6,7 +6,7 @@ export default function App() {
   const features = [
     {
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f06a9a" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f06a9a" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
           <rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
         </svg>
       ),
@@ -15,7 +15,7 @@ export default function App() {
     },
     {
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f06a9a" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f06a9a" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
           <path d="M18 8h1a4 4 0 0 1 0 8h-1" /><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" /><line x1="6" y1="1" x2="6" y2="4" /><line x1="10" y1="1" x2="10" y2="4" /><line x1="14" y1="1" x2="14" y2="4" />
         </svg>
       ),
@@ -24,7 +24,7 @@ export default function App() {
     },
     {
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f06a9a" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f06a9a" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
           <path d="M6.5 6.5h11" /><rect x="4" y="3" width="16" height="4" rx="1" /><rect x="7" y="7" width="10" height="14" rx="2" /><line x1="9" y1="9" x2="12" y2="9" /><line x1="9" y1="13" x2="12" y2="13" /><line x1="9" y1="17" x2="12" y2="17" />
         </svg>
       ),
@@ -44,37 +44,23 @@ export default function App() {
         src="/hero-model.png"
         alt="FitHer"
         className="absolute inset-0 w-full h-full object-cover"
+        style={{ transform: 'translate(30px, 20px)' }}
       />
 
-      {/* ====== 呼吸光圈层 ====== */}
+      {/* ====== 粉色泡泡呼吸 overlay ====== */}
       <style>{`
-        @keyframes glowOuter {
-          0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.55; filter: blur(50px); }
-          50% { transform: translate(-50%, -50%) scale(1.06); opacity: 0.8; filter: blur(60px); }
-        }
-        @keyframes glowInner {
-          0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.65; filter: blur(20px); }
-          50% { transform: translate(-50%, -50%) scale(1.08); opacity: 0.9; filter: blur(35px); }
+        @keyframes bubbleBreathe {
+          0%, 100% { transform: translate(-50%, -50%) scale(0.85); }
+          50% { transform: translate(-50%, -50%) scale(1.1); }
         }
       `}</style>
-      {/* 外圈 — 大范围柔光，8秒 */}
       <div
         className="absolute rounded-full pointer-events-none z-[5]"
         style={{
           top: '50%', left: '50%',
           width: '700px', height: '700px',
-          background: 'radial-gradient(circle, rgba(245, 105, 140, 0.15) 0%, rgba(245, 105, 140, 0.04) 40%, transparent 65%)',
-          animation: 'glowOuter 8s ease-in-out infinite',
-        }}
-      />
-      {/* 内圈 — 核心柔光，5秒 */}
-      <div
-        className="absolute rounded-full pointer-events-none z-[5]"
-        style={{
-          top: '50%', left: '50%',
-          width: '700px', height: '700px',
-          background: 'radial-gradient(circle, rgba(245, 105, 140, 0.25) 0%, rgba(245, 105, 140, 0.06) 35%, transparent 60%)',
-          animation: 'glowInner 5s ease-in-out infinite',
+          background: 'radial-gradient(circle, rgba(245, 105, 140, 0.4) 0%, rgba(245, 105, 140, 0.12) 40%, transparent 65%)',
+          animation: 'bubbleBreathe 5s ease-in-out infinite',
         }}
       />
 
@@ -188,7 +174,7 @@ export default function App() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.9, ease: [0.25, 0.4, 0.25, 1] }}
           className="flex flex-col items-center text-center max-w-[540px] pointer-events-auto"
-          style={{ transform: 'translate(80px, -40px)' }}
+          style={{ transform: 'translate(105px, -40px)' }}
         >
           {/* 主标题 */}
           <h1
@@ -269,12 +255,12 @@ export default function App() {
         </motion.div>
       </div>
 
-      {/* ====== 底部功能模块 — 透明玻璃 ====== */}
+      {/* ====== 底部功能模块 ====== */}
       <motion.div
         initial={{ opacity: 0, y: 35 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.25, duration: 0.8, ease: 'easeOut' }}
-        className="absolute bottom-[130px] left-0 right-0 z-10 flex items-center justify-center gap-5"
+        className="absolute bottom-[110px] left-0 right-0 z-10 flex items-start justify-center gap-[90px]"
       >
         {features.map((item, i) => (
           <motion.div
@@ -282,16 +268,20 @@ export default function App() {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.4 + i * 0.1, duration: 0.5, ease: 'easeOut' }}
-            whileHover={{ translateY: -3 }}
-            className="w-[220px] glass-feature px-6 py-5 cursor-default flex items-center gap-4"
+            whileHover={{ translateY: -4 }}
+            className="w-[180px] flex flex-col items-center text-center cursor-default py-6 px-4"
+            style={{
+              background: 'rgba(255,255,255,0.25)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              borderRadius: '24px',
+            }}
           >
-            <div className="w-10 h-10 rounded-xl bg-[#fde8ef] flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-[#fde8ef] flex items-center justify-center shrink-0 mb-3">
               {item.icon}
             </div>
-            <div className="text-left min-w-0">
-              <div className="text-[14px] font-semibold text-[#111] leading-tight">{item.title}</div>
-              <div className="text-[12px] text-[#999] mt-1 leading-relaxed">{item.desc}</div>
-            </div>
+            <div className="text-[14px] font-semibold text-[#111] mb-1.5">{item.title}</div>
+            <div className="text-[12px] text-[#999] leading-relaxed">{item.desc}</div>
           </motion.div>
         ))}
       </motion.div>
@@ -301,7 +291,7 @@ export default function App() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.6, duration: 0.6 }}
-        className="absolute bottom-[60px] left-0 right-0 z-10 flex items-center justify-center gap-3 text-[14px] text-[#aaa]"
+        className="absolute bottom-[30px] left-0 right-0 z-10 flex items-center justify-center gap-3 text-[14px] text-[#aaa]"
       >
         <motion.span
           initial={{ scale: 0 }}

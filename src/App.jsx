@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 
 export default function App() {
-  const navLinks = ['首页', '训练计划', '饮食建议', '器材教学', '关于我们'];
+  const navLinks = ['首页', '训练计划', '器材教学', '饮食建议', '关于我们'];
 
   const features = [
     {
@@ -16,20 +16,20 @@ export default function App() {
     {
       icon: (
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f06a9a" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M18 8h1a4 4 0 0 1 0 8h-1" /><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" /><line x1="6" y1="1" x2="6" y2="4" /><line x1="10" y1="1" x2="10" y2="4" /><line x1="14" y1="1" x2="14" y2="4" />
-        </svg>
-      ),
-      title: '饮食建议',
-      desc: '营养搭配，吃出好身材',
-    },
-    {
-      icon: (
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f06a9a" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
           <path d="M6.5 6.5h11" /><rect x="4" y="3" width="16" height="4" rx="1" /><rect x="7" y="7" width="10" height="14" rx="2" /><line x1="9" y1="9" x2="12" y2="9" /><line x1="9" y1="13" x2="12" y2="13" /><line x1="9" y1="17" x2="12" y2="17" />
         </svg>
       ),
       title: '器材教学',
       desc: '详细视频讲解，轻松上手',
+    },
+    {
+      icon: (
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f06a9a" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M18 8h1a4 4 0 0 1 0 8h-1" /><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" /><line x1="6" y1="1" x2="6" y2="4" /><line x1="10" y1="1" x2="10" y2="4" /><line x1="14" y1="1" x2="14" y2="4" />
+        </svg>
+      ),
+      title: '饮食建议',
+      desc: '营养搭配，吃出好身材',
     },
   ];
 

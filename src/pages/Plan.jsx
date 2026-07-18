@@ -27,7 +27,7 @@ export default function Plan() {
 
   if (!plan) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundImage: 'url(./其他页面底图.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="text-gray-400 text-lg">正在生成你的专属训练计划...</div>
       </div>
     );
@@ -36,10 +36,10 @@ export default function Plan() {
   const today = plan.schedule[selectedDay];
 
   return (
-    <div className="min-h-screen bg-white relative">
-      {/* 背景装饰 */}
-      <div className="fixed top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(245,105,140,0.06) 0%, transparent 70%)' }} />
+    <div
+      className="min-h-screen relative"
+      style={{ backgroundImage: 'url(./其他页面底图.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+    >
 
       {/* 顶部导航 */}
       <nav className="sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-gray-50">

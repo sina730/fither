@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && cp public/hero-model.png dist/hero-model.png && cp public/favicon.svg dist/favicon.svg",
+    "build": "vite build && cp public/hero-model.png dist/hero-model.png && cp public/favicon.svg dist/favicon.svg && cp public/其他页面底图.png dist/其他页面底图.png",
     "lint": "oxlint",
     "preview": "vite preview"
   },

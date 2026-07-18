@@ -52,10 +52,10 @@ export default function Onboarding() {
   const step2Valid = form.planDays >= 7;
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center relative overflow-hidden px-4">
-      {/* 背景装饰 */}
-      <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full"
-        style={{ background: 'radial-gradient(circle, rgba(245,105,140,0.06) 0%, transparent 70%)' }} />
+    <div
+      className="min-h-screen flex items-center justify-center relative overflow-hidden px-4"
+      style={{ backgroundImage: 'url(./其他页面底图.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+    >
 
       {/* Logo */}
       <Link to="/" className="absolute top-8 left-10 flex items-center gap-2.5">

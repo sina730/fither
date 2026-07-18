@@ -31,88 +31,152 @@ export default function Register() {
     }
   };
 
+  const inputFocus = (e) => {
+    e.target.style.borderColor = '#f06a9a';
+    e.target.style.boxShadow = '0 0 0 3px rgba(240,106,154,0.12)';
+  };
+  const inputBlur = (e) => {
+    e.target.style.borderColor = '#e8e8e8';
+    e.target.style.boxShadow = 'none';
+  };
+  const inputEnter = (e) => {
+    if (document.activeElement !== e.target) e.target.style.borderColor = '#f8b2c2';
+  };
+  const inputLeave = (e) => {
+    if (document.activeElement !== e.target) e.target.style.borderColor = '#e8e8e8';
+  };
+
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center relative overflow-hidden">
-      {/* 背景装饰 */}
-      <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full"
-        style={{ background: 'radial-gradient(circle, rgba(245,105,140,0.08) 0%, transparent 70%)' }} />
-      <div className="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] rounded-full"
-        style={{ background: 'radial-gradient(circle, rgba(245,105,140,0.05) 0%, transparent 70%)' }} />
+    <div
+      className="min-h-screen flex items-center justify-center relative overflow-hidden px-4"
+      style={{ backgroundImage: 'url(./其他页面底图.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+    >
+      {/* 径向渐变遮罩 */}
+      <div className="absolute inset-0 pointer-events-none z-0"
+        style={{ background: 'radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.06) 100%)' }}
+      />
 
-      {/* Logo */}
-      <Link to="/" className="absolute top-8 left-10 flex items-center gap-2.5">
-        <div className="w-9 h-9 rounded-lg bg-[#f06a9a] flex items-center justify-center">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-          </svg>
-        </div>
-        <span className="text-xl font-bold text-[#111]">FitHer</span>
-      </Link>
-
+      {/* ====== 左上 Logo ====== */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="relative z-10 w-full max-w-[400px] mx-6 bg-white/80 backdrop-blur-xl rounded-3xl p-10 shadow-[0_20px_60px_rgba(0,0,0,0.06)] border border-gray-100"
+        initial={{ opacity: 0, x: -16 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+        className="absolute top-7 left-7 md:top-10 md:left-10 z-20"
       >
-        <h2 className="text-3xl font-bold text-[#111] mb-2">创建账号</h2>
-        <p className="text-gray-400 mb-8">开始你的健身之旅</p>
-
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-          <div>
-            <label className="block text-sm font-medium text-gray-600 mb-1.5">邮箱</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder="your@email.com"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#f06a9a] focus:ring-2 focus:ring-[#fde8ef] transition-all"
-            />
+        <Link to="/" className="flex items-center gap-3 shrink-0">
+          <div className="w-11 h-11 rounded-xl bg-[#f06a9a] flex items-center justify-center shadow-lg shadow-[#f06a9a]/25">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            </svg>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-600 mb-1.5">密码</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              placeholder="至少 6 位"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#f06a9a] focus:ring-2 focus:ring-[#fde8ef] transition-all"
-            />
+          <div className="flex flex-col leading-none gap-0.5">
+            <span className="text-[26px] font-bold tracking-tight text-[#111]">FitHer</span>
+            <span className="text-[12px] text-[#f06a9a] tracking-wide">为更好的自己</span>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-600 mb-1.5">确认密码</label>
-            <input
-              type="password"
-              value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
-              required
-              placeholder="再次输入密码"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#f06a9a] focus:ring-2 focus:ring-[#fde8ef] transition-all"
-            />
-          </div>
+        </Link>
+      </motion.div>
 
-          {error && (
-            <p className="text-red-500 text-sm text-center">{error}</p>
-          )}
+      {/* ====== 注册卡片 ====== */}
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
+        className="relative z-10 w-[92vw] max-w-[450px] mx-auto"
+      >
+        <div
+          style={{
+            background: 'rgba(255,255,255,0.25)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            borderRadius: '24px',
+            boxShadow: '0 8px 32px rgba(240,140,170,0.12), 0 2px 8px rgba(240,140,170,0.06)',
+            padding: '36px 32px',
+          }}
+        >
+          {/* 标题 */}
+          <h2 className="text-[30px] font-bold text-[#111] leading-tight">
+            创建账号
+          </h2>
+          <p className="text-[15px] text-[#999] mt-[4px]">
+            开始你的健身之旅
+          </p>
 
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            type="submit"
-            className="w-full py-3.5 bg-gradient-to-r from-[#F56898] to-[#FF9ABB] text-white font-semibold rounded-xl shadow-lg shadow-[#f06a9a]/20 mt-2"
+          <form onSubmit={handleSubmit} className="flex flex-col" style={{ marginTop: '28px' }}>
+            {/* 邮箱 */}
+            <div>
+              <label className="block text-[14px] font-medium text-[#555] mb-[8px]">邮箱</label>
+              <input
+                type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                required placeholder="your@email.com"
+                className="w-full h-[46px] rounded-[10px] border border-[#e8e8e8] text-[14px] text-[#111] placeholder-[#bbb] bg-white transition-all duration-200"
+                style={{ paddingLeft: '14px', paddingRight: '14px' }}
+                onFocus={inputFocus} onBlur={inputBlur}
+                onMouseEnter={inputEnter} onMouseLeave={inputLeave}
+              />
+            </div>
+
+            {/* 密码 */}
+            <div style={{ marginTop: '20px' }}>
+              <label className="block text-[14px] font-medium text-[#555] mb-[8px]">密码</label>
+              <input
+                type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+                required placeholder="至少 6 位"
+                className="w-full h-[46px] rounded-[10px] border border-[#e8e8e8] text-[14px] text-[#111] placeholder-[#bbb] bg-white transition-all duration-200"
+                style={{ paddingLeft: '14px', paddingRight: '14px' }}
+                onFocus={inputFocus} onBlur={inputBlur}
+                onMouseEnter={inputEnter} onMouseLeave={inputLeave}
+              />
+            </div>
+
+            {/* 确认密码 */}
+            <div style={{ marginTop: '20px' }}>
+              <label className="block text-[14px] font-medium text-[#555] mb-[8px]">确认密码</label>
+              <input
+                type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)}
+                required placeholder="再次输入密码"
+                className="w-full h-[46px] rounded-[10px] border border-[#e8e8e8] text-[14px] text-[#111] placeholder-[#bbb] bg-white transition-all duration-200"
+                style={{ paddingLeft: '14px', paddingRight: '14px' }}
+                onFocus={inputFocus} onBlur={inputBlur}
+                onMouseEnter={inputEnter} onMouseLeave={inputLeave}
+              />
+            </div>
+
+            {/* 错误提示 */}
+            {error && (
+              <p className="text-red-500 text-[13px] text-center mt-[14px]">{error}</p>
+            )}
+
+            {/* 注册按钮 */}
+            <motion.button
+              type="submit"
+              whileHover={{ scale: 1.05, translateY: -3, boxShadow: '0 18px 50px rgba(240,106,154,0.32)' }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.3, ease: [0.25, 0.8, 0.25, 1.2] }}
+              className="w-full h-[48px] text-white text-[16px] font-semibold rounded-[30px] transition-all"
+              style={{
+                marginTop: '28px',
+                background: 'linear-gradient(135deg, #F56898 0%, #FF9ABB 100%)',
+                boxShadow: '0 10px 35px rgba(240,106,154,0.25)',
+              }}
+            >
+              立即注册
+            </motion.button>
+          </form>
+
+          {/* 登录提示 */}
+          <p
+            className="text-center text-[14px] text-[#aaa] flex items-center justify-center"
+            style={{ marginTop: '20px' }}
           >
-            立即注册
-          </motion.button>
-        </form>
-
-        <p className="text-center text-sm text-gray-400 mt-6">
-          已有账号？
-          <Link to="/login" className="text-[#f06a9a] font-medium ml-1 hover:underline">
-            去登录
-          </Link>
-        </p>
+            已有账号？
+            <Link
+              to="/login"
+              className="text-[#f06a9a] font-medium ml-1 hover:underline underline-offset-2 transition-all duration-200"
+            >
+              去登录
+            </Link>
+          </p>
+        </div>
       </motion.div>
     </div>
   );

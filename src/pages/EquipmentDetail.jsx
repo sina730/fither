@@ -8,7 +8,7 @@ export default function EquipmentDetail() {
 
   if (!eq) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundImage: 'url(./其他页面底图.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="text-center">
           <p className="text-gray-400 mb-4">器材未找到</p>
           <Link to="/equipment" className="text-[#f06a9a] font-medium">返回列表</Link>
@@ -18,9 +18,10 @@ export default function EquipmentDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-white relative">
-      <div className="fixed top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(245,105,140,0.06) 0%, transparent 70%)' }} />
+    <div
+      className="min-h-screen relative"
+      style={{ backgroundImage: 'url(./其他页面底图.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+    >
 
       <nav className="sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-gray-50">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">

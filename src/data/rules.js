@@ -18,15 +18,15 @@ const homeCut = [
   { name: '弹力带髋外展', sets: 2, reps: '15 次/侧', rest: '30秒', type: '力量', sec: 45, eq: '弹力带' },
 ];
 
-// —— 健身房减脂：跑步机优先+固定器械 ——
+// —— 健身房减脂：固定器械为主（有氧通过热身视频完成） ——
 const gymCut = [
-  { name: '跑步机快走/慢跑', sets: 1, reps: '15 分钟', rest: '—', type: '有氧', sec: 900, eq: '跑步机', note: '坡度3-5，速度4-6km/h，微出汗即可' },
-  { name: '坐姿推胸', sets: 3, reps: '12 次', rest: '45秒', type: '力量', sec: 60, eq: '蝴蝶机/推胸机', note: '调节座椅至把手与胸齐平' },
-  { name: '高位下拉', sets: 3, reps: '12 次', rest: '45秒', type: '力量', sec: 60, eq: '龙门架', note: '双手宽握，下拉至锁骨高度' },
-  { name: '倒蹬机', sets: 3, reps: '12 次', rest: '60秒', type: '力量', sec: 70, eq: '史密斯机', note: '轻重量起步，膝盖勿锁死' },
-  { name: '坐姿划船', sets: 3, reps: '12 次', rest: '45秒', type: '力量', sec: 60, eq: '龙门架', note: '背部挺直，夹紧肩胛骨' },
-  { name: '蝴蝶机夹胸', sets: 3, reps: '12 次', rest: '45秒', type: '力量', sec: 60, eq: '蝴蝶机', note: '调节座椅使把手与肩同高' },
-  { name: '椭圆机（可选）', sets: 1, reps: '8 分钟', rest: '—', type: '有氧', sec: 480, eq: '椭圆机', note: '低阻力，保持匀速' },
+  { name: '坐姿推胸', sets: 4, reps: '12 次', rest: '45秒', type: '力量', sec: 75, eq: '蝴蝶机/推胸机', note: '调节座椅至把手与胸齐平' },
+  { name: '高位下拉', sets: 4, reps: '12 次', rest: '45秒', type: '力量', sec: 75, eq: '龙门架', note: '双手宽握，下拉至锁骨高度' },
+  { name: '倒蹬机', sets: 4, reps: '12 次', rest: '60秒', type: '力量', sec: 85, eq: '史密斯机', note: '轻重量起步，膝盖勿锁死' },
+  { name: '坐姿划船', sets: 4, reps: '12 次', rest: '45秒', type: '力量', sec: 75, eq: '龙门架', note: '背部挺直，夹紧肩胛骨' },
+  { name: '蝴蝶机夹胸', sets: 3, reps: '12 次', rest: '45秒', type: '力量', sec: 65, eq: '蝴蝶机', note: '调节座椅使把手与肩同高' },
+  { name: '平板支撑', sets: 3, reps: '45 秒', rest: '30秒', type: '核心', sec: 65 },
+  { name: '卷腹', sets: 4, reps: '15 次', rest: '30秒', type: '核心', sec: 55 },
 ];
 
 // —— 居家增肌 ——
@@ -174,31 +174,26 @@ export function generatePlan(profile) {
     if (filtered.length < 3) filtered = pool;
   }
 
-  // 减脂：有氧为主，分离有氧/力量池
-  const isCut = goal === '减脂';
-  const cardioPool = filtered.filter((e) => e.type === '有氧');
-  const strengthPool = filtered.filter((e) => e.type === '力量' || e.type === '核心');
-
   // 减重强度
+  const isCut = goal === '减脂';
   const cw = parseFloat(weight) || 0, tw = parseFloat(targetWeight) || 0;
   const cutMul = (isCut && cw > 0 && tw > 0 && tw < cw) ? Math.min(1.2, 1 + ((cw - tw) / cw) * 1.5) : 1;
 
   // 拉伸（秒）
   const stretchSec = Math.min(dailyMinutes * 5, 300);
   const stretches = pickStretch(stretchSec, bodyParts);
+  const stretchTotal = stretches.reduce((a, e) => a + e.sec * (e.sets || 1), 0);
 
-  // 热身 3 分钟
-  const warmupSec = 180;
-  const warmup = [{ name: '训练前热身', sets: 1, reps: '3 分钟', rest: '—', type: '热身', sec: warmupSec,
-    videoUrl: 'https://player.bilibili.com/player.html?bvid=BV1Ft4y1Q7Xa' }];
+  // 热身视频（包含有氧热身，根据场景给不同时长和视频）
+  const warmupSec = isGym ? Math.min(dailyMinutes * 8, 360) : 180;
+  const warmupLabel = isGym ? `${Math.round(warmupSec / 60)} 分钟（含跑步机快走）` : '3 分钟';
+  const warmupVideo = isGym
+    ? 'https://player.bilibili.com/player.html?bvid=BV1Ft4y1Q7Xa'
+    : 'https://player.bilibili.com/player.html?bvid=BV1Ft4y1Q7Xa';
+  const warmup = [{ name: '训练前热身', sets: 1, reps: warmupLabel, rest: '—', type: '热身', sec: warmupSec, videoUrl: warmupVideo }];
 
   // 正式动作可用时间
-  const stretchTotal = stretches.reduce((a, e) => a + e.sec * (e.sets || 1), 0);
   const mainSec = dailyMinutes * 60 - warmupSec - stretchTotal;
-
-  // 减脂时间分配：有氧 55% / 力量 45%
-  const cardioTarget = isCut ? Math.round(mainSec * 0.55) : Math.round(mainSec * 0.3);
-  const strengthTarget = mainSec - cardioTarget;
 
   // 经期日期：28天周期 × 6天
   const pdSet = new Set();
@@ -227,25 +222,8 @@ export function generatePlan(profile) {
     if (isPd) {
       dayEx = periodExercises.map((e) => ({ ...e }));
     } else {
-      // 按时间比例选取
-      const cardioPicked = isCut
-        ? pickToTime(cardioPool, cardioTarget)
-        : pickToTime(
-            filtered.filter((e) => e.type === '有氧' || e.type === '拉伸'),
-            Math.round(mainSec * 0.35)
-          );
-      const strengthPicked = pickToTime(strengthPool, strengthTarget);
-
-      // 健身房减脂：确保跑步机排在第一位
-      if (isGym && isCut) {
-        const tm = cardioPicked.findIndex((e) => e.name.includes('跑步机'));
-        if (tm > 0) {
-          const [treadmill] = cardioPicked.splice(tm, 1);
-          cardioPicked.unshift(treadmill);
-        }
-      }
-
-      dayEx = [...cardioPicked, ...strengthPicked];
+      // 统一按时间选取，不做有氧/力量分离（有氧已集成到热身视频）
+      dayEx = pickToTime(filtered, mainSec);
     }
 
     // 应用强度倍率

@@ -23,10 +23,10 @@ const COVERS = {
 
 /* ========== 顶层分类 ========== */
 export const mainCategories = [
-  { id: 'all',           name: '全部',       icon: '📋', count: 49 },
-  { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 3 },
-  { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 6 },
-  { id: 'strength',      name: '力量器材',   icon: '🏋️', count: 16 },
+  { id: 'all',           name: '全部',       icon: '📋', count: 55 },
+  { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 4 },
+  { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 8 },
+  { id: 'strength',      name: '力量器材',   icon: '🏋️', count: 19 },
   { id: 'free-weight',   name: '自由重量',   icon: '💪', count: 9 },
   { id: 'glutes-legs',   name: '臀腿训练',   icon: '🍑', count: 7 },
   { id: 'chest-back',    name: '胸肩背',     icon: '🎯', count: 7 },
@@ -41,8 +41,16 @@ export const categoryDetailMap = {
     title: '力量器材',
     subtitle: '适合健身房固定器械训练',
     description: '固定器械轨迹稳定，安全性高，新手也能放心使用。掌握每个器械的正确用法，让训练更高效。',
-    totalVideos: 16,
+    totalVideos: 19,
     subcategories: [
+      {
+        name: '新手入门',
+        videos: [
+          { id: 'st-xx-back',    title: 'XiaoXiao背部器械+爬坡跟练', level: '初级', duration: '49 分钟', rating: 5, category: 'strength', subcategory: '新手入门', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1nhTy6LEJ3', cover: 'https://i0.hdslb.com/bfs/archive/46f3632a53ed555c901755c70bcaf109c42e9212.jpg' },
+          { id: 'st-xx-leg',     title: 'XiaoXiao固定器械练腿教程', level: '初级', duration: '1 分钟', rating: 5, category: 'strength', subcategory: '新手入门', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1hVbTzZET5', cover: 'https://i2.hdslb.com/bfs/archive/36de6f49a7e6789b18781e688591d5a3235a4589.jpg' },
+          { id: 'st-xx-guide',   title: 'XiaoXiao固定器械使用教程', level: '初级', duration: '2 分钟', rating: 5, category: 'strength', subcategory: '新手入门', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1nX8dzJEu9', cover: 'https://i1.hdslb.com/bfs/archive/c05161e3c9eb74ee51037ee803081eb80ec82b1a.jpg' },
+        ],
+      },
       {
         name: '胸部',
         videos: [
@@ -90,8 +98,14 @@ export const categoryDetailMap = {
     title: '拉伸教学',
     subtitle: '安娜(growingannanas) — 训练前后拉伸跟练',
     description: '运动前动态激活 + 运动后全身放松，仅需2节课，科学拉伸不伤身。',
-    totalVideos: 3,
+    totalVideos: 4,
     subcategories: [
+      {
+        name: '训练后放松',
+        videos: [
+          { id: 'st-xx-cool',    title: 'XiaoXiao爬坡后拉伸跟练', level: '初级', duration: '4 分钟', rating: 5, category: 'stretch', subcategory: '训练后放松', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1oFxuzeEVN', cover: 'https://i1.hdslb.com/bfs/archive/06e946e2b1353617d21b5fb83101c7b0ccd7474c.jpg' },
+        ],
+      },
       {
         name: '训练前热身',
         videos: [
@@ -113,8 +127,15 @@ export const categoryDetailMap = {
     title: '跑步机',
     subtitle: '从新手到进阶，科学跑步不伤膝',
     description: '跑步机是最常见的有氧器械，但正确的使用方式很多人并不了解。从基础走路到高强度间歇，系统学习每一种模式。',
-    totalVideos: 6,
+    totalVideos: 8,
     subcategories: [
+      {
+        name: '爬坡跟练',
+        videos: [
+          { id: 'tm-xx-45',      title: 'XiaoXiao45分钟爬坡跟练', level: '初级', duration: '48 分钟', rating: 5, category: 'treadmill', subcategory: '爬坡跟练', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1naAHzQESL', cover: 'https://i0.hdslb.com/bfs/archive/c3fa942a5f322b7ea05207e75fa978081d849ad9.jpg' },
+          { id: 'tm-xx-35',      title: 'XiaoXiao35分钟爬坡跟练', level: '初级', duration: '35 分钟', rating: 5, category: 'treadmill', subcategory: '爬坡跟练', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1rHrsBzEsU', cover: 'https://i2.hdslb.com/bfs/archive/28cf1712804fb7e3b0c010efff4f5c1fa72188c8.jpg' },
+        ],
+      },
       {
         name: '新手走路',
         videos: [

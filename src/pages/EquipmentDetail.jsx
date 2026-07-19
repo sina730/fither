@@ -28,7 +28,7 @@ export default function EquipmentDetail() {
 
   /* 返回链接：优先返回分类页，否则返回器材教学首页 */
   const backUrl = video.category ? `/equipment/${video.category}` : '/equipment';
-  const backLabel = video.category ? '返回分类' : '返回器材教学';
+  const backLabel = '返回';
 
   /* 相关推荐：同 category 的其他视频（最多 3 个） */
   const related = allVideos
@@ -160,7 +160,7 @@ export default function EquipmentDetail() {
           {/* 返回按钮 */}
           <div className="flex justify-center pb-8">
             <button
-              onClick={() => nav(backUrl)}
+              onClick={() => nav(-1)}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-[999px] text-[14px] font-medium transition-all hover:-translate-y-0.5"
               style={{ color: PINK, background: '#fde8ef', border: 'none', cursor: 'pointer' }}
             >

@@ -1,291 +1,344 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { generatePlan } from '../data/rules';
 import { storage } from '../utils/storage';
-import { logout as doLogout } from '../utils/auth';
+import { logout as doLogout, isLoggedIn } from '../utils/auth';
 
-const PINK = '#F56898';
-const shadow = '0 8px 28px rgba(0,0,0,0.05)';
-const shadowLg = '0 12px 36px rgba(248,110,168,0.10)';
-const cardR = 18;
+/* ============================================
+   Tokens
+   ============================================ */
+const C = {
+  pink: '#f06a9a', pinkBg: '#fff4f8', pinkLight: '#fde8ef', pinkBorder: 'rgba(240,106,154,0.10)',
+  title: '#29262c', body: '#686269', sub: '#9d969f', muted: '#aaa4ab',
+  cardBg: 'rgba(255,255,255,0.82)', cardBorder: 'rgba(45,30,36,0.045)',
+  shadow: '0 12px 32px rgba(50,25,35,0.045)', shadowSm: '0 8px 22px rgba(45,24,34,0.035)',
+};
 
-/* ====== Day Card ====== */
+/* ============================================
+   Helpers
+   ============================================ */
+function calcCal(min) { return Math.round(min * 6.5); }
+function getMetrics(ex) {
+  const m = [];
+  if (ex.sets > 1) m.push({ val: ex.sets, label: '组数' });
+  if (ex.reps && ex.reps !== '—') m.push({ val: ex.reps, label: ex.type === '有氧' || ex.type === '热身' || ex.type === '拉伸' ? '时间' : '次数' });
+  if (ex.rest && ex.rest !== '—') m.push({ val: ex.rest, label: '休息' });
+  return m;
+}
+function getDur(ex) { const t = ex.sec * (ex.sets || 1); return t >= 60 ? `${Math.round(t / 60)} 分钟` : `${t} 秒`; }
+function getNote(ex) {
+  if (ex.note) return ex.note;
+  const map = { '热身': '热身激活 · 提高心率', '拉伸': '放松肌肉 · 缓解肌肉酸痛', '有氧': '有氧燃脂 · 提升心肺', '力量': '力量训练 · 增强肌力', '核心': '核心训练 · 稳定躯干' };
+  return map[ex.type] || '';
+}
+
+const goalIcons = { '减脂': '🔥', '增肌': '💪', '塑形': '✨', '保持健康': '🌱' };
+const goalLabelMap = { '减脂': '减脂', '增肌': '增肌', '塑形': '塑形', '保持健康': '保持健康' };
+
+/* ============================================
+   Sub-Components
+   ============================================ */
+
 function DayCard({ day, isSelected, onClick }) {
+  const done = day._done;
+  const typeIcons = { '力量日': '💪', '有氧日': '🏃', '综合日': '⭐', '塑形日': '✨', '经期拉伸': '🩸', '经期恢复': '🌸' };
+  const icon = day.isPeriodDay ? '🩸' : (typeIcons[day.type] || '💪');
   return (
-    <motion.button onClick={onClick} whileHover={{ y: -3 }} transition={{ duration: 0.3 }}
-      className="flex flex-col items-center justify-center rounded-[18px] border-0 cursor-pointer flex-shrink-0"
+    <motion.button onClick={onClick} whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}
+      transition={{ duration: 0.2 }} className="flex-shrink-0 relative cursor-pointer border-0 flex flex-col items-center justify-center gap-[6px]"
       style={{
-        width: 76, minHeight: 72,
-        background: isSelected ? `linear-gradient(135deg, #F86EA8, #FF9ABB)` : '#fff',
-        color: isSelected ? '#fff' : '#888',
-        boxShadow: isSelected ? '0 10px 25px rgba(248,110,168,0.25)' : shadow,
-        border: isSelected ? 'none' : '1px solid #eee',
-        transform: isSelected ? 'translateY(-2px)' : 'none',
+        width: 90, height: 90, borderRadius: 18,
+        background: isSelected ? 'linear-gradient(145deg, #fff0f5, #ffe4ed)' : C.cardBg,
+        backdropFilter: 'blur(12px)', border: isSelected ? '1.5px solid #f276a2' : `1px solid ${C.cardBorder}`,
+        boxShadow: isSelected ? '0 8px 20px rgba(240,106,154,0.14)' : C.shadowSm,
       }}>
-      <span className="text-[10px] font-semibold uppercase opacity-70">{day.type.length > 3 ? day.type.slice(0, 2) : day.type}</span>
-      <span className="text-[18px] font-bold leading-none mt-[2px]">D{day.day}</span>
-      {day.isPeriodDay && <span className="text-[11px] mt-[2px]">🩸</span>}
+      {done && <span className="absolute top-[10px] right-[10px] w-[18px] h-[18px] rounded-full flex items-center justify-center text-[10px]" style={{ background: '#4ade80', color: '#fff' }}>✓</span>}
+      <span className="text-[13px] font-semibold" style={{ color: isSelected ? C.pink : '#888' }}>Day {String(day.day).padStart(2, '0')}</span>
+      <span className="text-[20px]">{icon}</span>
+      <span className="text-[11px] font-medium" style={{ color: isSelected ? '#d46082' : C.sub }}>{day.isPeriodDay ? '经期日' : day.type}</span>
+      {isSelected && <div className="w-[38px] h-[3px] rounded-[2px]" style={{ background: C.pink }} />}
     </motion.button>
   );
 }
 
-/* ====== Exercise Row ====== */
-function ExerciseRow({ ex, idx, checked, onToggle }) {
-  const icons = { '有氧': '🏃', '力量': '💪', '核心': '🎯', '拉伸': '🧘', '热身': '🔥' };
+function InfoCard({ icon, iconBg, label, value }) {
   return (
-    <motion.div whileHover={{ y: -3, boxShadow: shadowLg }} transition={{ duration: 0.3 }}
-      className="flex items-center gap-4 rounded-[18px] p-5" style={{ background: '#fff', boxShadow: shadow, border: '1px solid #f5f5f5' }}>
-      {/* Checkbox */}
-      <button onClick={onToggle}
-        className="w-[24px] h-[24px] rounded-[6px] border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200"
-        style={{ borderColor: checked ? PINK : '#ddd', background: checked ? PINK : '#fff', cursor: 'pointer' }}>
-        {checked && <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
+    <div className="rounded-[17px] flex items-center gap-3" style={{ minHeight: 74, padding: '14px 16px', background: C.cardBg, border: `1px solid ${C.pinkBorder}`, boxShadow: C.shadowSm, backdropFilter: 'blur(12px)' }}>
+      <div className="w-[34px] h-[34px] rounded-[10px] flex items-center justify-center text-[18px] flex-shrink-0" style={{ background: iconBg }}>{icon}</div>
+      <div className="min-w-0">
+        <p className="text-[11px] font-medium m-0 leading-tight" style={{ color: C.sub }}>{label}</p>
+        <p className="text-[16px] font-semibold m-0 leading-tight mt-0.5" style={{ color: '#353138' }}>{value}</p>
+      </div>
+    </div>
+  );
+}
+
+function ExerciseRow({ ex, idx, checked, onToggle, onStart }) {
+  const metrics = getMetrics(ex);
+  const dur = getDur(ex);
+  return (
+    <motion.div whileHover={{ background: '#fffafd' }} transition={{ duration: 0.2 }}
+      className="flex items-center gap-4" style={{ height: 86, padding: '0 22px', borderBottom: '1px solid rgba(0,0,0,0.035)', opacity: checked ? 0.55 : 1 }}>
+      {/* Seq */}
+      <div className="w-[36px] h-[36px] rounded-full flex items-center justify-center text-[13px] font-bold flex-shrink-0" style={{ background: '#fde8ef', color: '#ee6a98' }}>{idx}</div>
+      {/* Thumb */}
+      <div className="flex-shrink-0 rounded-[9px] flex items-center justify-center text-[22px]" style={{ width: 102, height: 62, background: 'linear-gradient(135deg, #fde8ef, #fff4f8)' }}>🏋️</div>
+      {/* Name + note */}
+      <div className="min-w-0" style={{ width: '28%' }}>
+        <p className="text-[15px] font-semibold m-0 leading-tight truncate" style={{ color: '#353138', textDecoration: checked ? 'line-through' : 'none' }}>{ex.name}</p>
+        <p className="text-[11.5px] m-0 mt-0.5" style={{ color: '#99939b' }}>{getNote(ex)}</p>
+      </div>
+      {/* Params */}
+      <div className="flex gap-4 flex-1 justify-center">
+        <ParamBox val={dur} label="时长" />
+        {metrics.map((m, i) => <ParamBox key={i} val={m.val} label={m.label} />)}
+      </div>
+      {/* Btn */}
+      <motion.button onClick={(e) => { e.stopPropagation(); onStart(ex); }}
+        whileHover={{ background: '#fde8ef' }} whileTap={{ scale: 0.97 }}
+        className="flex items-center justify-center gap-1.5 text-[12px] font-semibold rounded-[18px] border-0 cursor-pointer flex-shrink-0 transition-colors"
+        style={{ width: 112, height: 36, color: '#ee6695', background: '#fff7fa', border: '1px solid #f7bfd1' }}>
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="#ee6695"><polygon points="8,5 19,12 8,19" /></svg>观看教学
+      </motion.button>
+      {/* Check */}
+      <button onClick={(e) => { e.stopPropagation(); onToggle(); }}
+        className="w-[22px] h-[22px] rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all"
+        style={{ borderColor: checked ? C.pink : '#ddd', background: checked ? C.pink : 'transparent', cursor: 'pointer' }}>
+        {checked && <motion.svg initial={{ scale: 0 }} animate={{ scale: 1 }} width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5"><polyline points="20 6 9 17 4 12" /></motion.svg>}
       </button>
-      {/* Number circle */}
-      <div className="w-[34px] h-[34px] rounded-full flex items-center justify-center text-[13px] font-bold flex-shrink-0"
-        style={{ background: checked ? '#fde8ef' : '#f5f5f5', color: checked ? PINK : '#999' }}>
-        {idx}
-      </div>
-      {/* Info */}
-      <div className="min-w-0 flex-1">
-        <div className="text-[16px] font-semibold text-[#111] flex items-center gap-2"
-          style={{ textDecoration: checked ? 'line-through' : 'none', opacity: checked ? 0.45 : 1 }}>
-          {ex.name}
-          {ex.equipment && !checked && <Link to="/equipment" className="text-[11px] font-normal text-[#F56898] hover:underline flex-shrink-0">📹 {ex.equipment}</Link>}
-          {ex.videoUrl && !checked && <a href={ex.videoUrl} target="_blank" rel="noopener noreferrer" className="text-[11px] font-normal text-[#F56898] hover:underline flex-shrink-0">▶ 观看教学</a>}
-        </div>
-        {ex.note && <div className="text-[13px] text-[#aaa] mt-0.5">{ex.note}</div>}
-      </div>
-      {/* Sets/reps right-aligned */}
-      <div className="text-right flex-shrink-0">
-        <div className="text-[15px] font-semibold text-[#111]">{ex.sets} 组 × {ex.reps}</div>
-        {ex.rest !== '—' && <div className="text-[12px] text-[#bbb] mt-0.5">休息 {ex.rest}</div>}
-      </div>
     </motion.div>
   );
 }
 
-/* ====== 主组件 ====== */
+function ParamBox({ val, label }) {
+  return (
+    <div className="text-center flex-shrink-0" style={{ minWidth: 70 }}>
+      <p className="text-[13px] font-semibold m-0 leading-tight" style={{ color: '#4b464d' }}>{val}</p>
+      <p className="text-[10.5px] m-0 mt-[3px] leading-tight" style={{ color: C.muted }}>{label}</p>
+    </div>
+  );
+}
+
+function DashCard({ icon, iconBg, title, value, unit, children }) {
+  return (
+    <div className="rounded-[17px] flex flex-col" style={{ minHeight: 116, padding: 20, background: 'rgba(255,255,255,0.92)', border: `1px solid ${C.cardBorder}` }}>
+      <div className="flex items-center gap-3">
+        <div className="w-[44px] h-[44px] rounded-[13px] flex items-center justify-center text-[20px] flex-shrink-0" style={{ background: iconBg }}>{icon}</div>
+        <span className="text-[14px] font-medium" style={{ color: C.sub }}>{title}</span>
+      </div>
+      <div className="flex-1 flex items-end mt-3">
+        {children || <p className="text-[28px] font-semibold m-0 leading-none" style={{ color: '#302d33' }}>{value}{unit && <span className="text-[12px] font-normal ml-1" style={{ color: C.sub }}>{unit}</span>}</p>}
+      </div>
+    </div>
+  );
+}
+
+/* ============================================
+   Main
+   ============================================ */
 export default function Plan() {
-  const navigate = useNavigate();
+  const nav = useNavigate();
   const [plan, setPlan] = useState(null);
-  const [selectedDay, setSelectedDay] = useState(0);
+  const [sel, setSel] = useState(0);
   const [doneMap, setDoneMap] = useState({});
-  const scrollRef = useRef(null);
-  const [showLF, setShowLF] = useState(false);
-  const [showRF, setShowRF] = useState(true);
+  const dayRef = useRef(null);
+  const loggedIn = isLoggedIn();
 
   useEffect(() => {
-    const profile = storage.get('profile');
-    if (!profile) { navigate('/onboarding'); return; }
-    setPlan(generatePlan(profile));
-  }, [navigate]);
+    const p = storage.get('profile');
+    if (!p) { nav('/onboarding'); return; }
+    const generated = generatePlan(p);
+    setPlan(generated);
+    const saved = storage.get('planDoneMap'); if (saved) setDoneMap(saved);
+  }, [nav]);
 
-  const checkFade = () => {
-    const el = scrollRef.current; if (!el) return;
-    setShowLF(el.scrollLeft > 8);
-    setShowRF(el.scrollLeft < el.scrollWidth - el.clientWidth - 8);
-  };
+  useEffect(() => {
+    if (Object.keys(doneMap).length > 0) storage.set('planDoneMap', doneMap);
+  }, [doneMap]);
 
-  const logout = () => { doLogout(); navigate('/'); };
+  const logout = () => { doLogout(); nav('/'); };
 
-  const { grouped, today, todayDone, todayTotal, todayPct } = useMemo(() => {
-    if (!plan) return { grouped: { warmup: [], main: [], cooldown: [] }, today: null, todayDone: 0, todayTotal: 0, todayPct: 0 };
-    const t = plan.schedule[selectedDay];
-    const g = { warmup: [], main: [], cooldown: [] };
-    let gi = 0;
-    for (const ex of t.exercises) {
-      const item = { ...ex, globalIdx: ++gi };
-      if (ex.type === '热身') g.warmup.push(item);
-      else if (ex.type === '拉伸') g.cooldown.push(item);
-      else g.main.push(item);
-    }
-    const allEx = [...g.warmup, ...g.main, ...g.cooldown];
-    const total = allEx.length;
-    const done = allEx.filter((ex) => doneMap[`${selectedDay}-${ex.globalIdx}`]).length;
-    return { grouped: g, today: t, todayDone: done, todayTotal: total, todayPct: total > 0 ? Math.round((done / total) * 100) : 0 };
-  }, [plan, selectedDay, doneMap]);
+  const dayStatuses = useMemo(() => {
+    if (!plan) return [];
+    return plan.schedule.map((day, di) => {
+      const total = day.exercises.length;
+      const done = day.exercises.filter((_, ei) => doneMap[`${di}-${ei + 1}`]).length;
+      return { _done: total > 0 && done === total };
+    });
+  }, [plan, doneMap]);
 
-  const toggleDone = (exGlobalIdx) => {
-    setDoneMap((prev) => ({ ...prev, [`${selectedDay}-${exGlobalIdx}`]: !prev[`${selectedDay}-${exGlobalIdx}`] }));
-  };
+  const { today, todayDone, todayTotal, todayPct } = useMemo(() => {
+    if (!plan) return { today: null, todayDone: 0, todayTotal: 0, todayPct: 0 };
+    const t = plan.schedule[sel];
+    if (!t) return { today: null, todayDone: 0, todayTotal: 0, todayPct: 0 };
+    const done = t.exercises.filter((_, ei) => doneMap[`${sel}-${ei + 1}`]).length;
+    return { today: t, todayDone: done, todayTotal: t.exercises.length, todayPct: t.exercises.length > 0 ? Math.round((done / t.exercises.length) * 100) : 0 };
+  }, [plan, sel, doneMap]);
 
-  const wu = grouped.warmup[0];
-  const wuMin = wu ? Math.round((wu.sec || 180) / 60) : 3;
-  const wuLabel = wu?.reps || `${wuMin} 分钟`;
-  const wuDesc = plan?.scene === 'gym' ? '含跑步机快走 · 激活全身肌群' : '激活全身肌群 · 预防运动损伤';
-  const wuUrl = wu?.videoUrl || 'https://player.bilibili.com/player.html?bvid=BV1jM4y177oN';
-  const cdMin = Math.round(grouped.cooldown.reduce((a, e) => a + (e.sec || e.timePerSet || 30) * (e.sets || 1), 0) / 60);
+  const toggle = useCallback((gi) => setDoneMap((p) => ({ ...p, [`${sel}-${gi}`]: !p[`${sel}-${gi}`] })), [sel]);
+  const start = useCallback((ex) => {
+    if (ex.videoId) nav(`/equipment/video/${ex.videoId}`);
+    else if (ex.videoUrl) window.open(ex.videoUrl, '_blank');
+    else if (ex.equipment) nav('/equipment');
+    else window.open('https://player.bilibili.com/player.html?bvid=BV1jM4y177oN', '_blank');
+  }, [nav]);
 
   if (!plan || !today) {
-    return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundImage: 'url(./其他页面底图.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-        <div className="text-[#bbb] text-[18px]">正在生成你的专属训练计划...</div>
-      </div>
-    );
+    return <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #fffdfd 0%, #fff7fa 55%, #fff1f6 100%)' }}>
+      <motion.div animate={{ rotate: 360 }} transition={{ duration: 1.8, repeat: Infinity, ease: 'linear' }} className="w-[40px] h-[40px] rounded-full border-[3px]" style={{ borderColor: C.pinkLight, borderTopColor: C.pink }} />
+    </div>;
   }
 
-  return (
-    <div className="min-h-screen relative" style={{ backgroundImage: 'url(./其他页面底图.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed' }}>
-      <div className="absolute inset-0 pointer-events-none z-0" style={{ background: 'rgba(255,255,255,0.58)' }} />
-      <div className="absolute inset-0 pointer-events-none z-0" style={{ background: 'radial-gradient(ellipse 900px 700px at 50% 35%, rgba(245,105,140,0.04), transparent 70%)' }} />
+  const cal = calcCal(today.estimatedMinutes);
+  const goal = plan?.profile?.goal || '保持健康';
+  const gym = plan?.scene === 'gym';
+  const wk = Math.floor(sel / 7) + 1;
+  const goalIcon = goalIcons[goal] || '🎯';
+  const scheduleWithStatus = plan.schedule.map((d, i) => ({ ...d, ...(dayStatuses[i] || {}) }));
 
-      {/* ====== Header ====== */}
-      <nav className="sticky top-0 z-30" style={{ background: 'rgba(255,255,255,0.82)', backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
-        <div style={{ height: 72, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 40px' }}>
-          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, textDecoration: 'none' }}>
-            <div style={{ width: 42, height: 42, borderRadius: 12, background: `linear-gradient(135deg, ${PINK}, #FF9ABB)`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 16px rgba(245,104,152,0.28)' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
+  return (
+    <div className="min-h-screen relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #fffdfd 0%, #fff7fa 55%, #fff1f6 100%)' }}>
+      {/* Glow */}
+      <div className="absolute pointer-events-none z-0" style={{ top: '-5%', right: '-3%', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(245,104,152,0.10) 0%, transparent 70%)' }} />
+
+      {/* ═══ NAV ═══ */}
+      <nav className="sticky top-0 z-30" style={{ height: 72, background: 'rgba(255,255,255,0.88)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+        <div className="flex items-center justify-between h-full" style={{ maxWidth: 1440, margin: '0 auto', padding: '0 40px' }}>
+          <Link to="/" className="flex items-center gap-2.5 no-underline">
+            <div className="w-[38px] h-[38px] rounded-[11px] flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #f06a9a, #FF9ABB)', boxShadow: '0 4px 14px rgba(240,106,154,0.22)' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1, gap: 2 }}>
-              <span style={{ fontSize: 28, fontWeight: 700, color: '#111' }}>FitHer</span>
-              <span style={{ fontSize: 12, color: '#F56898' }}>为更好的自己</span>
-            </div>
+            <div className="flex flex-col leading-none gap-0.5"><span className="text-[24px] font-bold" style={{ color: '#222' }}>FitHer</span><span className="text-[10px]" style={{ color: C.pink }}>为更好的自己</span></div>
           </Link>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 44 }}>
-            <Link to="/" style={{ fontSize: 16, fontWeight: 500, color: '#666', textDecoration: 'none' }}>首页</Link>
-            <span style={{ fontSize: 16, fontWeight: 600, color: PINK, position: 'relative', cursor: 'default' }}>
-              训练计划<span style={{ position: 'absolute', bottom: -25, left: '50%', transform: 'translateX(-50%)', width: 36, height: 3, borderRadius: 999, background: PINK, display: 'block' }} /></span>
-            <Link to="/equipment" style={{ fontSize: 16, fontWeight: 500, color: '#666', textDecoration: 'none' }}>器材教学</Link>
-            <Link to="/diet" style={{ fontSize: 16, fontWeight: 500, color: '#666', textDecoration: 'none' }}>饮食建议</Link>
+          <div className="flex items-center gap-8">
+            <Link to="/" className="text-[14px] font-medium no-underline" style={{ color: '#565158' }}>首页</Link>
+            <span className="text-[14px] font-semibold relative cursor-default" style={{ color: C.pink }}>
+              训练计划<span className="absolute -bottom-[20px] left-1/2 -translate-x-1/2 w-[42px] h-[2px] rounded-[2px] block" style={{ background: C.pink }} />
+            </span>
+            <Link to="/equipment" className="text-[14px] font-medium no-underline" style={{ color: '#565158' }}>器材教学</Link>
+            <Link to="/diet" className="text-[14px] font-medium no-underline" style={{ color: '#565158' }}>饮食建议</Link>
+            <Link to="/" className="text-[14px] font-medium no-underline" style={{ color: '#565158' }}>关于我们</Link>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexShrink: 0 }}>
-            <Link to="/onboarding" style={{ fontSize: 15, fontWeight: 500, color: '#F56898', textDecoration: 'none' }}>重新制定计划</Link>
-            <button onClick={logout} style={{ fontSize: 15, fontWeight: 500, color: '#bbb', border: 'none', background: 'transparent', cursor: 'pointer' }}>退出</button>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center rounded-[22px] bg-white border" style={{ width: 230, height: 42, borderColor: '#e8e8e8' }}>
+              <input placeholder="搜索课程、器材…" className="flex-1 bg-transparent border-none outline-none text-[13px] px-4" style={{ color: '#999' }} />
+              <span className="pr-3 text-[14px]" style={{ color: '#bbb' }}>🔍</span>
+            </div>
+            {loggedIn ? (
+              <button onClick={logout} className="text-[13px] font-medium border rounded-[22px] bg-white cursor-pointer" style={{ height: 42, padding: '0 20px', borderColor: '#e8e8e8', color: '#888' }}>退出</button>
+            ) : (
+              <Link to="/login" className="text-[13px] font-medium border rounded-[22px] bg-white no-underline inline-flex items-center" style={{ height: 42, padding: '0 20px', borderColor: '#e8e8e8', color: '#888' }}>登录</Link>
+            )}
+            <button className="text-[13px] font-semibold text-white border-0 rounded-[22px] cursor-pointer" style={{ height: 42, padding: '0 22px', background: 'linear-gradient(135deg, #f06a9a, #FF9ABB)', boxShadow: '0 4px 14px rgba(240,106,154,0.2)' }}>开始训练</button>
           </div>
         </div>
       </nav>
 
-      {/* ====== 内容 ====== */}
-      <div className="relative z-10" style={{ padding: '16px 40px 80px' }}>
+      {/* ═══ CONTENT ═══ */}
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45, ease: 'easeOut' }}
+        className="relative z-10" style={{ maxWidth: 1440, margin: '0 auto', padding: '44px 40px 80px' }}>
 
-        {/* ── 第一层：标题 ── */}
-        <h1 className="text-[32px] font-bold text-[#111] mb-[24px]">专属训练计划</h1>
-
-        {/* ── 第二层：标签 ── */}
-        <div className="flex flex-wrap items-center gap-2.5 mb-[16px]">
-          {[
-            { icon: '🎯', label: plan.profile.goal, accent: true },
-            { icon: plan.scene === 'gym' ? '🏋️' : '🏠', label: plan.scene === 'gym' ? '健身房' : '居家' },
-            { icon: '⏱', label: `${plan.profile.dailyMinutes} 分钟/天` },
-            { icon: '📅', label: `${plan.totalDays} 天计划` },
-          ].map((b, i) => (
-            <span key={i} className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[999px] text-[13px] font-medium"
-              style={{ background: b.accent ? '#fde8ef' : 'rgba(255,255,255,0.85)', color: b.accent ? PINK : '#777', border: '1px solid #f0f0f0' }}>
-              {b.icon} {b.label}
-            </span>
-          ))}
-          {today.isPeriodDay && (
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[999px] text-[13px] font-medium" style={{ background: '#ffeaea', color: '#c0392b', border: '1px solid #fdd' }}>🩸 经期调整</span>
-          )}
+        {/* Title */}
+        <div style={{ marginBottom: 32 }}>
+          <h1 className="text-[40px] font-semibold m-0 leading-[1.2] tracking-[-0.6px]" style={{ color: '#29262c' }}>
+            你的专属<span style={{ color: C.pink }}>训练计划</span>
+          </h1>
+          <p className="text-[15px] m-0 mt-2" style={{ color: '#7f7982' }}>科学的训练安排，帮你更高效达成目标 💪</p>
         </div>
 
-        {/* ── 第三层：体重信息 ── */}
-        {plan.weightLossEstimate && (
-          <p className="text-[14px] mb-[28px]" style={{ color: '#c02660' }}>{plan.weightLossEstimate}</p>
-        )}
-        {!plan.weightLossEstimate && plan.profile.weight && <div className="mb-[28px]" />}
-
-        {/* ── Day 导航 ── */}
-        <div className="relative mb-[24px]">
-          {showLF && <div className="absolute left-0 top-0 bottom-0 w-[50px] z-10 pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255,255,255,0.9), transparent)' }} />}
-          <div ref={scrollRef} onScroll={checkFade} className="flex gap-3 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none' }}>
-            {plan.schedule.map((day, i) => (
-              <DayCard key={i} day={day} isSelected={selectedDay === i} onClick={() => setSelectedDay(i)} />
-            ))}
-          </div>
-          {showRF && <div className="absolute right-0 top-0 bottom-0 w-[50px] z-10 pointer-events-none" style={{ background: 'linear-gradient(to left, rgba(255,255,255,0.9), transparent)' }} />}
+        {/* 7 Info Cards */}
+        <div className="grid gap-[14px] mb-8" style={{ gridTemplateColumns: 'repeat(7, minmax(0, 1fr))' }}>
+          <InfoCard icon={goalIcon} iconBg="#fff0f5" label="训练目标" value={goalLabelMap[goal] || goal} />
+          <InfoCard icon={gym ? '🏋️' : '🏠'} iconBg="#f0f0ff" label="训练场景" value={gym ? '健身房' : '居家训练'} />
+          <InfoCard icon="⏱" iconBg="#f0f8ff" label="每日时长" value={`${plan?.profile?.dailyMinutes || 0} 分钟`} />
+          <InfoCard icon="📅" iconBg="#fff8f0" label="计划周期" value={`${plan?.totalDays || 0} 天`} />
+          <InfoCard icon="📈" iconBg="#f5f0ff" label="当前进度" value={`第 ${wk} 周`} />
+          <InfoCard icon="⭐" iconBg="#fffdf0" label="今日训练" value={today.isPeriodDay ? '经期轻量' : today.type} />
+          <InfoCard icon={today.isPeriodDay ? '🩸' : '💗'} iconBg={today.isPeriodDay ? '#fff0f5' : '#f5fff5'} label="身体状态" value={today.isPeriodDay ? '经期中' : '正常状态'} />
         </div>
 
-        {/* ── 进度条 ── */}
-        <div className="rounded-[16px] p-4 mb-[24px]" style={{ background: '#fff', boxShadow: shadow }}>
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-[14px] font-semibold text-[#111]">完成 {todayDone} / {todayTotal} 动作</span>
-            <span className="text-[24px] font-bold" style={{ color: PINK }}>{todayPct}%</span>
-          </div>
-          <div className="h-[10px] rounded-full bg-[#f3f0f2] overflow-hidden">
-            <motion.div className="h-full rounded-full"
-              animate={{ width: `${todayPct}%` }}
-              transition={{ duration: 0.5, ease: [0.25, 0.8, 0.25, 1.2] }}
-              style={{ background: `linear-gradient(90deg, #F86EA8, #FF9ABB)`, boxShadow: '0 0 10px rgba(248,110,168,0.30)' }}>
-              <div className="h-full rounded-full" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.35) 0%, transparent 60%)' }} />
-            </motion.div>
-          </div>
-          <div className="mt-2.5 text-[13px] text-[#bbb]">
-            {todayDone === 0 ? '开始完成今天的训练吧 ✨' : todayDone === todayTotal ? '🎉 今日训练全部完成！' : `还剩 ${todayTotal - todayDone} 个动作`}
-          </div>
-        </div>
+        {/* ═══ MAIN 76/24 ═══ */}
+        <div className="flex gap-[28px]">
+          {/* LEFT 70% */}
+          <div className="flex flex-col gap-5" style={{ flex: '0 0 70%', minWidth: 0 }}>
 
-        {/* ── 训练列表 ── */}
-        <div className="flex flex-col" style={{ gap: 14 }}>
-          {/* 日期标题 */}
-          <div className="flex items-center justify-between mb-1">
-            <h2 className="text-[22px] font-bold text-[#111]">
-              第 {today.day} 天
-              {today.isPeriodDay ? <span className="text-[#c0392b] ml-2 text-[15px]">🩸 经期</span> : <span className="text-[#999] ml-2 text-[15px] font-normal">· {today.type}</span>}
-            </h2>
-            <span className="text-[14px] text-[#bbb]">约 {today.estimatedMinutes} 分钟</span>
-          </div>
-          {today.note && (
-            <div className="rounded-[14px] p-3.5 text-[13px] flex items-center gap-2" style={{ color: '#c0392b', background: '#fff5f5', border: '1px solid #fdd' }}>🩸 {today.note}</div>
-          )}
-
-          {/* 热身 ── 淡粉底 + 安娜B站封面 */}
-          {wu && (
-            <motion.div whileHover={{ y: -3, boxShadow: shadowLg }} transition={{ duration: 0.3 }}
-              className="rounded-[18px] p-5 flex items-center justify-between gap-4" style={{ background: '#FFF6F8', boxShadow: shadow }}>
-              <div className="flex items-center gap-4 min-w-0">
-                <button onClick={() => toggleDone(wu.globalIdx)}
-                  className="w-[24px] h-[24px] rounded-[6px] border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200"
-                  style={{ borderColor: doneMap[`${selectedDay}-${wu.globalIdx}`] ? PINK : '#ddd', background: doneMap[`${selectedDay}-${wu.globalIdx}`] ? PINK : '#fff', cursor: 'pointer' }}>
-                  {doneMap[`${selectedDay}-${wu.globalIdx}`] && <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
-                </button>
-                <span className="text-[22px]">🔥</span>
-                <div>
-                  <div className="text-[16px] font-semibold text-[#111]" style={{ textDecoration: doneMap[`${selectedDay}-${wu.globalIdx}`] ? 'line-through' : 'none', opacity: doneMap[`${selectedDay}-${wu.globalIdx}`] ? 0.45 : 1 }}>训练前热身</div>
-                  <div className="text-[13px] text-[#999] mt-0.5">约 {wuLabel} · {wuDesc}</div>
-                </div>
+            {/* Day Nav */}
+            <div style={{ marginTop: 30 }} />
+            <style>{`.ds2::-webkit-scrollbar{height:4px}.ds2::-webkit-scrollbar-thumb{background:#e8e8e8;border-radius:2px}`}</style>
+            <div className="flex items-end gap-3">
+              <div ref={dayRef} className="ds2 flex gap-[14px] overflow-x-auto pb-2 flex-1" style={{ scrollbarWidth: 'thin', scrollbarColor: '#e8e8e8 transparent' }}>
+                {scheduleWithStatus.map((day, di) => <DayCard key={di} day={day} isSelected={sel === di} onClick={() => setSel(di)} />)}
               </div>
-              <a href={wuUrl} target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-2 text-[13px] font-medium text-white rounded-[999px] px-5 py-2.5 transition-all hover:shadow-lg flex-shrink-0"
-                style={{ background: `linear-gradient(135deg, ${PINK}, #FF9ABB)`, boxShadow: `0 4px 12px rgba(245,104,152,0.18)` }}>▶ 开始热身</a>
-            </motion.div>
-          )}
+              <button onClick={() => dayRef.current?.scrollBy({ left: 350, behavior: 'smooth' })}
+                className="w-[42px] h-[42px] rounded-full flex items-center justify-center border-0 cursor-pointer flex-shrink-0 mb-2"
+                style={{ background: 'rgba(255,255,255,0.8)', border: '1px solid rgba(0,0,0,0.06)' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6" /></svg>
+              </button>
+            </div>
 
-          {/* 正式训练 */}
-          {grouped.main.map((ex) => (
-            <ExerciseRow key={ex.globalIdx} ex={ex} idx={ex.globalIdx}
-              checked={!!doneMap[`${selectedDay}-${ex.globalIdx}`]}
-              onToggle={() => toggleDone(ex.globalIdx)} />
-          ))}
+            {/* Section title */}
+            <div className="flex items-center justify-between mt-8 mb-0.5">
+              <h2 className="text-[20px] font-semibold m-0" style={{ color: '#302d32' }}>每日训练内容<span className="text-[13px] font-normal ml-2" style={{ color: C.sub }}>· {today.isPeriodDay ? '经期日' : today.type}</span></h2>
+              <span className="text-[13px] font-medium" style={{ color: '#8d878f' }}>约 {today.estimatedMinutes} 分钟</span>
+            </div>
 
-          {/* 拉伸 ── 淡紫底 + 安娜B站封面 */}
-          {grouped.cooldown.length > 0 && (() => {
-            const cd = grouped.cooldown[0];
-            return (
-              <motion.div whileHover={{ y: -3, boxShadow: shadowLg }} transition={{ duration: 0.3 }}
-                className="rounded-[18px] p-5 flex items-center justify-between gap-4" style={{ background: '#FFF8FD', boxShadow: shadow }}>
-                <div className="flex items-center gap-4 min-w-0">
-                  <button onClick={() => toggleDone(cd.globalIdx)}
-                    className="w-[24px] h-[24px] rounded-[6px] border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200"
-                    style={{ borderColor: doneMap[`${selectedDay}-${cd.globalIdx}`] ? PINK : '#ddd', background: doneMap[`${selectedDay}-${cd.globalIdx}`] ? PINK : '#fff', cursor: 'pointer' }}>
-                    {doneMap[`${selectedDay}-${cd.globalIdx}`] && <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
-                  </button>
-                  <span className="text-[22px]">🧘</span>
-                  <div>
-                    <div className="text-[16px] font-semibold text-[#111]" style={{ textDecoration: doneMap[`${selectedDay}-${cd.globalIdx}`] ? 'line-through' : 'none', opacity: doneMap[`${selectedDay}-${cd.globalIdx}`] ? 0.45 : 1 }}>训练后拉伸</div>
-                    <div className="text-[13px] text-[#999] mt-0.5">约 {cdMin} 分钟 · 缓解肌肉酸痛</div>
+            {/* Training list container */}
+            <div className="rounded-[24px] overflow-hidden" style={{ background: C.cardBg, border: `1px solid ${C.cardBorder}`, boxShadow: C.shadow }}>
+              {today.exercises.some(e => e.type === '热身') && (
+                <div className="flex items-center justify-between" style={{ height: 68, padding: '0 22px', background: 'linear-gradient(90deg, #fff7fa, #fffdfd)', borderBottom: '1px solid rgba(0,0,0,0.035)' }}>
+                  <div className="flex items-center gap-3">
+                    <span className="text-[18px]">🔥</span>
+                    <div><p className="text-[14px] font-semibold m-0" style={{ color: '#353138' }}>开始训练</p><p className="text-[11px] m-0 mt-0.5" style={{ color: C.sub }}>约 3–5 分钟 · 激活身体，预防运动损伤</p></div>
                   </div>
+                  <motion.button whileHover={{ background: '#fde8ef' }} whileTap={{ scale: 0.97 }}
+                    className="flex items-center gap-1.5 text-[12px] font-semibold rounded-[18px] border-0 cursor-default transition-colors"
+                    style={{ height: 36, padding: '0 18px', color: '#ee6695', background: '#fff7fa', border: '1px solid #f7bfd1' }}>
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="#ee6695"><polygon points="8,5 19,12 8,19" /></svg>开始
+                  </motion.button>
                 </div>
-                <a href="https://player.bilibili.com/player.html?bvid=BV1ev421y7PD" target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-[13px] font-medium rounded-[999px] px-5 py-2.5 transition-all hover:shadow-lg flex-shrink-0"
-                  style={{ color: '#8e6fc4', border: '1px solid #e8dff5', background: '#faf7ff' }}>▶ 拉伸课程</a>
-              </motion.div>
-            );
-          })()}
+              )}
+              {today.exercises.map((ex, i) => (
+                <ExerciseRow key={i} ex={ex} idx={i + 1}
+                  checked={!!doneMap[`${sel}-${i + 1}`]}
+                  onToggle={() => toggle(i + 1)} onStart={start} />
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT 28% */}
+          <div style={{ flex: '0 0 28%', marginTop: 40 }}>
+            <aside className="lg:sticky lg:top-24 flex flex-col gap-[14px] w-full">
+              <div className="rounded-[24px]" style={{ padding: '26px 26px 26px', background: 'rgba(255,255,255,0.86)', border: `1px solid ${C.cardBorder}`, boxShadow: '0 14px 34px rgba(50,25,35,0.055)', backdropFilter: 'blur(14px)' }}>
+                <h3 className="text-[18px] font-semibold m-0 mb-[18px]" style={{ color: '#38343a' }}>今日训练概览</h3>
+
+                <DashCard icon="🔥" iconBg="linear-gradient(135deg, #fff0f5, #ffe8ee)" title="预计消耗" value={cal} unit="kcal" />
+                <div style={{ height: 14 }} />
+                <DashCard icon="⏱" iconBg="linear-gradient(135deg, #f0f4ff, #e8eeff)" title="训练时长" value={`约 ${today.estimatedMinutes}`} unit="分钟" />
+                <div style={{ height: 14 }} />
+                <DashCard icon="🎯" iconBg="linear-gradient(135deg, #f0fff5, #e0fae8)" title="完成进度">
+                  <div className="flex items-end gap-3 w-full">
+                    <p className="text-[26px] font-semibold m-0 leading-none" style={{ color: '#302d33' }}>{todayPct}%</p>
+                    <div className="flex-1 mb-1.5">
+                      <div className="h-[6px] rounded-[3px] bg-[#eee] overflow-hidden">
+                        <motion.div className="h-full rounded-[3px]" animate={{ width: `${todayPct}%` }} transition={{ duration: 0.7 }} style={{ background: C.pink }} />
+                      </div>
+                      <p className="text-[10.5px] m-0 mt-1" style={{ color: C.sub }}>{todayDone}/{todayTotal} 动作</p>
+                    </div>
+                  </div>
+                </DashCard>
+                <div style={{ height: 14 }} />
+                <DashCard icon="📅" iconBg="linear-gradient(135deg, #fff8f0, #fff0e0)" title="今日课程">
+                  <div>
+                    <p className="text-[15px] font-semibold m-0 leading-tight" style={{ color: '#302d33' }}>Day {today.day} · {today.isPeriodDay ? '经期日' : today.type}</p>
+                    <p className="text-[11.5px] m-0 mt-0.5" style={{ color: C.sub }}>{today.isPeriodDay ? '低强度拉伸恢复' : goal === '减脂' ? '燃脂有氧训练' : goal === '增肌' ? '力量增肌训练' : '全身塑形训练'}</p>
+                  </div>
+                </DashCard>
+              </div>
+            </aside>
+          </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

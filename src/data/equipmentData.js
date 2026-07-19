@@ -24,11 +24,11 @@ const COVERS = {
 
 /* ========== 顶层分类 ========== */
 export const mainCategories = [
-  { id: 'all',           name: '全部',       icon: '📋', count: 67 },
-  { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 5 },
+  { id: 'all',           name: '全部',       icon: '📋', count: 74 },
+  { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 6 },
   { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 6 },
   { id: 'strength',      name: '力量器材',   icon: '🏋️', count: 21 },
-  { id: 'upper-body',    name: '上肢塑形',   icon: '💪', count: 11 },
+  { id: 'upper-body',    name: '上肢塑形',   icon: '💪', count: 17 },
   { id: 'cardio',        name: '有氧燃脂',   icon: '💦', count: 6 },
   { id: 'glutes-legs',   name: '臀腿训练',   icon: '🍑', count: 10 },
   { id: 'core',          name: '核心训练',   icon: '🔥', count: 8 },
@@ -86,7 +86,7 @@ export const categoryDetailMap = {
     title: '拉伸教学',
     subtitle: '安娜(growingannanas) — 训练前后拉伸跟练',
     description: '运动前动态激活 + 运动后全身放松，仅需2节课，科学拉伸不伤身。',
-    totalVideos: 5,
+    totalVideos: 6,
     subcategories: [
       {
         name: '训练前热身',
@@ -106,6 +106,7 @@ export const categoryDetailMap = {
         name: '训练后拉伸',
         videos: [
           { id: 'cd-anna',         title: '安娜15分钟放松拉伸',  level: '初级', duration: '15 分钟', rating: 5, category: 'stretch', subcategory: '训练后拉伸', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1ev421y7PD', cover: 'https://i1.hdslb.com/bfs/archive/8a05daf284197acd7de8df61443470a02760c3ec.jpg' },
+          { id: 'cd-teagan',       title: 'Teagan Dixon·5分钟全身拉伸', level: '初级', duration: '5 分钟', rating: 5, category: 'stretch', subcategory: '训练后拉伸', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1qA411A7u3', cover: COVERS.stretch[0] },
         ],
       },
     ],
@@ -211,8 +212,8 @@ export const categoryDetailMap = {
   'upper-body': {
     title: '上肢塑形',
     subtitle: '哑铃+徒手 — 打造直角肩、美背、紧实手臂',
-    description: '安娜、帕梅拉跟练 + 辣不加香菜器械教学，肩背胸臂全方位塑形。',
-    totalVideos: 11,
+    description: '安娜、帕梅拉跟练 + 辣不加香菜器械教学 + 哑铃肩部精讲，肩背胸臂全方位塑形。',
+    totalVideos: 17,
     subcategories: [
       {
         name: '安娜上肢',
@@ -238,6 +239,17 @@ export const categoryDetailMap = {
         name: '器械教学',
         videos: [
           { id: 'ub-lbj-rdl',    title: '辣不加香菜·罗马尼亚硬拉',  level: '初级', duration: '2 分钟',  rating: 5, category: 'upper-body', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1FbNFzwEWM', cover: 'https://i2.hdslb.com/bfs/archive/16b9290cf7494d519d775b39a0131c643c165925.jpg' },
+        ],
+      },
+      {
+        name: '哑铃肩部',
+        videos: [
+          { id: 'ub-db-front',   title: '哑铃前平举·打造好体态',    level: '初级', duration: '2 分钟', rating: 5, category: 'upper-body', subcategory: '哑铃肩部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1eb4y1J788', cover: COVERS.freeWeight[0] },
+          { id: 'ub-db-press',   title: '坐姿哑铃推肩·打造好体态',  level: '初级', duration: '2 分钟', rating: 5, category: 'upper-body', subcategory: '哑铃肩部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1i44y1L7XG', cover: COVERS.freeWeight[1] },
+          { id: 'ub-db-lateral', title: '哑铃侧平举·打造好体态',    level: '初级', duration: '2 分钟', rating: 5, category: 'upper-body', subcategory: '哑铃肩部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV17r4y1e7fX', cover: COVERS.freeWeight[2] },
+          { id: 'ub-db-fill',    title: '填补肩上角·哑铃跟练',      level: '中级', duration: '8 分钟', rating: 5, category: 'upper-body', subcategory: '哑铃肩部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1oB61BsEDK', cover: COVERS.freeWeight[3] },
+          { id: 'ub-db-guide',   title: '哑铃侧平举·保姆级教学',    level: '初级', duration: '5 分钟', rating: 5, category: 'upper-body', subcategory: '哑铃肩部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1e1421k7sn', cover: COVERS.freeWeight[4] },
+          { id: 'ub-db-rear',    title: '哑铃俯身飞鸟·练肩后束',    level: '初级', duration: '4 分钟', rating: 5, category: 'upper-body', subcategory: '哑铃肩部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1j66iBAELB', cover: COVERS.freeWeight[0] },
         ],
       },
 

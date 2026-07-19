@@ -24,15 +24,15 @@ const COVERS = {
 
 /* ========== 顶层分类 ========== */
 export const mainCategories = [
-  { id: 'all',           name: '全部',       icon: '📋', count: 58 },
+  { id: 'all',           name: '全部',       icon: '📋', count: 63 },
   { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 5 },
   { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 5 },
   { id: 'strength',      name: '力量器材',   icon: '🏋️', count: 21 },
   { id: 'free-weight',   name: '自由重量',   icon: '💪', count: 5 },
   { id: 'cardio',        name: '有氧燃脂',   icon: '💦', count: 6 },
   { id: 'glutes-legs',   name: '臀腿训练',   icon: '🍑', count: 7 },
-  { id: 'chest-back',    name: '胸肩背',     icon: '🎯', count: 3 },
-  { id: 'core',          name: '核心训练',   icon: '🔥', count: 6 },
+  { id: 'chest-back',    name: '胸肩背',     icon: '🎯', count: 6 },
+  { id: 'core',          name: '核心训练',   icon: '🔥', count: 8 },
 ];
 /* ========== 各分类详情 ========== */
 export const categoryDetailMap = {
@@ -238,6 +238,14 @@ export const categoryDetailMap = {
     totalVideos: 3,
     subcategories: [
       {
+        name: '安娜上肢',
+        videos: [
+          { id: 'cb-anna-upper1',title: '安娜·30分钟上半身塑形',   level: '中级', duration: '33 分钟', rating: 5, category: 'chest-back', subcategory: '安娜上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1gm411C7mn', cover: 'https://i0.hdslb.com/bfs/archive/ec2e41d43396daab66578d4d2b19b556d57f9121.jpg' },
+          { id: 'cb-anna-upper2',title: '安娜·35分钟哑铃手臂肩背',  level: '中级', duration: '37 分钟', rating: 5, category: 'chest-back', subcategory: '安娜上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1fcC5YDE8U', cover: 'https://i1.hdslb.com/bfs/archive/bc496bedb0d4aedeb842bd7a0bcc4d1dfd167d52.jpg' },
+          { id: 'cb-anna-upper3',title: '安娜·40分钟哑铃上肢塑形',  level: '中级', duration: '45 分钟', rating: 5, category: 'chest-back', subcategory: '安娜上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1KU4y1P7gT', cover: 'https://i1.hdslb.com/bfs/archive/65ae673749a600b9aebfb359b9000ac45e97aaad.jpg' },
+        ],
+      },
+      {
         name: '帕梅拉上肢',
         videos: [
           { id: 'cb-pam-arm1',   title: '帕梅拉·15分钟完美天鹅臂',  level: '初级', duration: '16 分钟', rating: 5, category: 'chest-back', subcategory: '帕梅拉上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1cF411Z7TW', cover: 'https://i0.hdslb.com/bfs/archive/33b8003b732e41441ce38884b285208ee3dee947.jpg' },
@@ -258,6 +266,13 @@ export const categoryDetailMap = {
     description: '核心是身体的动力中心。从基础卷腹到进阶动作，系统强化腹部和腰部肌群。',
     totalVideos: 12,
     subcategories: [
+      {
+        name: '安娜核心',
+        videos: [
+          { id: 'cr-anna-core1', title: '安娜·25分钟核心+腹肌',     level: '中级', duration: '25 分钟', rating: 5, category: 'core', subcategory: '安娜核心', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV17ze7zJEgv', cover: 'https://i0.hdslb.com/bfs/archive/9fecc20602031fa0561a1b199b5c14c55ae686e0.jpg' },
+          { id: 'cr-anna-core2', title: '安娜·40分钟腿部+腹部塑形',  level: '中级', duration: '59 分钟', rating: 5, category: 'core', subcategory: '安娜核心', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1uS4y1Q7Do', cover: 'https://i1.hdslb.com/bfs/archive/5c0d1c5631207423735c07ecfd4af5ac3b069af0.jpg' },
+        ],
+      },
       {
         name: '帕梅拉腹部',
         videos: [

@@ -28,10 +28,9 @@ export const mainCategories = [
   { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 5 },
   { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 5 },
   { id: 'strength',      name: '力量器材',   icon: '🏋️', count: 21 },
-  { id: 'free-weight',   name: '自由重量',   icon: '💪', count: 5 },
+  { id: 'upper-body',    name: '上肢塑形',   icon: '💪', count: 11 },
   { id: 'cardio',        name: '有氧燃脂',   icon: '💦', count: 6 },
   { id: 'glutes-legs',   name: '臀腿训练',   icon: '🍑', count: 7 },
-  { id: 'chest-back',    name: '胸肩背',     icon: '🎯', count: 6 },
   { id: 'core',          name: '核心训练',   icon: '🔥', count: 8 },
 ];
 /* ========== 各分类详情 ========== */
@@ -141,37 +140,6 @@ export const categoryDetailMap = {
     ],
   },
 
-  /* ───── 自由重量 ───── */
-  'free-weight': {
-    title: '自由重量',
-    subtitle: '哑铃、杠铃、壶铃、弹力带 — 自由掌控力量',
-    description: '自由重量训练能激活更多稳定肌群，是塑形和增肌的高效方式。学会正确姿势，安全训练。',
-    totalVideos: 5,
-    subcategories: [
-      {
-        name: '帕梅拉上肢',
-        videos: [
-          { id: 'fw-pam-arm2',   title: '帕梅拉·15分钟上肢+腹部',   level: '中级', duration: '16 分钟', rating: 5, category: 'free-weight', subcategory: '帕梅拉上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV17V4y157Ww', cover: 'https://i2.hdslb.com/bfs/archive/097ea03220b2ca0009f141b23343b0c461fc1d69.jpg' },
-        ],
-      },
-      {
-        name: '哑铃',
-        videos: [
-          { id: 'fw-anna-full',  title: '安娜30分钟全身哑铃', level: '中级', duration: '30 分钟', rating: 5, category: 'free-weight', subcategory: '哑铃', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1dx4y1U7Lf', cover: 'https://i1.hdslb.com/bfs/archive/f9fe35fbfbf7a4990f02a1eb93691e6ff647320c.jpg' },
-          { id: 'fw-anna-arm',   title: '安娜20分钟哑铃手臂', level: '初级', duration: '20 分钟', rating: 5, category: 'free-weight', subcategory: '哑铃', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1PS411K7wT', cover: 'https://i2.hdslb.com/bfs/archive/1472c8561b76b895aae205a356d15b6feb07274c.jpg' },
-          { id: 'fw-anna-stand', title: '安娜25分钟站立哑铃', level: '初级', duration: '25 分钟', rating: 5, category: 'free-weight', subcategory: '哑铃', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1AuZPYiEK1', cover: 'https://i2.hdslb.com/bfs/archive/55e07aa63ef18c9dc409c82e26eddfa7a410c8cb.jpg' },
-        ],
-      },
-      {
-        name: '器械教学',
-        videos: [
-          { id: 'fw-lbj-rdl',     title: '辣不加香菜·罗马尼亚硬拉', level: '初级', duration: '2 分钟', rating: 5, category: 'free-weight', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1FbNFzwEWM', cover: 'https://i2.hdslb.com/bfs/archive/16b9290cf7494d519d775b39a0131c643c165925.jpg' },
-        ],
-      },
-
-
-    ],
-  },
 
   /* ───── 有氧燃脂 ───── */
   cardio: {
@@ -230,27 +198,37 @@ export const categoryDetailMap = {
     ],
   },
 
-  /* ───── 胸肩背 ───── */
-  'chest-back': {
-    title: '胸肩背',
-    subtitle: '塑造优美上身线条',
-    description: '针对胸部、肩部和背部的综合训练，改善体态，打造挺拔优雅的上半身。',
-    totalVideos: 3,
+  /* ───── 上肢塑形（胸肩背+自由重量合并）───── */
+  'upper-body': {
+    title: '上肢塑形',
+    subtitle: '哑铃+徒手 — 打造直角肩、美背、紧实手臂',
+    description: '安娜、帕梅拉跟练 + 辣不加香菜器械教学，肩背胸臂全方位塑形。',
+    totalVideos: 11,
     subcategories: [
       {
         name: '安娜上肢',
         videos: [
-          { id: 'cb-anna-upper1',title: '安娜·30分钟上半身塑形',   level: '中级', duration: '33 分钟', rating: 5, category: 'chest-back', subcategory: '安娜上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1gm411C7mn', cover: 'https://i0.hdslb.com/bfs/archive/ec2e41d43396daab66578d4d2b19b556d57f9121.jpg' },
-          { id: 'cb-anna-upper2',title: '安娜·35分钟哑铃手臂肩背',  level: '中级', duration: '37 分钟', rating: 5, category: 'chest-back', subcategory: '安娜上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1fcC5YDE8U', cover: 'https://i1.hdslb.com/bfs/archive/bc496bedb0d4aedeb842bd7a0bcc4d1dfd167d52.jpg' },
-          { id: 'cb-anna-upper3',title: '安娜·40分钟哑铃上肢塑形',  level: '中级', duration: '45 分钟', rating: 5, category: 'chest-back', subcategory: '安娜上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1KU4y1P7gT', cover: 'https://i1.hdslb.com/bfs/archive/65ae673749a600b9aebfb359b9000ac45e97aaad.jpg' },
+          { id: 'ub-anna-upper1',title: '安娜·30分钟上半身塑形',   level: '中级', duration: '33 分钟', rating: 5, category: 'upper-body', subcategory: '安娜上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1gm411C7mn', cover: 'https://i0.hdslb.com/bfs/archive/ec2e41d43396daab66578d4d2b19b556d57f9121.jpg' },
+          { id: 'ub-anna-upper2',title: '安娜·35分钟哑铃手臂肩背',  level: '中级', duration: '37 分钟', rating: 5, category: 'upper-body', subcategory: '安娜上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1fcC5YDE8U', cover: 'https://i1.hdslb.com/bfs/archive/bc496bedb0d4aedeb842bd7a0bcc4d1dfd167d52.jpg' },
+          { id: 'ub-anna-upper3',title: '安娜·40分钟哑铃上肢塑形',  level: '中级', duration: '45 分钟', rating: 5, category: 'upper-body', subcategory: '安娜上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1KU4y1P7gT', cover: 'https://i1.hdslb.com/bfs/archive/65ae673749a600b9aebfb359b9000ac45e97aaad.jpg' },
+          { id: 'ub-anna-full',  title: '安娜·30分钟全身哑铃',      level: '中级', duration: '30 分钟', rating: 5, category: 'upper-body', subcategory: '安娜上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1dx4y1U7Lf', cover: 'https://i1.hdslb.com/bfs/archive/f9fe35fbfbf7a4990f02a1eb93691e6ff647320c.jpg' },
+          { id: 'ub-anna-arm',   title: '安娜·20分钟哑铃手臂',      level: '初级', duration: '20 分钟', rating: 5, category: 'upper-body', subcategory: '安娜上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1PS411K7wT', cover: 'https://i2.hdslb.com/bfs/archive/1472c8561b76b895aae205a356d15b6feb07274c.jpg' },
+          { id: 'ub-anna-stand', title: '安娜·25分钟站立哑铃',      level: '初级', duration: '25 分钟', rating: 5, category: 'upper-body', subcategory: '安娜上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1AuZPYiEK1', cover: 'https://i2.hdslb.com/bfs/archive/55e07aa63ef18c9dc409c82e26eddfa7a410c8cb.jpg' },
         ],
       },
       {
         name: '帕梅拉上肢',
         videos: [
-          { id: 'cb-pam-arm1',   title: '帕梅拉·15分钟完美天鹅臂',  level: '初级', duration: '16 分钟', rating: 5, category: 'chest-back', subcategory: '帕梅拉上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1cF411Z7TW', cover: 'https://i0.hdslb.com/bfs/archive/33b8003b732e41441ce38884b285208ee3dee947.jpg' },
-          { id: 'cb-pam-arm3',   title: '帕梅拉·10分钟上肢训练',    level: '初级', duration: '10 分钟', rating: 5, category: 'chest-back', subcategory: '帕梅拉上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1KT4y1j7Cd', cover: 'https://i2.hdslb.com/bfs/archive/1aa8d22abcafa32671d443459aeb2a6b28d5fd23.jpg' },
-          { id: 'cb-pam-back',   title: '帕梅拉·直背圆肩改善训练',  level: '初级', duration: '20 分钟', rating: 5, category: 'chest-back', subcategory: '帕梅拉上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1aZC5YkEnE', cover: 'https://i0.hdslb.com/bfs/archive/4de37836f8bca577439037d4d630a7f0d551b62d.jpg' },
+          { id: 'ub-pam-arm1',   title: '帕梅拉·15分钟完美天鹅臂',  level: '初级', duration: '16 分钟', rating: 5, category: 'upper-body', subcategory: '帕梅拉上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1cF411Z7TW', cover: 'https://i0.hdslb.com/bfs/archive/33b8003b732e41441ce38884b285208ee3dee947.jpg' },
+          { id: 'ub-pam-arm2',   title: '帕梅拉·15分钟上肢+腹部',   level: '中级', duration: '16 分钟', rating: 5, category: 'upper-body', subcategory: '帕梅拉上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV17V4y157Ww', cover: 'https://i2.hdslb.com/bfs/archive/097ea03220b2ca0009f141b23343b0c461fc1d69.jpg' },
+          { id: 'ub-pam-arm3',   title: '帕梅拉·10分钟上肢训练',    level: '初级', duration: '10 分钟', rating: 5, category: 'upper-body', subcategory: '帕梅拉上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1KT4y1j7Cd', cover: 'https://i2.hdslb.com/bfs/archive/1aa8d22abcafa32671d443459aeb2a6b28d5fd23.jpg' },
+          { id: 'ub-pam-back',   title: '帕梅拉·直背圆肩改善训练',  level: '初级', duration: '20 分钟', rating: 5, category: 'upper-body', subcategory: '帕梅拉上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1aZC5YkEnE', cover: 'https://i0.hdslb.com/bfs/archive/4de37836f8bca577439037d4d630a7f0d551b62d.jpg' },
+        ],
+      },
+      {
+        name: '器械教学',
+        videos: [
+          { id: 'ub-lbj-rdl',    title: '辣不加香菜·罗马尼亚硬拉',  level: '初级', duration: '2 分钟',  rating: 5, category: 'upper-body', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1FbNFzwEWM', cover: 'https://i2.hdslb.com/bfs/archive/16b9290cf7494d519d775b39a0131c643c165925.jpg' },
         ],
       },
 

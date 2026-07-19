@@ -24,9 +24,9 @@ const COVERS = {
 
 /* ========== 顶层分类 ========== */
 export const mainCategories = [
-  { id: 'all',           name: '全部',       icon: '📋', count: 66 },
+  { id: 'all',           name: '全部',       icon: '📋', count: 67 },
   { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 5 },
-  { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 5 },
+  { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 6 },
   { id: 'strength',      name: '力量器材',   icon: '🏋️', count: 21 },
   { id: 'upper-body',    name: '上肢塑形',   icon: '💪', count: 11 },
   { id: 'cardio',        name: '有氧燃脂',   icon: '💦', count: 6 },
@@ -89,17 +89,17 @@ export const categoryDetailMap = {
     totalVideos: 5,
     subcategories: [
       {
-        name: '帕梅拉拉伸',
-        videos: [
-          { id: 'st-pam-full',     title: '帕梅拉·10分钟全身拉伸',    level: '初级', duration: '11 分钟', rating: 5, category: 'stretch', subcategory: '帕梅拉拉伸', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1ga411w7i3', cover: 'https://i2.hdslb.com/bfs/archive/64a46fcd19aeb36e08ccf9ef2f544f624dc83a7d.jpg' },
-          { id: 'st-pam-leg',      title: '帕梅拉·10分钟腿部拉伸',    level: '初级', duration: '10 分钟', rating: 5, category: 'stretch', subcategory: '帕梅拉拉伸', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV13v411y7v4', cover: 'https://i1.hdslb.com/bfs/archive/f6f59447a608f95ff0b715b83306b144635d58f1.jpg' },
-        ],
-      },
-      {
         name: '训练前热身',
         videos: [
           { id: 'wu-anna',         title: '安娜5分钟快速拉伸',  level: '初级', duration: '5 分钟', rating: 5, category: 'stretch', subcategory: '训练前热身', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1jM4y177oN', cover: 'https://i2.hdslb.com/bfs/archive/0fee648cdc0d068e65dfa29e75a529f0977ed725.jpg' },
           { id: 'wu-anna2',        title: '安娜10分钟拉伸练习',  level: '初级', duration: '10 分钟', rating: 5, category: 'stretch', subcategory: '训练前热身', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1UH4y1H7Wc', cover: 'https://i0.hdslb.com/bfs/archive/b1508116df1d4b2c2c31079551c89bdb706553d7.jpg' },
+        ],
+      },
+      {
+        name: '帕梅拉拉伸',
+        videos: [
+          { id: 'st-pam-full',     title: '帕梅拉·10分钟全身拉伸',    level: '初级', duration: '11 分钟', rating: 5, category: 'stretch', subcategory: '帕梅拉拉伸', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1ga411w7i3', cover: 'https://i2.hdslb.com/bfs/archive/64a46fcd19aeb36e08ccf9ef2f544f624dc83a7d.jpg' },
+          { id: 'st-pam-leg',      title: '帕梅拉·10分钟腿部拉伸',    level: '初级', duration: '10 分钟', rating: 5, category: 'stretch', subcategory: '帕梅拉拉伸', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV13v411y7v4', cover: 'https://i1.hdslb.com/bfs/archive/f6f59447a608f95ff0b715b83306b144635d58f1.jpg' },
         ],
       },
       {
@@ -121,6 +121,7 @@ export const categoryDetailMap = {
       {
         name: '器械教学',
         videos: [
+          { id: 'tm-pro-treadmill',   title: '专业教练·跑步机使用教程', level: '初级', duration: '4 分钟', rating: 5, category: 'treadmill', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1Cg4y1q7rX', cover: 'https://i0.hdslb.com/bfs/archive/73e2bb547eee55459db5c7183962771dc0913cd8.jpg' },
           { id: 'tm-lbj-treadmill',  title: '辣不加香菜·跑步机爬坡', level: '初级', duration: '2 分钟', rating: 5, category: 'treadmill', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1gtnEzzEFK', cover: 'https://i0.hdslb.com/bfs/archive/3664e91e738983c8ecd2017339072bdd5665dd0d.jpg' },
           { id: 'tm-lbj-climb',      title: '辣不加香菜·爬楼机',     level: '初级', duration: '2 分钟', rating: 5, category: 'treadmill', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1bb6gByEcd', cover: 'https://i0.hdslb.com/bfs/archive/70a19649dc32887609d4beb88f9f63e13def9dde.jpg' },
           { id: 'tm-lbj-elliptical', title: '辣不加香菜·椭圆仪',     level: '初级', duration: '1 分钟', rating: 5, category: 'treadmill', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1JN1XBfEPD', cover: 'https://i0.hdslb.com/bfs/archive/3a26e41b05cb05f2e95a804e577685f7efbd8e00.jpg' },

@@ -2,8 +2,8 @@
 
 > **项目**：女性健身平台（React 19 + Vite 8 + Tailwind CSS v4 + Framer Motion 12）
 > **日期**：2026-07-19
-> **状态**：6/8 页面完成，2/8 待优化（Equipment、Diet 无变动）
-> **最新提交**：`f13f1e1` — v3.1 Plan页UI重构
+> **状态**：器材教学页面全面重构完成，67条B站真实视频入库
+> **最新提交**：`1fdf06f` — v3.26
 
 ---
 
@@ -12,146 +12,150 @@
 ```
 女性健身/
 ├── index.html
-├── package.json            # React 19 + Vite 8 + Tailwind v4 + Framer Motion + viteSingleFile
+├── package.json
 ├── vite.config.js
 ├── PROGRESS.md
 ├── public/
 │   ├── favicon.svg
 │   ├── hero-model.png
-│   └── 其他页面底图.png
+│   ├── 其他页面底图.png
+│   ├── 器材教学首页顶部图案.png
+│   └── 健身器材教学首页顶部替换.png
 └── src/
-    ├── App.jsx             # HashRouter，8条路由
+    ├── App.jsx
     ├── main.jsx
-    ├── index.css           # 全局样式（overflow已解除，数字箭头已隐藏）
+    ├── index.css
     ├── pages/
-    │   ├── Landing.jsx        # 首页 ✅
-    │   ├── Login.jsx          # 登录 ✅ 跳转→/onboarding
-    │   ├── Register.jsx       # 注册 ✅ 跳转→/onboarding
-    │   ├── Onboarding.jsx     # 长表单（下拉+双栏+分组）✅
-    │   ├── Plan.jsx           # 训练计划（单栏+勾选+进度条）✅
-    │   ├── Equipment.jsx      # 器材列表 ⚠️
-    │   ├── EquipmentDetail.jsx # 器材详情+B站 ⚠️
-    │   └── Diet.jsx           # 饮食建议 ⚠️
+    │   ├── Landing.jsx          # 首页
+    │   ├── Login.jsx            # 登录
+    │   ├── Register.jsx         # 注册
+    │   ├── Onboarding.jsx       # 长表单
+    │   ├── Plan.jsx             # 训练计划（安娜视频链接）
+    │   ├── Equipment.jsx        # 器材教学首页（Hero+分类+卡片）
+    │   ├── EquipmentCategory.jsx # 分类详情页
+    │   ├── EquipmentDetail.jsx  # 视频播放页
+    │   └── Diet.jsx             # 饮食建议
     ├── data/
-    │   ├── rules.js          # 规则引擎（8套独立动作池+热身/拉伸+经期逻辑）
-    │   ├── equipment.js      # 10个器材
-    │   └── foods.js          # 25种食物
+    │   ├── rules.js             # 规则引擎（安娜视频库）
+    │   ├── equipment.js         # 旧器材数据（已废弃）
+    │   ├── equipmentData.js     # 器材教学完整数据（67条）
+    │   └── foods.js
     └── utils/
-        ├── auth.js           # localStorage 邮箱注册/登录
-        └── storage.js        # fither_ 前缀存取
+        ├── auth.js
+        └── storage.js
 ```
 
 ---
 
-## 二、用户流程
+## 二、器材教学页面（全新设计）
+
+### 页面布局
+
+```
+导航栏(毛玻璃72px)
+↓
+Hero 区域(482px) — 左侧标题+搜索框 / 右侧人物背景图
+↓ 40px
+分类导航(胶囊按钮 单行)
+↓ 24px
+课程计数 + 3列视频卡片Grid(220px封面)
+↓ 80px
+底部留白
+```
+
+### 视频来源（67条全部带B站封面）
+
+| 分类 | 数量 | 来源 |
+|------|------|------|
+| 🏋️ 力量器材 | 21 | 辣不加香菜/实肌娘娘器械教学 + XiaoXiao跟练 |
+| 💪 上肢塑形 | 11 | 安娜/帕梅拉上肢 + 器械教学（胸肩背+自由重量合并） |
+| 🍑 臀腿训练 | 10 | 安娜/帕梅拉臀腿 + 原臀腿动作 |
+| 💦 有氧燃脂 | 6 | 安娜HIIT + 帕梅拉有氧舞蹈 |
+| 🔥 核心训练 | 8 | 安娜/帕梅拉腹肌核心 + 安娜TABATA |
+| 🏃 跑步机 | 6 | 辣不加香菜/专业教练 + XiaoXiao爬坡跟练 |
+| 🧘 拉伸教学 | 5 | 安娜5min/10min/15min + 帕梅拉全身/腿部 |
+
+### 合作的B站UP主
+- **安娜 growingannanas**：居家无器械/哑铃跟练（热身、拉伸、HIIT、上肢、臀腿、核心）
+- **帕梅拉 PamelaReif**：新手入门有氧、上肢塑形、腹部、拉伸
+- **辣不加香菜**：器械教学系列（高位下拉、坐姿划船、龙门架练背等19条）
+- **实肌娘娘带你练**：新手器械教学（哈克机、蝴蝶机、髋外展等11条）
+- **XiaoXiao_Gym**：爬坡跟练、器械跟练
+- **ihuke2018**：跑步机专业教练教程
+
+---
+
+## 三、训练计划页面
+
+- 所有视频链接已替换为安娜(growingannanas)B站视频
+- 热身：BV1jM4y177oN（安娜5分钟快速全身拉伸）
+- 拉伸：BV1ev421y7PD（安娜15分钟全身放松拉伸）
+- 居家训练每个动作均有「▶ 观看教学」按钮跳转安娜视频
+- 健身房训练无安娜器械视频，保持原有链接
+
+---
+
+## 四、设计系统
+
+### 色板
+| 用途 | 色值 |
+|------|------|
+| 品牌粉 | `#F56898` / `#FF6FA3` |
+| 渐变 | `linear-gradient(135deg, #F56898, #FF9ABB)` |
+| 浅粉底 | `#fde8ef` / `#FFF5F8` |
+| 标题 | `#111` / `#222` |
+| 正文 | `#333` |
+| 辅助 | `#666` / `#999` |
+| 边框 | `#ECECEC` / `#f0f0f0` |
+
+### 组件规范
+| 组件 | 规范 |
+|------|------|
+| 导航栏 | 72px高，毛玻璃 `blur(18px)`，max-width 1280px |
+| 视频卡片 | 220px封面，20-24px圆角，60px播放按钮 |
+| 分类胶囊 | 42-48px高，21-24px圆角，选中#FF6FA3 |
+| 搜索框 | 420-480px宽，52-56px高，26-28px圆角，flex图标隔离 |
+
+### 版心
+- 统一容器：`max-width: 1280px; margin: 0 auto; padding: 0 32px`
+
+---
+
+## 五、用户流程
 
 ```
 Landing → Login → /onboarding（长表单） → Plan（训练计划）
           Register ↗                    ↖ 重新制定计划
+
+器材教学入口：导航栏 → /equipment → 分类胶囊筛选 → 视频卡片 → /equipment/video/:id
 ```
 
-**关键路由**：HashRouter，`#/login` `#/register` `#/onboarding` `#/plan`
-
 ---
 
-## 三、设计系统（Design Tokens）
-
-### 3.1 色板
-| 用途 | 色值 |
-|------|------|
-| 品牌粉 | `#F56898` (主) `#FF5C93` (Plan页) |
-| 渐变 | `linear-gradient(135deg, #F56898, #FF9ABB)` |
-| 浅粉底 | `#fde8ef` |
-| 标题 | `#111` / `#222` |
-| 正文 | `#333` |
-| 辅助 | `#666` |
-| 单位/提示 | `#999` |
-| Placeholder | `#B8B8B8` |
-| 边框 | `#ECECEC` |
-| 聚焦 | `#ff6ba8` + `0 0 0 4px rgba(255,100,160,0.12)` |
-
-### 3.2 组件规范
-| 组件 | 规范 |
-|------|------|
-| 按钮 | 999px圆角，粉色渐变，hover上浮+阴影 |
-| 输入框 | 52px高，14px圆角，#ECECEC边框，16px内边距 |
-| 卡片 | 18-24px圆角，`0 8px 28px rgba(0,0,0,0.05)` 阴影 |
-| 导航栏 | 72px高，毛玻璃 `blur(18px)`，全宽 |
-| Logo | 42×42px，圆角12px，文字28px/700 |
-
-### 3.3 8px 间距体系
-`4 / 8 / 16 / 24 / 32 / 40 / 48 / 64` px
-
----
-
-## 四、页面状态
-
-### ✅ 已完成（6/8）
-| 页面 | 行数 | 要点 |
-|------|------|------|
-| Landing.jsx | 300 | 人物主图+泡泡动画+毛玻璃底部三栏 |
-| Login.jsx | 220 | 毛玻璃卡片+胶囊按钮+柔粉双泡泡 |
-| Register.jsx | 220 | 与Login完全统一 |
-| **Onboarding.jsx** | ~400 | 长表单：标题外移、3组双栏（📋基础 🎯偏好 🌸个性化）、全部Select/MultiSelect下拉、InputGroup单位组件、Design Tokens统一 |
-| **Plan.jsx** | ~260 | 单栏全宽：三层顶部（标题→标签→体重）、Day卡片76×72px、进度条含勾选、动作卡片18px圆角、热身淡粉/拉伸淡紫、全hover动效 |
-| **rules.js** | ~320 | 8套独立动作池（居家/健身房×减脂/增肌/塑形/健康）、热身视频集成、按部位拉伸、28天周期×6天经期标记、减重强度倍率、时长精准匹配 |
-
-### ⚠️ 待优化（2/8）
-| 页面 | 说明 |
-|------|------|
-| Equipment.jsx | 器材列表，卡片网格，导航需统一 |
-| EquipmentDetail.jsx | 器材详情+B站iframe，视频容器美化 |
-| Diet.jsx | 饮食建议表格，需卡片化 |
-
----
-
-## 五、关键业务逻辑
-
-### 5.1 训练计划生成（rules.js）
-- 8套独立动作池：`poolMap[scene][goal]` → home/gym × 减脂/增肌/塑形/健康
-- 健身房减脂：固定器械为主（坐姿推胸/高位下拉/倒蹬机/坐姿划船/蝴蝶机夹胸），有氧集成到热身视频
-- 居家减脂：徒手HIIT+弹力带
-- 热身：视频跳转（健身房含跑步机指导，5-8min；居家3min）
-- 拉伸：按训练部位匹配（上肢/下肢/核心）
-- 经期：28天周期，每次连续6天，自动替换轻量拉伸
-- 时长：热身+正式动作循环填充+拉伸 = 精准匹配用户设定
-
-### 5.2 数据存储
-- `fither_users` / `fither_currentUser` → auth.js
-- `fither_profile` → Onboarding存入，Plan读取生成，包含：goal, dailyMinutes, bodyParts, bodyFat, durationDays, restrictions, hasMenstrual, periodDate, scene, weight, targetWeight, height
-
-### 5.3 Plan页交互
-- 每条动作左侧checkbox，勾选实时更新进度条
-- 进度条统计热身+正式+拉伸全部动作
-- 完成线条 `text-decoration: line-through` + 降低透明度
-
----
-
-## 六、技术要点
-
-- **路由**：HashRouter，`index.html#/login`
-- **构建**：`npm run build` → `dist/index.html`（单文件+图片复制）
-- **开发**：`npx vite --port 5173`
-- **状态**：localStorage，无后端
-- **全局CSS**：`overflow` 已解除（页面可滚动），数字输入箭头已隐藏
-
----
-
-## 七、Git 历史
+## 六、Git 历史（近期）
 
 ```
-f13f1e1 v3.1: Plan页UI重构 — 单栏+勾选进度+导航统一
-a1f5afd v3.0: 训练计划生成逻辑重写 + 表单UI全面升级
-a5e95ef 添加项目进度报告PROGRESS.md
-d6c2d18 登录/注册页背景增加柔粉光圈呼吸动画，统一Logo样式
-9b3174b 登录/注册页UI优化
-c3dedcb MVP完整版
-6162080 优化底部三栏质感
-842868a FitHer 首页初版
+1fdf06f v3.26: 拉伸教学顺序调整 + 跑步机专业教程 + 安娜臀腿3条
+e964d3c v3.25: 安娜臀腿训练3条入库
+2d7fa6d v3.24: 合并胸肩背+自由重量 → 上肢塑形
+df08c66 v3.23: 安娜上肢+核心训练5条入库
+fe89184 v3.22: 清理无封面占位视频44条，仅保留B站真实视频
+76ddef6 v3.21: 帕梅拉腹部核心训练5条入库
+9fd981d v3.20: 实肌娘娘器械教学替换+新增11条 (100🎉)
+98e9ec6 v3.19: 帕梅拉胸肩背上肢训练4条入库
+d90d005 v3.18: 帕梅拉臀腿训练7条入库
+a59c29a v3.17: 新增「有氧燃脂」分类
+b8f6a42 v3.16: 帕梅拉视频分散归入现有分类
+4b440d4 v3.15: 帕梅拉新手跟练7条
+9f5d8e4 v3.14: 辣不加香菜19条全覆盖
+...
 ```
 
-## 八、下一步
+---
 
-1. **Equipment.jsx / EquipmentDetail.jsx / Diet.jsx** — 导航统一（72px/Logo 42px/16px字/44px菜单间距），卡片统一18-24px圆角+阴影+hover动效
-2. **移动端适配** — 所有页面
-3. **退出登录** — 各页面统一加退出按钮
+## 七、下一步
+
+1. **移动端适配** — 所有页面响应式优化
+2. **Diet页面** — 饮食建议卡片化
+3. **退出登录** — 统一加退出按钮
+4. **小红书/抖音链接** — 支持非B站平台跳转

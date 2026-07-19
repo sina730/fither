@@ -322,6 +322,7 @@ export const categoryDetailMap = {
       },
     ],
   },
+
 };
 
 /* ========== 扁平化所有视频（供"全部"tab + 搜索） ========== */

@@ -30,48 +30,49 @@ function VideoCard({ video, index }) {
     'free-weight': '💪', 'glutes-legs': '🍑', 'chest-back': '🎯', core: '🔥',
   };
   const emoji = playIcons[video.category] || '▶';
-  /* 模拟学习人数 */
   const hotCount = ((video.title.length * 1733 + index * 421) % 8000 + 2500).toFixed(0);
 
   return (
     <motion.div
-      whileHover={{ y: -6, boxShadow: '0 14px 36px rgba(0,0,0,0.07)' }}
+      whileHover={{ y: -6, boxShadow: '0 16px 40px rgba(0,0,0,0.08)' }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
       onClick={() => nav(`/equipment/video/${video.id}`)}
       className="cursor-pointer rounded-[20px] overflow-hidden flex flex-col"
-      style={{ background: '#fff', boxShadow: '0 2px 16px rgba(0,0,0,0.04)', border: '1px solid #f5f5f5' }}
+      style={{ background: '#FFFFFF', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}
     >
-      {/* 封面 16:9 */}
-      <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16/9' }}>
+      {/* 封面区域 — 220px 高 */}
+      <div className="relative w-full overflow-hidden" style={{ height: 220 }}>
+        {/* 渐变遮罩覆盖 */}
+        <div className="absolute inset-0 z-[1] pointer-events-none"
+          style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.25) 100%)' }} />
+        {/* 占位底图 */}
         <div className="absolute inset-0 flex items-center justify-center" style={coverStyle}>
-          <span className="text-[42px] opacity-40 select-none">{emoji}</span>
+          <span className="text-[56px] opacity-35 select-none">{emoji}</span>
         </div>
-        {/* 播放按钮 — 始终可见，粉色半透明圆形 */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-[46px] h-[46px] rounded-full flex items-center justify-center"
-            style={{ background: 'rgba(245,104,152,0.82)', backdropFilter: 'blur(6px)', boxShadow: '0 4px 16px rgba(245,104,152,0.32)' }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="8,5 19,12 8,19" /></svg>
+        {/* 中央播放按钮 — 60px 圆，#FF6FA3 */}
+        <div className="absolute inset-0 z-[2] flex items-center justify-center">
+          <div className="w-[60px] h-[60px] rounded-full flex items-center justify-center transition-transform duration-200"
+            style={{ background: '#FF6FA3', boxShadow: '0 6px 24px rgba(255,111,163,0.40)' }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="white" style={{ marginLeft: 3 }}><polygon points="8,5 19,12 8,19" /></svg>
           </div>
         </div>
-        {/* 时长标签 */}
-        <div className="absolute top-3 left-3 px-2.5 py-1 rounded-[6px] text-[11px] font-semibold text-white"
-          style={{ background: 'rgba(0,0,0,0.50)', backdropFilter: 'blur(4px)' }}>
+        {/* 右上角时长胶囊 */}
+        <div className="absolute top-3 right-3 z-[3] px-3 py-1 rounded-[20px] text-[12px] font-semibold text-white"
+          style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(6px)' }}>
           {video.duration}
         </div>
       </div>
       {/* 信息区 */}
-      <div className="p-4 flex flex-col gap-1.5">
+      <div className="p-5 flex flex-col gap-2">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="text-[15px] font-semibold text-[#111] leading-tight">{video.title}</h3>
-          <span className="text-[12px] font-medium flex items-center gap-1 flex-shrink-0" style={{ color: '#f06a9a' }}>
+          <h3 className="text-[16px] font-semibold text-[#111] leading-tight">{video.title}</h3>
+          <span className="text-[13px] font-medium flex items-center gap-1 flex-shrink-0" style={{ color: '#FF6FA3' }}>
             🔥 {hotCount}
           </span>
         </div>
-        <div className="flex items-center gap-2 text-[12px] text-[#999]">
-          <span>{video.level}</span>
-          <span className="w-1 h-1 rounded-full bg-[#ddd]" />
-          <span>{video.duration}</span>
-        </div>
+        <p className="text-[13px]" style={{ color: '#999' }}>
+          {video.level} · {video.duration}
+        </p>
       </div>
     </motion.div>
   );
@@ -227,29 +228,29 @@ export default function Equipment() {
       </section>
 
       {/* ================================================================
-          分类导航 — Hero 下方独立模块，居中排列
+          分类导航 — 紧凑单行，nowrap，居中
           ================================================================ */}
-      <section className="relative z-[3]" style={{ marginTop: 24 }}>
+      <section className="relative z-[3]" style={{ marginTop: 0 }}>
         <div style={{ maxWidth: 1280, width: '100%', margin: '0 auto', padding: '0 32px' }}
-          className="flex items-center gap-4 flex-wrap justify-center overflow-x-auto" >
+          className="flex items-center gap-3 flex-nowrap justify-start" >
         {mainCategories.map((cat) => {
           const isActive = activeCategory === cat.id;
           return (
             <motion.button key={cat.id}
-              whileHover={{ y: -2, boxShadow: isActive ? undefined : '0 4px 14px rgba(0,0,0,0.05)' }}
+              whileHover={{ y: -1 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => { setActiveCategory(cat.id); setSearchQuery(''); }}
-              className="flex items-center gap-2 px-6 h-[44px] rounded-[22px] text-[15px] font-semibold transition-all duration-200 flex-shrink-0"
+              className="flex items-center gap-2 h-[48px] rounded-[24px] text-[14px] font-semibold transition-all duration-200 flex-shrink-0"
               style={{
-                background: isActive ? '#ff6fa3' : '#fff',
-                color: isActive ? '#fff' : '#555',
-                border: isActive ? 'none' : '1px solid #eee',
-                boxShadow: isActive ? '0 6px 20px rgba(255,111,163,0.28)' : '0 1px 4px rgba(0,0,0,0.03)',
+                padding: '0 28px',
+                background: isActive ? '#FF6FA3' : '#FFFFFF',
+                color: isActive ? '#fff' : '#666',
+                border: isActive ? 'none' : '1px solid rgba(255,150,180,0.12)',
+                boxShadow: isActive ? '0 4px 14px rgba(255,111,163,0.22)' : '0 2px 6px rgba(255,120,160,0.04)',
               }}
             >
-              <span>{cat.icon}</span>
+              <span style={{ fontSize: 17 }}>{cat.icon}</span>
               <span>{cat.name}</span>
-              {!isActive && cat.count && <span className="text-[11px] text-[#bbb] ml-0.5">({cat.count})</span>}
             </motion.button>
           );
         })}
@@ -262,20 +263,18 @@ export default function Equipment() {
       <div className="relative z-[3]" style={{ maxWidth: 1280, width: '100%', margin: '0 auto', padding: '0 32px' }}>
 
         {/* 视频卡片网格 */}
-        <section className="relative z-[3]" style={{ marginTop: 36 }}>
-          <div className="mb-6">
-            <p className="text-[15px]" style={{ color: '#999' }}>
-              {searchQuery
-                ? `搜索 "${searchQuery}" — 找到 ${filteredVideos.length} 个课程`
-                : activeCategory === 'all'
-                  ? `全部课程 · ${filteredVideos.length} 个教学`
-                  : `${mainCategories.find((c) => c.id === activeCategory)?.name || ''} · ${filteredVideos.length} 个教学`}
-            </p>
-          </div>
+        <section className="relative z-[3]" style={{ marginTop: 24 }}>
+          <p className="text-[14px] mb-6" style={{ color: '#999' }}>
+            {searchQuery
+              ? `搜索 "${searchQuery}" — 找到 ${filteredVideos.length} 个课程`
+              : activeCategory === 'all'
+                ? `全部课程 · ${filteredVideos.length} 个教学`
+                : `${mainCategories.find((c) => c.id === activeCategory)?.name || ''} · ${filteredVideos.length} 个教学`}
+          </p>
 
           {filteredVideos.length > 0 ? (
             <motion.div layout
-              style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 32 }}
+              style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28, maxWidth: 1200 }}
               className="max-md:grid-cols-[repeat(2,minmax(0,1fr))] max-sm:grid-cols-[1fr]">
               <AnimatePresence mode="popLayout">
                 {filteredVideos.map((video, i) => (
@@ -298,30 +297,8 @@ export default function Equipment() {
           )}
         </section>
 
-        {/* 底部分类快捷入口 */}
-        <section className="relative z-[3]" style={{ marginTop: 56, marginBottom: 80 }}>
-          {activeCategory === 'all' && !searchQuery && (
-            <h2 className="text-[22px] font-bold text-[#111] mb-6">探索分类</h2>
-          )}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 16 }}
-            className="max-md:grid-cols-[repeat(2,minmax(0,1fr))] max-sm:grid-cols-[1fr]">
-            {mainCategories.filter((c) => c.id !== 'all').map((cat) => (
-              <motion.div key={cat.id}
-                whileHover={{ y: -4, boxShadow: shadowLg }}
-                onClick={() => { activeCategory === 'all' ? nav(`/equipment/${cat.id}`) : setActiveCategory(cat.id); }}
-                className="cursor-pointer rounded-[20px] p-5 flex flex-col items-center text-center gap-2 transition-all"
-                style={{
-                  background: cat.id === activeCategory ? '#fde8ef' : '#fff',
-                  boxShadow: shadow,
-                  border: cat.id === activeCategory ? `2px solid ${PINK}` : '1px solid #f5f5f5',
-                }}>
-                <span className="text-[32px]">{cat.icon}</span>
-                <span className="text-[15px] font-semibold text-[#111]">{cat.name}</span>
-                <span className="text-[12px] text-[#bbb]">{cat.count} 个课程</span>
-              </motion.div>
-            ))}
-          </div>
-        </section>
+        {/* 底部留白 */}
+        <div style={{ height: 80 }} />
       </div>
     </div>
   );

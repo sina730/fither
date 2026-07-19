@@ -42,13 +42,17 @@ function VideoCard({ video, index }) {
     >
       {/* 封面区域 — 220px 高 */}
       <div className="relative w-full overflow-hidden" style={{ height: 220 }}>
+        {/* 真实封面图 或 占位渐变 */}
+        {video.cover ? (
+          <img src={video.cover} alt={video.title} className="absolute inset-0 w-full h-full object-cover" />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center" style={coverStyle}>
+            <span className="text-[56px] opacity-35 select-none">{emoji}</span>
+          </div>
+        )}
         {/* 渐变遮罩覆盖 */}
         <div className="absolute inset-0 z-[1] pointer-events-none"
           style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.25) 100%)' }} />
-        {/* 占位底图 */}
-        <div className="absolute inset-0 flex items-center justify-center" style={coverStyle}>
-          <span className="text-[56px] opacity-35 select-none">{emoji}</span>
-        </div>
         {/* 中央播放按钮 — 60px 圆，#FF6FA3 */}
         <div className="absolute inset-0 z-[2] flex items-center justify-center">
           <div className="w-[60px] h-[60px] rounded-full flex items-center justify-center transition-transform duration-200"

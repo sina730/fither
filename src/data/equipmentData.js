@@ -23,8 +23,8 @@ const COVERS = {
 
 /* ========== 顶层分类 ========== */
 export const mainCategories = [
-  { id: 'all',           name: '全部',       icon: '📋', count: 42 },
-  { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 2 },
+  { id: 'all',           name: '全部',       icon: '📋', count: 43 },
+  { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 3 },
   { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 6 },
   { id: 'strength',      name: '力量器材',   icon: '🏋️', count: 16 },
   { id: 'free-weight',   name: '自由重量',   icon: '💪', count: 6 },
@@ -90,18 +90,19 @@ export const categoryDetailMap = {
     title: '拉伸教学',
     subtitle: '安娜(growingannanas) — 训练前后拉伸跟练',
     description: '运动前动态激活 + 运动后全身放松，仅需2节课，科学拉伸不伤身。',
-    totalVideos: 2,
+    totalVideos: 3,
     subcategories: [
       {
         name: '训练前热身',
         videos: [
-          { id: 'wu-anna',         title: '安娜快速全身拉伸',  level: '初级', duration: '5 分钟', rating: 5, category: 'stretch', subcategory: '训练前热身', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1jM4y177oN', cover: 'https://i2.hdslb.com/bfs/archive/0fee648cdc0d068e65dfa29e75a529f0977ed725.jpg' },
+          { id: 'wu-anna',         title: '安娜5分钟快速拉伸',  level: '初级', duration: '5 分钟', rating: 5, category: 'stretch', subcategory: '训练前热身', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1jM4y177oN', cover: 'https://i2.hdslb.com/bfs/archive/0fee648cdc0d068e65dfa29e75a529f0977ed725.jpg' },
+          { id: 'wu-anna2',        title: '安娜10分钟拉伸练习',  level: '初级', duration: '10 分钟', rating: 5, category: 'stretch', subcategory: '训练前热身', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1UH4y1H7Wc', cover: 'https://i0.hdslb.com/bfs/archive/b1508116df1d4b2c2c31079551c89bdb706553d7.jpg' },
         ],
       },
       {
         name: '训练后拉伸',
         videos: [
-          { id: 'cd-anna',         title: '安娜全身放松拉伸',  level: '初级', duration: '15 分钟', rating: 5, category: 'stretch', subcategory: '训练后拉伸', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1ev421y7PD', cover: 'https://i1.hdslb.com/bfs/archive/8a05daf284197acd7de8df61443470a02760c3ec.jpg' },
+          { id: 'cd-anna',         title: '安娜15分钟放松拉伸',  level: '初级', duration: '15 分钟', rating: 5, category: 'stretch', subcategory: '训练后拉伸', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1ev421y7PD', cover: 'https://i1.hdslb.com/bfs/archive/8a05daf284197acd7de8df61443470a02760c3ec.jpg' },
         ],
       },
     ],
@@ -304,10 +305,14 @@ export const categoryDetailMap = {
 
 };
 
-/* ========== 扁平化所有视频（供"全部"tab + 搜索） ========== */
+/* ========== 扁平化所有视频（按导航栏分类顺序排列） ========== */
 export const allVideos = (() => {
   const list = [];
-  Object.values(categoryDetailMap).forEach((cat) => {
+  /* 按 mainCategories 顺序（跳过 'all'）逐分类收集 */
+  mainCategories.forEach((mc) => {
+    if (mc.id === 'all') return;
+    const cat = categoryDetailMap[mc.id];
+    if (!cat) return;
     (cat.subcategories || []).forEach((sub) => {
       (sub.videos || []).forEach((v) => list.push(v));
     });

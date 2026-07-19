@@ -44,7 +44,7 @@ function VideoCard({ video, index }) {
       <div className="relative w-full overflow-hidden" style={{ height: 220 }}>
         {/* 真实封面图 或 占位渐变 */}
         {video.cover ? (
-          <img src={video.cover} alt={video.title} className="absolute inset-0 w-full h-full object-cover" />
+          <img src={video.cover} alt={video.title} className="absolute inset-0 w-full h-full object-cover" referrerPolicy="no-referrer" crossOrigin="anonymous" />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center" style={coverStyle}>
             <span className="text-[56px] opacity-35 select-none">{emoji}</span>

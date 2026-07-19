@@ -41,9 +41,13 @@ function VideoCard({ video, index }) {
     >
       {/* 封面 16:9 */}
       <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16/9' }}>
-        <div className="absolute inset-0 flex items-center justify-center" style={coverStyle}>
-          <span className="text-[40px] opacity-50 select-none">{emoji}</span>
-        </div>
+        {video.cover ? (
+          <img src={video.cover} alt={video.title} className="absolute inset-0 w-full h-full object-cover" referrerPolicy="no-referrer" crossOrigin="anonymous" />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center" style={coverStyle}>
+            <span className="text-[40px] opacity-50 select-none">{emoji}</span>
+          </div>
+        )}
         {/* 播放按钮 */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300"
           style={{ background: 'rgba(0,0,0,0.15)' }}>

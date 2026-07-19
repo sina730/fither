@@ -1,21 +1,36 @@
 // 训练计划规则引擎 — 女性零基础健身
 
 // ══════════════════════════════════════
+// 安娜(growingannanas)居家视频库（仅居家场景使用）
+// ══════════════════════════════════════
+const ANNA = {
+  cardio:    'https://player.bilibili.com/player.html?bvid=BV12R4y1E7iC',  // 30min无跳跃站立HIIT
+  strength:  'https://player.bilibili.com/player.html?bvid=BV1dx4y1U7Lf',  // 30min全身哑铃塑形
+  upper:     'https://player.bilibili.com/player.html?bvid=BV1PS411K7wT',  // 20min哑铃手臂塑形
+  core:      'https://player.bilibili.com/player.html?bvid=BV1fF4m1j7Yr',  // 20min TABATA腹肌
+  glutes:    'https://player.bilibili.com/player.html?bvid=BV1yg411k7HW',  // 40min自重臀腿
+  beginner:  'https://player.bilibili.com/player.html?bvid=BV1AuZPYiEK1',  // 25min全程站立哑铃(新手)
+  lowimpact: 'https://player.bilibili.com/player.html?bvid=BV15Y4v1b7By',  // 30min无跳跃无深蹲低冲击
+};
+
+// ══════════════════════════════════════
 // 一、动作池（按 场景+目标 严格区分）
+//   — home* 池内 exercise 均附带 videoUrl 指向安娜居家视频
+//   — gym* 池无 videoUrl（健身房器械无安娜对应视频）
 // ══════════════════════════════════════
 
 // —— 居家减脂：徒手HIIT+弹力带 ——
 const homeCut = [
-  { name: '开合跳', sets: 3, reps: '30 次', rest: '30秒', type: '有氧', sec: 45 },
-  { name: '高抬腿', sets: 3, reps: '30 秒', rest: '30秒', type: '有氧', sec: 45 },
-  { name: '原地小跑', sets: 3, reps: '45 秒', rest: '30秒', type: '有氧', sec: 55 },
-  { name: '波比跳（简易版）', sets: 3, reps: '8 次', rest: '45秒', type: '有氧', sec: 55 },
-  { name: '深蹲', sets: 3, reps: '15 次', rest: '45秒', type: '力量', sec: 60 },
-  { name: '臀桥', sets: 3, reps: '15 次', rest: '45秒', type: '力量', sec: 55 },
-  { name: '平板支撑', sets: 2, reps: '30 秒', rest: '30秒', type: '核心', sec: 50 },
-  { name: '死虫式', sets: 2, reps: '10 次/侧', rest: '30秒', type: '核心', sec: 40 },
-  { name: '弹力带划船', sets: 3, reps: '15 次', rest: '30秒', type: '力量', sec: 55, eq: '弹力带' },
-  { name: '弹力带髋外展', sets: 2, reps: '15 次/侧', rest: '30秒', type: '力量', sec: 45, eq: '弹力带' },
+  { name: '开合跳', sets: 3, reps: '30 次', rest: '30秒', type: '有氧', sec: 45, videoUrl: ANNA.cardio },
+  { name: '高抬腿', sets: 3, reps: '30 秒', rest: '30秒', type: '有氧', sec: 45, videoUrl: ANNA.cardio },
+  { name: '原地小跑', sets: 3, reps: '45 秒', rest: '30秒', type: '有氧', sec: 55, videoUrl: ANNA.lowimpact },
+  { name: '波比跳（简易版）', sets: 3, reps: '8 次', rest: '45秒', type: '有氧', sec: 55, videoUrl: ANNA.cardio },
+  { name: '深蹲', sets: 3, reps: '15 次', rest: '45秒', type: '力量', sec: 60, videoUrl: ANNA.glutes },
+  { name: '臀桥', sets: 3, reps: '15 次', rest: '45秒', type: '力量', sec: 55, videoUrl: ANNA.glutes },
+  { name: '平板支撑', sets: 2, reps: '30 秒', rest: '30秒', type: '核心', sec: 50, videoUrl: ANNA.core },
+  { name: '死虫式', sets: 2, reps: '10 次/侧', rest: '30秒', type: '核心', sec: 40, videoUrl: ANNA.core },
+  { name: '弹力带划船', sets: 3, reps: '15 次', rest: '30秒', type: '力量', sec: 55, eq: '弹力带', videoUrl: ANNA.upper },
+  { name: '弹力带髋外展', sets: 2, reps: '15 次/侧', rest: '30秒', type: '力量', sec: 45, eq: '弹力带', videoUrl: ANNA.glutes },
 ];
 
 // —— 健身房减脂：固定器械为主（有氧通过热身视频完成） ——
@@ -31,15 +46,15 @@ const gymCut = [
 
 // —— 居家增肌 ——
 const homeBuild = [
-  { name: '俯卧撑（跪姿）', sets: 3, reps: '10 次', rest: '45秒', type: '力量', sec: 55 },
-  { name: '深蹲', sets: 4, reps: '15 次', rest: '45秒', type: '力量', sec: 60 },
-  { name: '臀桥', sets: 4, reps: '15 次', rest: '45秒', type: '力量', sec: 55 },
-  { name: '弓步蹲', sets: 3, reps: '10 次/侧', rest: '45秒', type: '力量', sec: 55 },
-  { name: '弹力带划船', sets: 3, reps: '15 次', rest: '45秒', type: '力量', sec: 55, eq: '弹力带' },
-  { name: '弹力带肩推', sets: 3, reps: '12 次', rest: '45秒', type: '力量', sec: 55, eq: '弹力带' },
-  { name: '弹力带弯举', sets: 3, reps: '15 次', rest: '45秒', type: '力量', sec: 55, eq: '弹力带' },
-  { name: '平板支撑', sets: 3, reps: '45 秒', rest: '30秒', type: '核心', sec: 60 },
-  { name: '卷腹', sets: 3, reps: '15 次', rest: '30秒', type: '核心', sec: 45 },
+  { name: '俯卧撑（跪姿）', sets: 3, reps: '10 次', rest: '45秒', type: '力量', sec: 55, videoUrl: ANNA.upper },
+  { name: '深蹲', sets: 4, reps: '15 次', rest: '45秒', type: '力量', sec: 60, videoUrl: ANNA.glutes },
+  { name: '臀桥', sets: 4, reps: '15 次', rest: '45秒', type: '力量', sec: 55, videoUrl: ANNA.glutes },
+  { name: '弓步蹲', sets: 3, reps: '10 次/侧', rest: '45秒', type: '力量', sec: 55, videoUrl: ANNA.glutes },
+  { name: '弹力带划船', sets: 3, reps: '15 次', rest: '45秒', type: '力量', sec: 55, eq: '弹力带', videoUrl: ANNA.upper },
+  { name: '弹力带肩推', sets: 3, reps: '12 次', rest: '45秒', type: '力量', sec: 55, eq: '弹力带', videoUrl: ANNA.upper },
+  { name: '弹力带弯举', sets: 3, reps: '15 次', rest: '45秒', type: '力量', sec: 55, eq: '弹力带', videoUrl: ANNA.upper },
+  { name: '平板支撑', sets: 3, reps: '45 秒', rest: '30秒', type: '核心', sec: 60, videoUrl: ANNA.core },
+  { name: '卷腹', sets: 3, reps: '15 次', rest: '30秒', type: '核心', sec: 45, videoUrl: ANNA.core },
 ];
 
 // —— 健身房增肌 ——
@@ -57,15 +72,15 @@ const gymBuild = [
 
 // —— 居家塑形 ——
 const homeShape = [
-  { name: '普拉提百次', sets: 3, reps: '50 次', rest: '30秒', type: '核心', sec: 50 },
-  { name: '臀桥', sets: 3, reps: '15 次', rest: '45秒', type: '力量', sec: 55 },
-  { name: '侧卧抬腿', sets: 3, reps: '15 次/侧', rest: '30秒', type: '力量', sec: 45 },
-  { name: '平板支撑', sets: 3, reps: '30 秒', rest: '30秒', type: '核心', sec: 50 },
-  { name: '鸟狗式', sets: 3, reps: '10 次/侧', rest: '30秒', type: '核心', sec: 45 },
-  { name: '猫牛式', sets: 3, reps: '10 次', rest: '15秒', type: '拉伸', sec: 30 },
-  { name: '弹力带侧走', sets: 3, reps: '12 步/侧', rest: '30秒', type: '力量', sec: 45, eq: '弹力带' },
-  { name: '跪姿后踢腿', sets: 3, reps: '15 次/侧', rest: '30秒', type: '力量', sec: 50 },
-  { name: '深蹲', sets: 2, reps: '15 次', rest: '45秒', type: '力量', sec: 50 },
+  { name: '普拉提百次', sets: 3, reps: '50 次', rest: '30秒', type: '核心', sec: 50, videoUrl: ANNA.core },
+  { name: '臀桥', sets: 3, reps: '15 次', rest: '45秒', type: '力量', sec: 55, videoUrl: ANNA.glutes },
+  { name: '侧卧抬腿', sets: 3, reps: '15 次/侧', rest: '30秒', type: '力量', sec: 45, videoUrl: ANNA.glutes },
+  { name: '平板支撑', sets: 3, reps: '30 秒', rest: '30秒', type: '核心', sec: 50, videoUrl: ANNA.core },
+  { name: '鸟狗式', sets: 3, reps: '10 次/侧', rest: '30秒', type: '核心', sec: 45, videoUrl: ANNA.core },
+  { name: '猫牛式', sets: 3, reps: '10 次', rest: '15秒', type: '拉伸', sec: 30, videoUrl: ANNA.lowimpact },
+  { name: '弹力带侧走', sets: 3, reps: '12 步/侧', rest: '30秒', type: '力量', sec: 45, eq: '弹力带', videoUrl: ANNA.glutes },
+  { name: '跪姿后踢腿', sets: 3, reps: '15 次/侧', rest: '30秒', type: '力量', sec: 50, videoUrl: ANNA.glutes },
+  { name: '深蹲', sets: 2, reps: '15 次', rest: '45秒', type: '力量', sec: 50, videoUrl: ANNA.glutes },
 ];
 
 // —— 健身房塑形 ——
@@ -82,14 +97,14 @@ const gymShape = [
 
 // —— 居家保持健康 ——
 const homeHealth = [
-  { name: '快走', sets: 1, reps: '12 分钟', rest: '—', type: '有氧', sec: 720 },
-  { name: '深蹲', sets: 2, reps: '12 次', rest: '45秒', type: '力量', sec: 55 },
-  { name: '平板支撑', sets: 2, reps: '30 秒', rest: '30秒', type: '核心', sec: 50 },
-  { name: '弓步拉伸', sets: 2, reps: '20 秒/侧', rest: '15秒', type: '拉伸', sec: 30 },
-  { name: '猫牛式', sets: 2, reps: '10 次', rest: '15秒', type: '拉伸', sec: 30 },
-  { name: '站立体前屈', sets: 2, reps: '30 秒', rest: '—', type: '拉伸', sec: 30 },
-  { name: '鸟狗式', sets: 2, reps: '8 次/侧', rest: '30秒', type: '核心', sec: 40 },
-  { name: '开合跳', sets: 2, reps: '20 次', rest: '30秒', type: '有氧', sec: 40 },
+  { name: '快走', sets: 1, reps: '12 分钟', rest: '—', type: '有氧', sec: 720, videoUrl: ANNA.lowimpact },
+  { name: '深蹲', sets: 2, reps: '12 次', rest: '45秒', type: '力量', sec: 55, videoUrl: ANNA.beginner },
+  { name: '平板支撑', sets: 2, reps: '30 秒', rest: '30秒', type: '核心', sec: 50, videoUrl: ANNA.core },
+  { name: '弓步拉伸', sets: 2, reps: '20 秒/侧', rest: '15秒', type: '拉伸', sec: 30, videoUrl: ANNA.lowimpact },
+  { name: '猫牛式', sets: 2, reps: '10 次', rest: '15秒', type: '拉伸', sec: 30, videoUrl: ANNA.lowimpact },
+  { name: '站立体前屈', sets: 2, reps: '30 秒', rest: '—', type: '拉伸', sec: 30, videoUrl: ANNA.lowimpact },
+  { name: '鸟狗式', sets: 2, reps: '8 次/侧', rest: '30秒', type: '核心', sec: 40, videoUrl: ANNA.core },
+  { name: '开合跳', sets: 2, reps: '20 次', rest: '30秒', type: '有氧', sec: 40, videoUrl: ANNA.cardio },
 ];
 
 // —— 健身房保持健康 ——

@@ -53,6 +53,7 @@ function ExerciseRow({ ex, idx, checked, onToggle }) {
           style={{ textDecoration: checked ? 'line-through' : 'none', opacity: checked ? 0.45 : 1 }}>
           {ex.name}
           {ex.equipment && !checked && <Link to="/equipment" className="text-[11px] font-normal text-[#F56898] hover:underline flex-shrink-0">📹 {ex.equipment}</Link>}
+          {ex.videoUrl && !checked && <a href={ex.videoUrl} target="_blank" rel="noopener noreferrer" className="text-[11px] font-normal text-[#F56898] hover:underline flex-shrink-0">▶ 观看教学</a>}
         </div>
         {ex.note && <div className="text-[13px] text-[#aaa] mt-0.5">{ex.note}</div>}
       </div>

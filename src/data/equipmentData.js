@@ -161,9 +161,9 @@ export const categoryDetailMap = {
         videos: [
           { id: 'fw-dumbbell',   title: '哑铃全身训练',    level: '初级', duration: '12 分钟', rating: 5, category: 'free-weight', subcategory: '哑铃', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1VJ4m1M7qE', cover: '' },
           { id: 'fw-db-upper',   title: '哑铃上肢塑形',    level: '中级', duration: '10 分钟', rating: 4, category: 'free-weight', subcategory: '哑铃', bilibiliUrl: '', cover: '' },
-          { id: 'fw-anna-full',  title: '安娜30分钟全身哑铃', level: '中级', duration: '30 分钟', rating: 5, category: 'free-weight', subcategory: '哑铃', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1dx4y1U7Lf', cover: '' },
-          { id: 'fw-anna-arm',   title: '安娜20分钟哑铃手臂', level: '初级', duration: '20 分钟', rating: 5, category: 'free-weight', subcategory: '哑铃', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1PS411K7wT', cover: '' },
-          { id: 'fw-anna-stand', title: '安娜25分钟站立哑铃', level: '初级', duration: '25 分钟', rating: 5, category: 'free-weight', subcategory: '哑铃', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1AuZPYiEK1', cover: '' },
+          { id: 'fw-anna-full',  title: '安娜30分钟全身哑铃', level: '中级', duration: '30 分钟', rating: 5, category: 'free-weight', subcategory: '哑铃', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1dx4y1U7Lf', cover: 'https://i1.hdslb.com/bfs/archive/f9fe35fbfbf7a4990f02a1eb93691e6ff647320c.jpg' },
+          { id: 'fw-anna-arm',   title: '安娜20分钟哑铃手臂', level: '初级', duration: '20 分钟', rating: 5, category: 'free-weight', subcategory: '哑铃', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1PS411K7wT', cover: 'https://i2.hdslb.com/bfs/archive/1472c8561b76b895aae205a356d15b6feb07274c.jpg' },
+          { id: 'fw-anna-stand', title: '安娜25分钟站立哑铃', level: '初级', duration: '25 分钟', rating: 5, category: 'free-weight', subcategory: '哑铃', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1AuZPYiEK1', cover: 'https://i2.hdslb.com/bfs/archive/55e07aa63ef18c9dc409c82e26eddfa7a410c8cb.jpg' },
         ],
       },
       {
@@ -198,7 +198,7 @@ export const categoryDetailMap = {
       {
         name: '有氧燃脂',
         videos: [
-          { id: 'gl-anna-hiit',  title: '安娜30分钟无跳跃HIIT', level: '中级', duration: '30 分钟', rating: 5, category: 'glutes-legs', subcategory: '有氧燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV12R4y1E7iC', cover: '' },
+          { id: 'gl-anna-hiit',  title: '安娜30分钟无跳跃HIIT', level: '中级', duration: '30 分钟', rating: 5, category: 'glutes-legs', subcategory: '有氧燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV12R4y1E7iC', cover: 'https://i2.hdslb.com/bfs/archive/42b36bbd27ca481d0cf293131efcbc627303e29c.jpg' },
         ],
       },
       {
@@ -245,7 +245,7 @@ export const categoryDetailMap = {
       {
         name: '全身综合',
         videos: [
-          { id: 'cb-anna-low',   title: '安娜30分钟低冲击有氧', level: '初级', duration: '30 分钟', rating: 5, category: 'chest-back', subcategory: '全身综合', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV15Y4v1b7By', cover: '' },
+          { id: 'cb-anna-low',   title: '安娜30分钟全身力量',   level: '初级', duration: '30 分钟', rating: 5, category: 'chest-back', subcategory: '全身综合', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1RpP7zNEE2', cover: 'https://i0.hdslb.com/bfs/archive/1362b070eb623388f5d506ebe6118ebfa0455ca3.jpg' },
         ],
       },
       {
@@ -287,7 +287,7 @@ export const categoryDetailMap = {
       {
         name: '高强度燃脂',
         videos: [
-          { id: 'cr-anna-tabata', title: '安娜20分钟TABATA腹肌', level: '中级', duration: '20 分钟', rating: 5, category: 'core', subcategory: '高强度燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1fF4m1j7Yr', cover: '' },
+          { id: 'cr-anna-tabata', title: '安娜20分钟TABATA腹肌', level: '中级', duration: '20 分钟', rating: 5, category: 'core', subcategory: '高强度燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1fF4m1j7Yr', cover: 'https://i0.hdslb.com/bfs/archive/390be5f44a067f3a134e0e5c05aa20e397e9c346.jpg' },
         ],
       },
       {

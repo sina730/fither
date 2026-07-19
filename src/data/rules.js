@@ -10,7 +10,7 @@ const ANNA = {
   core:      'https://player.bilibili.com/player.html?bvid=BV1fF4m1j7Yr',  // 20min TABATA腹肌
   glutes:    'https://player.bilibili.com/player.html?bvid=BV1yg411k7HW',  // 40min自重臀腿
   beginner:  'https://player.bilibili.com/player.html?bvid=BV1AuZPYiEK1',  // 25min全程站立哑铃(新手)
-  lowimpact: 'https://player.bilibili.com/player.html?bvid=BV15Y4v1b7By',  // 30min无跳跃无深蹲低冲击
+  lowimpact: 'https://player.bilibili.com/player.html?bvid=BV1RpP7zNEE2',  // 30min全身力量无器械(低冲击)
 };
 
 // ══════════════════════════════════════

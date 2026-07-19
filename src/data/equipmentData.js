@@ -95,7 +95,7 @@ export const categoryDetailMap = {
       {
         name: '训练前热身',
         videos: [
-          { id: 'wu-anna',         title: '安娜全身激活热身',  level: '初级', duration: '5 分钟', rating: 5, category: 'stretch', subcategory: '训练前热身', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1n1i7BGEjC', cover: 'https://i2.hdslb.com/bfs/archive/81cc3dd0cfef84b34edf2b31673e7ec124f541d0.jpg' },
+          { id: 'wu-anna',         title: '安娜快速全身拉伸',  level: '初级', duration: '5 分钟', rating: 5, category: 'stretch', subcategory: '训练前热身', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1jM4y177oN', cover: 'https://i2.hdslb.com/bfs/archive/0fee648cdc0d068e65dfa29e75a529f0977ed725.jpg' },
         ],
       },
       {

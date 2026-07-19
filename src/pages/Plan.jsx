@@ -114,7 +114,7 @@ export default function Plan() {
   const wuMin = wu ? Math.round((wu.sec || 180) / 60) : 3;
   const wuLabel = wu?.reps || `${wuMin} 分钟`;
   const wuDesc = plan?.scene === 'gym' ? '含跑步机快走 · 激活全身肌群' : '激活全身肌群 · 预防运动损伤';
-  const wuUrl = wu?.videoUrl || 'https://player.bilibili.com/player.html?bvid=BV1n1i7BGEjC';
+  const wuUrl = wu?.videoUrl || 'https://player.bilibili.com/player.html?bvid=BV1jM4y177oN';
   const cdMin = Math.round(grouped.cooldown.reduce((a, e) => a + (e.sec || e.timePerSet || 30) * (e.sets || 1), 0) / 60);
 
   if (!plan || !today) {

@@ -188,7 +188,7 @@ export function generatePlan(profile) {
   const warmupSec = isGym ? Math.min(dailyMinutes * 8, 360) : 180;
   const warmupLabel = isGym ? `${Math.round(warmupSec / 60)} 分钟（含跑步机快走）` : '3 分钟';
   /* 安娜(growingannanas)全身激活热身 — 5分钟 */
-  const warmupVideo = 'https://player.bilibili.com/player.html?bvid=BV1n1i7BGEjC';
+  const warmupVideo = 'https://player.bilibili.com/player.html?bvid=BV1jM4y177oN';
   const warmup = [{ name: '训练前热身', sets: 1, reps: warmupLabel, rest: '—', type: '热身', sec: warmupSec, videoUrl: warmupVideo }];
 
   // 正式动作可用时间

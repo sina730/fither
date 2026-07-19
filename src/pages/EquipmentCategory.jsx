@@ -27,7 +27,7 @@ function VideoCard({ video, index }) {
 
   const playIcons = {
     strength: '🏋️', stretch: '🧘', treadmill: '🏃',
-    'free-weight': '💪', 'glutes-legs': '🍑', 'chest-back': '🎯', core: '🔥',
+    'free-weight': '💪', 'glutes-legs': '🍑', 'chest-back': '🎯', core: '🔥', cardio: '🔥',
   };
   const emoji = playIcons[video.category] || '▶';
 

@@ -19,6 +19,7 @@ const COVERS = {
   glutes: ['#E8F5E9', '#EDF8EE', '#E3F0E4', '#F0FAF1', '#E6F3E7'],
   chestBack: ['#FCE4EC', '#FDE8EF', '#FBE0E8', '#FEF0F4', '#FDEAF0'],
   core: ['#FFF8E1', '#FFFDE7', '#FEF9E8', '#FFFAED', '#FFFCEF'],
+  cardio: ['#FFF0F0', '#FFF5F2', '#FEF2EE', '#FFF6F3', '#FEF3EF'],
 };
 
 /* ========== 顶层分类 ========== */
@@ -28,7 +29,8 @@ export const mainCategories = [
   { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 11 },
   { id: 'strength',      name: '力量器材',   icon: '🏋️', count: 35 },
   { id: 'free-weight',   name: '自由重量',   icon: '💪', count: 10 },
-  { id: 'glutes-legs',   name: '臀腿训练',   icon: '🍑', count: 12 },
+  { id: 'cardio',        name: '有氧燃脂',   icon: '🔥', count: 6 },
+  { id: 'glutes-legs',   name: '臀腿训练',   icon: '🍑', count: 7 },
   { id: 'chest-back',    name: '胸肩背',     icon: '🎯', count: 7 },
   { id: 'core',          name: '核心训练',   icon: '🔥', count: 7 },
 ];
@@ -243,29 +245,44 @@ export const categoryDetailMap = {
     ],
   },
 
+  /* ───── 有氧燃脂 ───── */
+  cardio: {
+    title: '有氧燃脂',
+    subtitle: '安娜+帕梅拉 — 居家暴汗燃脂跟练',
+    description: '无器械全身有氧，从新手入门到进阶暴汗，在家就能高效燃脂。',
+    totalVideos: 6,
+    subcategories: [
+      {
+        name: 'HIIT燃脂',
+        videos: [
+          { id: 'cd-anna-hiit',  title: '安娜30分钟无跳跃HIIT', level: '中级', duration: '30 分钟', rating: 5, category: 'cardio', subcategory: 'HIIT燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV12R4y1E7iC', cover: 'https://i2.hdslb.com/bfs/archive/42b36bbd27ca481d0cf293131efcbc627303e29c.jpg' },
+          { id: 'cd-pam-jump',   title: '帕梅拉·15分钟跳跃有氧', level: '中级', duration: '15 分钟', rating: 5, category: 'cardio', subcategory: 'HIIT燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1QS4y1P7Yu', cover: 'https://i1.hdslb.com/bfs/archive/16cabdade9df66e50fe477d740c93ee2d66c22c1.jpg' },
+        ],
+      },
+      {
+        name: '新手入门',
+        videos: [
+          { id: 'cd-pam-day2',   title: '帕梅拉·新手全身燃脂26min', level: '初级', duration: '26 分钟', rating: 5, category: 'cardio', subcategory: '新手入门', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1854y1q7qW', cover: 'https://i2.hdslb.com/bfs/archive/0c2d820e7f5130ab166296e3e9611d2ea5a23926.jpg' },
+          { id: 'cd-pam-hiit',   title: '帕梅拉·10分钟暴汗有氧', level: '初级', duration: '11 分钟', rating: 5, category: 'cardio', subcategory: '新手入门', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1R3411A7g4', cover: 'https://i2.hdslb.com/bfs/archive/173a6c38ab24f9a7b394c2bb6b5f7c1f14412610.jpg' },
+        ],
+      },
+      {
+        name: '舞蹈有氧',
+        videos: [
+          { id: 'cd-pam-dance',  title: '帕梅拉·10分钟帕比狂欢舞', level: '初级', duration: '9 分钟',  rating: 5, category: 'cardio', subcategory: '舞蹈有氧', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1hc411w7rr', cover: 'https://i2.hdslb.com/bfs/archive/cfe9457eef815eeb68b8672dd8dc0a56274869e0.jpg' },
+          { id: 'cd-pam-fun',    title: '帕梅拉·12分钟趣味有氧', level: '中级', duration: '11 分钟', rating: 5, category: 'cardio', subcategory: '舞蹈有氧', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1e5411n7Mq', cover: 'https://i0.hdslb.com/bfs/archive/f053f26eb139dc849e7327980766f3f7de2d2609.jpg' },
+        ],
+      },
+    ],
+  },
+
   /* ───── 臀腿训练 ───── */
   'glutes-legs': {
     title: '臀腿训练',
     subtitle: '打造完美臀腿线条',
     description: '针对臀部和腿部的专项训练，涵盖经典动作与进阶变式，塑造紧致有型的下肢曲线。',
-    totalVideos: 12,
+    totalVideos: 7,
     subcategories: [
-      {
-        name: '有氧燃脂',
-        videos: [
-          { id: 'gl-anna-hiit',  title: '安娜30分钟无跳跃HIIT', level: '中级', duration: '30 分钟', rating: 5, category: 'glutes-legs', subcategory: '有氧燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV12R4y1E7iC', cover: 'https://i2.hdslb.com/bfs/archive/42b36bbd27ca481d0cf293131efcbc627303e29c.jpg' },
-        ],
-      },
-      {
-        name: '新手跟练',
-        videos: [
-          { id: 'gl-pam-day2',      title: '帕梅拉·新手全身燃脂26min', level: '初级', duration: '26 分钟', rating: 5, category: 'glutes-legs', subcategory: '新手跟练', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1854y1q7qW', cover: 'https://i2.hdslb.com/bfs/archive/0c2d820e7f5130ab166296e3e9611d2ea5a23926.jpg' },
-          { id: 'gl-pam-hiit',      title: '帕梅拉·10分钟暴汗有氧',    level: '初级', duration: '11 分钟', rating: 5, category: 'glutes-legs', subcategory: '新手跟练', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1R3411A7g4', cover: 'https://i2.hdslb.com/bfs/archive/173a6c38ab24f9a7b394c2bb6b5f7c1f14412610.jpg' },
-          { id: 'gl-pam-jump',      title: '帕梅拉·15分钟跳跃有氧',    level: '中级', duration: '15 分钟', rating: 5, category: 'glutes-legs', subcategory: '新手跟练', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1QS4y1P7Yu', cover: 'https://i1.hdslb.com/bfs/archive/16cabdade9df66e50fe477d740c93ee2d66c22c1.jpg' },
-          { id: 'gl-pam-dance',     title: '帕梅拉·10分钟帕比狂欢舞',  level: '初级', duration: '9 分钟',  rating: 5, category: 'glutes-legs', subcategory: '新手跟练', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1hc411w7rr', cover: 'https://i2.hdslb.com/bfs/archive/cfe9457eef815eeb68b8672dd8dc0a56274869e0.jpg' },
-          { id: 'gl-pam-fun',       title: '帕梅拉·12分钟趣味有氧',    level: '中级', duration: '11 分钟', rating: 5, category: 'glutes-legs', subcategory: '新手跟练', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1e5411n7Mq', cover: 'https://i0.hdslb.com/bfs/archive/f053f26eb139dc849e7327980766f3f7de2d2609.jpg' },
-        ],
-      },
       {
         name: '臀桥',
         videos: [

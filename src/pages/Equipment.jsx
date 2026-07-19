@@ -1,69 +1,327 @@
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { equipmentList, categories } from '../data/equipment';
+import { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useNavigate } from 'react-router-dom';
+import { mainCategories, allVideos, getCoverStyle } from '../data/equipmentData';
 
-export default function Equipment() {
+/* ========== Design Tokens ========== */
+const PINK = '#F56898';
+const shadow = '0 8px 28px rgba(0,0,0,0.05)';
+const shadowLg = '0 16px 40px rgba(0,0,0,0.08)';
+
+/* ========== 星级 ========== */
+function Stars({ n = 5 }) {
   return (
-    <div
-      className="min-h-screen relative"
-      style={{ backgroundImage: 'url(./其他页面底图.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
-    >
+    <div className="flex gap-0.5">
+      {Array.from({ length: 5 }, (_, i) => (
+        <svg key={i} width="12" height="12" viewBox="0 0 24 24" fill={i < n ? '#F56898' : '#e0e0e0'}>
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26" />
+        </svg>
+      ))}
+    </div>
+  );
+}
 
-      {/* 导航 */}
-      <nav className="sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-gray-50">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#f06a9a] flex items-center justify-center">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-              </svg>
-            </div>
-            <span className="text-lg font-bold text-[#111]">FitHer</span>
-          </Link>
-          <div className="flex items-center gap-4 text-sm">
-            <Link to="/plan" className="text-gray-500 hover:text-[#f06a9a] transition-colors">训练计划</Link>
-            <Link to="/diet" className="text-gray-500 hover:text-[#f06a9a] transition-colors">饮食建议</Link>
+/* ========== 视频卡片 ========== */
+function VideoCard({ video, index }) {
+  const nav = useNavigate();
+  const coverStyle = getCoverStyle(video, index);
+  const playIcons = {
+    strength: '🏋️', stretch: '🧘', treadmill: '🏃',
+    'free-weight': '💪', 'glutes-legs': '🍑', 'chest-back': '🎯', core: '🔥',
+  };
+  const emoji = playIcons[video.category] || '▶';
+  /* 模拟学习人数 */
+  const hotCount = ((video.title.length * 1733 + index * 421) % 8000 + 2500).toFixed(0);
+
+  return (
+    <motion.div
+      whileHover={{ y: -6, boxShadow: '0 14px 36px rgba(0,0,0,0.07)' }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
+      onClick={() => nav(`/equipment/video/${video.id}`)}
+      className="cursor-pointer rounded-[20px] overflow-hidden flex flex-col"
+      style={{ background: '#fff', boxShadow: '0 2px 16px rgba(0,0,0,0.04)', border: '1px solid #f5f5f5' }}
+    >
+      {/* 封面 16:9 */}
+      <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16/9' }}>
+        <div className="absolute inset-0 flex items-center justify-center" style={coverStyle}>
+          <span className="text-[42px] opacity-40 select-none">{emoji}</span>
+        </div>
+        {/* 播放按钮 — 始终可见，粉色半透明圆形 */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-[46px] h-[46px] rounded-full flex items-center justify-center"
+            style={{ background: 'rgba(245,104,152,0.82)', backdropFilter: 'blur(6px)', boxShadow: '0 4px 16px rgba(245,104,152,0.32)' }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="8,5 19,12 8,19" /></svg>
           </div>
+        </div>
+        {/* 时长标签 */}
+        <div className="absolute top-3 left-3 px-2.5 py-1 rounded-[6px] text-[11px] font-semibold text-white"
+          style={{ background: 'rgba(0,0,0,0.50)', backdropFilter: 'blur(4px)' }}>
+          {video.duration}
+        </div>
+      </div>
+      {/* 信息区 */}
+      <div className="p-4 flex flex-col gap-1.5">
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="text-[15px] font-semibold text-[#111] leading-tight">{video.title}</h3>
+          <span className="text-[12px] font-medium flex items-center gap-1 flex-shrink-0" style={{ color: '#f06a9a' }}>
+            🔥 {hotCount}
+          </span>
+        </div>
+        <div className="flex items-center gap-2 text-[12px] text-[#999]">
+          <span>{video.level}</span>
+          <span className="w-1 h-1 rounded-full bg-[#ddd]" />
+          <span>{video.duration}</span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ========== 主组件 ========== */
+export default function Equipment() {
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredVideos = useMemo(() => {
+    let list = activeCategory === 'all' ? allVideos : allVideos.filter((v) => v.category === activeCategory);
+    if (searchQuery.trim()) {
+      const q = searchQuery.trim().toLowerCase();
+      list = list.filter(
+        (v) => v.title.toLowerCase().includes(q) || v.subcategory.toLowerCase().includes(q) || v.level.toLowerCase().includes(q),
+      );
+    }
+    return list;
+  }, [activeCategory, searchQuery]);
+
+  const nav = useNavigate();
+
+  return (
+    <div className="min-h-screen relative">
+
+      {/* ================================================================
+          第1层 · 最底层：全局粉色渐变底色（全程保留，永不完全消失）
+          ================================================================ */}
+      <div className="absolute inset-0 z-0 pointer-events-none"
+        style={{ background: 'linear-gradient(180deg, #FFF5F8 0%, #FFF0F5 40%, #FFEFF4 70%, #fff 100%)' }} />
+
+      {/* ================================================================
+          导航栏（永远在最顶层，绝不被遮挡）
+          ================================================================ */}
+      <nav className="sticky top-0 z-[50]"
+        style={{ background: 'rgba(255,255,255,0.88)', backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+        <div style={{ maxWidth: 1280, width: '100%', margin: '0 auto', padding: '0 32px', height: 72, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, textDecoration: 'none' }}>
+            <div style={{ width: 42, height: 42, borderRadius: 12, background: `linear-gradient(135deg, ${PINK}, #FF9ABB)`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 16px rgba(245,104,152,0.28)' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1, gap: 2 }}>
+              <span style={{ fontSize: 28, fontWeight: 700, color: '#111' }}>FitHer</span>
+              <span style={{ fontSize: 12, color: '#F56898' }}>为更好的自己</span>
+            </div>
+          </Link>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 44 }}>
+            <Link to="/" style={{ fontSize: 16, fontWeight: 500, color: '#666', textDecoration: 'none' }}>首页</Link>
+            <Link to="/plan" style={{ fontSize: 16, fontWeight: 500, color: '#666', textDecoration: 'none' }}>训练计划</Link>
+            <span style={{ fontSize: 16, fontWeight: 600, color: PINK, position: 'relative', cursor: 'default' }}>
+              器材教学<span style={{ position: 'absolute', bottom: -25, left: '50%', transform: 'translateX(-50%)', width: 36, height: 3, borderRadius: 999, background: PINK, display: 'block' }} /></span>
+            <Link to="/diet" style={{ fontSize: 16, fontWeight: 500, color: '#666', textDecoration: 'none' }}>饮食建议</Link>
+            <span style={{ fontSize: 16, fontWeight: 500, color: '#999', cursor: 'default' }}>关于我们</span>
+          </div>
+          <div style={{ width: 160, flexShrink: 0 }} />
         </div>
       </nav>
 
-      <div className="max-w-6xl mx-auto px-6 py-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <h2 className="text-3xl font-bold text-[#111] mb-2">器材教学</h2>
-          <p className="text-gray-400 mb-8">详细视频讲解，轻松上手每一个器材</p>
+      {/* ================================================================
+          Hero 区域 — 独立区域，520px 固定高度
+          左侧文字 + 右侧人物背景图（限制在 Hero 内部，不溢出）
+          ================================================================ */}
+      <section className="relative z-[1] overflow-hidden" style={{ height: 482, background: 'linear-gradient(180deg, #FFF8FA 0%, #FFF3F6 100%)' }}>
 
-          {categories.map((cat) => (
-            <div key={cat} className="mb-10">
-              <h3 className="text-lg font-semibold text-[#111] mb-4 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#f06a9a]" />
-                {cat}
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {equipmentList
-                  .filter((e) => e.category === cat)
-                  .map((eq) => (
-                    <Link key={eq.id} to={`/equipment/${eq.id}`}>
-                      <motion.div
-                        whileHover={{ translateY: -3 }}
-                        className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-[#fde8ef] transition-all cursor-pointer"
-                      >
-                        <div className="w-10 h-10 rounded-xl bg-[#fde8ef] flex items-center justify-center mb-3">
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f06a9a" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                            <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="12" cy="12" r="4" />
-                          </svg>
-                        </div>
-                        <h4 className="font-semibold text-[#111] mb-1">{eq.name}</h4>
-                        <p className="text-sm text-gray-400 line-clamp-2">{eq.desc}</p>
-                      </motion.div>
-                    </Link>
-                  ))}
+        {/* 人物背后柔粉圈圈光晕 */}
+        <div className="absolute pointer-events-none"
+          style={{
+            bottom: '8%',
+            right: '5%',
+            width: 'clamp(460px, 44vw, 660px)',
+            height: 'clamp(460px, 44vw, 660px)',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(245,120,155,0.16) 0%, rgba(245,140,170,0.08) 35%, rgba(245,160,185,0.02) 60%, transparent 75%)',
+          }} />
+
+        {/* 人物器材背景图 — absolute right bottom，限制在 Hero 内 */}
+        <motion.img
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.9, ease: 'easeOut' }}
+          src="./健身器材教学首页顶部替换.png"
+          alt=""
+          className="absolute pointer-events-none"
+          style={{
+            right: 0,
+            bottom: 0,
+            width: 'clamp(420px, 40%, 650px)',
+            height: '105%',
+            objectFit: 'cover',
+            objectPosition: '90% bottom',
+            opacity: 0.88,
+          }}
+        />
+
+        {/* 图片底部白色渐隐 — 让图片在 Hero 底部自然消失 */}
+        <div className="absolute bottom-0 left-0 right-0 pointer-events-none"
+          style={{
+            height: 100,
+            background: 'linear-gradient(to bottom, transparent 0%, rgba(255,243,246,0.7) 50%, #FFF3F6 100%)',
+          }} />
+
+        {/* 文字 + 搜索框 — 水平居中 */}
+        <div className="relative z-[3]" style={{ maxWidth: 1280, width: '100%', margin: '0 auto', padding: '0 32px', height: '100%' }}>
+          <div className="flex flex-col items-center justify-center text-center" style={{ height: '100%', paddingTop: 8 }}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: 'easeOut' }}
+              className="flex flex-col items-center"
+            >
+              {/* 两行标题 — 横向并排 */}
+              <div className="flex items-baseline gap-3 mb-3 flex-wrap justify-center">
+                <h1 className="text-[clamp(28px,4vw,44px)] font-bold leading-[1.2]"
+                  style={{ color: '#111', letterSpacing: '-1px' }}>
+                  掌握每个器材
+                </h1>
+                <span className="text-[clamp(30px,4.5vw,48px)] font-bold leading-[1.2]"
+                  style={{ color: PINK, letterSpacing: '-1px' }}>
+                  开始正确训练
+                </span>
               </div>
+
+              {/* 小字 */}
+              <p className="text-[clamp(14px,1.6vw,17px)] leading-relaxed"
+                style={{ color: '#999', maxWidth: 420 }}>
+                新手自信指南，详细视频讲解，<br />轻松上手每一个器材
+              </p>
+
+              {/* 搜索框 — flex 布局，图标与输入区永不重叠 */}
+              <div className="flex items-stretch" style={{ width: 480, maxWidth: '92vw', marginTop: 80, height: 56, borderRadius: 28, background: '#fff', border: '1px solid #f2f2f2', boxShadow: '0 2px 16px rgba(0,0,0,0.04)', overflow: 'hidden' }}>
+                {/* 左侧放大镜图标区 */}
+                <div className="flex items-center justify-center flex-shrink-0" style={{ width: 60, background: '#fef7fa' }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F56898" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                </div>
+                {/* 分隔空隙 */}
+                <div className="flex-shrink-0" style={{ width: 16 }} />
+                {/* 输入区 */}
+                <input type="text" placeholder="搜索器材、训练动作或课程"
+                  value={searchQuery}
+                  onChange={(e) => { setSearchQuery(e.target.value); setActiveCategory('all'); }}
+                  className="flex-1 h-full pr-6 text-[15px] outline-none bg-transparent"
+                  style={{ color: '#333', minWidth: 0 }}
+                  onFocus={(e) => { e.target.parentElement.style.borderColor = '#ff6ba8'; e.target.parentElement.style.boxShadow = '0 0 0 4px rgba(255,100,160,0.10)'; }}
+                  onBlur={(e) => { e.target.parentElement.style.borderColor = '#f2f2f2'; e.target.parentElement.style.boxShadow = '0 2px 16px rgba(0,0,0,0.04)'; }}
+                />
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================
+          分类导航 — Hero 下方独立模块，居中排列
+          ================================================================ */}
+      <section className="relative z-[3]" style={{ marginTop: 24 }}>
+        <div style={{ maxWidth: 1280, width: '100%', margin: '0 auto', padding: '0 32px' }}
+          className="flex items-center gap-4 flex-wrap justify-center overflow-x-auto" >
+        {mainCategories.map((cat) => {
+          const isActive = activeCategory === cat.id;
+          return (
+            <motion.button key={cat.id}
+              whileHover={{ y: -2, boxShadow: isActive ? undefined : '0 4px 14px rgba(0,0,0,0.05)' }}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => { setActiveCategory(cat.id); setSearchQuery(''); }}
+              className="flex items-center gap-2 px-6 h-[44px] rounded-[22px] text-[15px] font-semibold transition-all duration-200 flex-shrink-0"
+              style={{
+                background: isActive ? '#ff6fa3' : '#fff',
+                color: isActive ? '#fff' : '#555',
+                border: isActive ? 'none' : '1px solid #eee',
+                boxShadow: isActive ? '0 6px 20px rgba(255,111,163,0.28)' : '0 1px 4px rgba(0,0,0,0.03)',
+              }}
+            >
+              <span>{cat.icon}</span>
+              <span>{cat.name}</span>
+              {!isActive && cat.count && <span className="text-[11px] text-[#bbb] ml-0.5">({cat.count})</span>}
+            </motion.button>
+          );
+        })}
+        </div>
+      </section>
+
+      {/* ================================================================
+          课程列表区域 — 统一版心容器
+          ================================================================ */}
+      <div className="relative z-[3]" style={{ maxWidth: 1280, width: '100%', margin: '0 auto', padding: '0 32px' }}>
+
+        {/* 视频卡片网格 */}
+        <section className="relative z-[3]" style={{ marginTop: 36 }}>
+          <div className="mb-6">
+            <p className="text-[15px]" style={{ color: '#999' }}>
+              {searchQuery
+                ? `搜索 "${searchQuery}" — 找到 ${filteredVideos.length} 个课程`
+                : activeCategory === 'all'
+                  ? `全部课程 · ${filteredVideos.length} 个教学`
+                  : `${mainCategories.find((c) => c.id === activeCategory)?.name || ''} · ${filteredVideos.length} 个教学`}
+            </p>
+          </div>
+
+          {filteredVideos.length > 0 ? (
+            <motion.div layout
+              style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 32 }}
+              className="max-md:grid-cols-[repeat(2,minmax(0,1fr))] max-sm:grid-cols-[1fr]">
+              <AnimatePresence mode="popLayout">
+                {filteredVideos.map((video, i) => (
+                  <motion.div key={video.id} layout
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.3, delay: i * 0.04 }}>
+                    <VideoCard video={video} index={i} />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <span className="text-[56px] mb-4">🔍</span>
+              <p className="text-[18px] text-[#999] mb-2">未找到相关课程</p>
+              <p className="text-[14px] text-[#ccc]">试试其他关键词或分类</p>
             </div>
-          ))}
-        </motion.div>
+          )}
+        </section>
+
+        {/* 底部分类快捷入口 */}
+        <section className="relative z-[3]" style={{ marginTop: 56, marginBottom: 80 }}>
+          {activeCategory === 'all' && !searchQuery && (
+            <h2 className="text-[22px] font-bold text-[#111] mb-6">探索分类</h2>
+          )}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 16 }}
+            className="max-md:grid-cols-[repeat(2,minmax(0,1fr))] max-sm:grid-cols-[1fr]">
+            {mainCategories.filter((c) => c.id !== 'all').map((cat) => (
+              <motion.div key={cat.id}
+                whileHover={{ y: -4, boxShadow: shadowLg }}
+                onClick={() => { activeCategory === 'all' ? nav(`/equipment/${cat.id}`) : setActiveCategory(cat.id); }}
+                className="cursor-pointer rounded-[20px] p-5 flex flex-col items-center text-center gap-2 transition-all"
+                style={{
+                  background: cat.id === activeCategory ? '#fde8ef' : '#fff',
+                  boxShadow: shadow,
+                  border: cat.id === activeCategory ? `2px solid ${PINK}` : '1px solid #f5f5f5',
+                }}>
+                <span className="text-[32px]">{cat.icon}</span>
+                <span className="text-[15px] font-semibold text-[#111]">{cat.name}</span>
+                <span className="text-[12px] text-[#bbb]">{cat.count} 个课程</span>
+              </motion.div>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );

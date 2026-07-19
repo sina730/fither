@@ -23,16 +23,15 @@ const COVERS = {
 
 /* ========== 顶层分类 ========== */
 export const mainCategories = [
-  { id: 'all',           name: '全部',       icon: '📋', count: 55 },
-  { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 4 },
-  { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 8 },
-  { id: 'strength',      name: '力量器材',   icon: '🏋️', count: 19 },
-  { id: 'free-weight',   name: '自由重量',   icon: '💪', count: 9 },
+  { id: 'all',           name: '全部',       icon: '📋', count: 73 },
+  { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 3 },
+  { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 11 },
+  { id: 'strength',      name: '力量器材',   icon: '🏋️', count: 35 },
+  { id: 'free-weight',   name: '自由重量',   icon: '💪', count: 10 },
   { id: 'glutes-legs',   name: '臀腿训练',   icon: '🍑', count: 7 },
   { id: 'chest-back',    name: '胸肩背',     icon: '🎯', count: 7 },
   { id: 'core',          name: '核心训练',   icon: '🔥', count: 7 },
 ];
-
 /* ========== 各分类详情 ========== */
 export const categoryDetailMap = {
 
@@ -41,14 +40,34 @@ export const categoryDetailMap = {
     title: '力量器材',
     subtitle: '适合健身房固定器械训练',
     description: '固定器械轨迹稳定，安全性高，新手也能放心使用。掌握每个器械的正确用法，让训练更高效。',
-    totalVideos: 19,
+    totalVideos: 22,
     subcategories: [
       {
-        name: '新手入门',
+        name: '器械教学',
         videos: [
-          { id: 'st-xx-back',    title: 'XiaoXiao背部器械+爬坡跟练', level: '初级', duration: '49 分钟', rating: 5, category: 'strength', subcategory: '新手入门', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1nhTy6LEJ3', cover: 'https://i0.hdslb.com/bfs/archive/46f3632a53ed555c901755c70bcaf109c42e9212.jpg' },
-          { id: 'st-xx-leg',     title: 'XiaoXiao固定器械练腿教程', level: '初级', duration: '1 分钟', rating: 5, category: 'strength', subcategory: '新手入门', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1hVbTzZET5', cover: 'https://i2.hdslb.com/bfs/archive/36de6f49a7e6789b18781e688591d5a3235a4589.jpg' },
-          { id: 'st-xx-guide',   title: 'XiaoXiao固定器械使用教程', level: '初级', duration: '2 分钟', rating: 5, category: 'strength', subcategory: '新手入门', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1nX8dzJEu9', cover: 'https://i1.hdslb.com/bfs/archive/c05161e3c9eb74ee51037ee803081eb80ec82b1a.jpg' },
+          { id: 'st-lbj-gwl',       title: '辣不加香菜·高位下拉',      level: '初级', duration: '1 分钟', rating: 5, category: 'strength', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1SZKHzyELs', cover: 'https://i0.hdslb.com/bfs/archive/02a775f941914bbdd67b76289d44316535ebd179.jpg' },
+          { id: 'st-lbj-row',       title: '辣不加香菜·坐姿划船',      level: '初级', duration: '1 分钟', rating: 5, category: 'strength', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV13jK2zSE5m', cover: 'https://i0.hdslb.com/bfs/archive/26e93e0703d58a7203a30f94492125ad87b8f53d.jpg' },
+          { id: 'st-lbj-hack',      title: '辣不加香菜·哈克机',        level: '初级', duration: '2 分钟', rating: 5, category: 'strength', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV16F31zgELF', cover: 'https://i1.hdslb.com/bfs/archive/6ad106de136e53a18975e5e00e33f7e9e518a721.jpg' },
+          { id: 'st-lbj-cable-back',title: '辣不加香菜·龙门架练背',    level: '初级', duration: '4 分钟', rating: 5, category: 'strength', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1xGgJzGEax', cover: 'https://i0.hdslb.com/bfs/archive/5b4f9f859dbe66ddc3be4670457f8de9dacd15c6.jpg' },
+          { id: 'st-lbj-pullup',    title: '辣不加香菜·辅助引体',      level: '初级', duration: '2 分钟', rating: 5, category: 'strength', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1gm8CzNEGZ', cover: 'https://i0.hdslb.com/bfs/archive/395dbdb6cba8eb76b2243166567764554b4f14cb.jpg' },
+          { id: 'st-lbj-pec',       title: '辣不加香菜·蝴蝶机练胸',    level: '初级', duration: '1 分钟', rating: 5, category: 'strength', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1bGeBztEEY', cover: 'https://i0.hdslb.com/bfs/archive/67838550a94b1553c2bc869cc450494e6e37fe0e.jpg' },
+          { id: 'st-lbj-revfly',    title: '辣不加香菜·反向蝴蝶机练肩',level: '初级', duration: '1 分钟', rating: 5, category: 'strength', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV166e9zsEjc', cover: 'https://i0.hdslb.com/bfs/archive/ab8fd08a0b29dcfac2276cee40741f4bf5ac68d3.jpg' },
+          { id: 'st-lbj-hipabd',    title: '辣不加香菜·坐姿髋外展',    level: '初级', duration: '2 分钟', rating: 5, category: 'strength', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1epamzREtu', cover: 'https://i1.hdslb.com/bfs/archive/56ef8b66dc6994ffaf4b78601e227444e43813ad.jpg' },
+          { id: 'st-lbj-legadd',    title: '辣不加香菜·坐姿腿内收',    level: '初级', duration: '1 分钟', rating: 5, category: 'strength', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1ThpJzVEpd', cover: 'https://i0.hdslb.com/bfs/archive/0e26d16be9947a61b5e5c4d25143abb7eb28ec4b.jpg' },
+          { id: 'st-lbj-legpress',  title: '辣不加香菜·倒蹬机',        level: '初级', duration: '1 分钟', rating: 5, category: 'strength', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1nFpbzxE6B', cover: 'https://i1.hdslb.com/bfs/archive/90cd2aa52afe3a776d8132750c88b89cc0131a14.jpg' },
+          { id: 'st-lbj-chest',     title: '辣不加香菜·坐姿推胸',      level: '初级', duration: '1 分钟', rating: 5, category: 'strength', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1XmHNz3E4d', cover: 'https://i0.hdslb.com/bfs/archive/c17a051459da979a255838e3b25eae9e79f23a12.jpg' },
+          { id: 'st-lbj-goat',      title: '辣不加香菜·山羊挺身',      level: '初级', duration: '1 分钟', rating: 5, category: 'strength', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1m3W4zAEVw', cover: 'https://i2.hdslb.com/bfs/archive/a4c551dea610a21767d8b3a25c4ee1ec8f433436.jpg' },
+          { id: 'st-lbj-smith-kick',title: '辣不加香菜·史密斯后蹬',    level: '初级', duration: '2 分钟', rating: 5, category: 'strength', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1BXUEBzEEy', cover: 'https://i0.hdslb.com/bfs/archive/b4c949ef0310d93c4884e01aa0a3a2685691038f.jpg' },
+          { id: 'st-lbj-smith-squat',title:'辣不加香菜·史密斯深蹲',    level: '初级', duration: '2 分钟', rating: 5, category: 'strength', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1wSmqBhEis', cover: 'https://i0.hdslb.com/bfs/archive/3c6ea98700f9880f6a3db747fb4d05ef1d254ee4.jpg' },
+          { id: 'st-lbj-facepull',  title: '辣不加香菜·龙门架面拉',    level: '初级', duration: '2 分钟', rating: 5, category: 'strength', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1uAFMzWEpe', cover: 'https://i2.hdslb.com/bfs/archive/8874149fb746148ce8fa63dbbbb855471bb886ca.jpg' },
+        ],
+      },
+      {
+        name: '跟练课程',
+        videos: [
+          { id: 'st-xx-back',    title: 'XiaoXiao背部器械+爬坡跟练', level: '初级', duration: '49 分钟', rating: 5, category: 'strength', subcategory: '跟练课程', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1nhTy6LEJ3', cover: 'https://i0.hdslb.com/bfs/archive/46f3632a53ed555c901755c70bcaf109c42e9212.jpg' },
+          { id: 'st-xx-leg',     title: 'XiaoXiao固定器械练腿教程', level: '初级', duration: '1 分钟', rating: 5, category: 'strength', subcategory: '跟练课程', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1hVbTzZET5', cover: 'https://i2.hdslb.com/bfs/archive/36de6f49a7e6789b18781e688591d5a3235a4589.jpg' },
+          { id: 'st-xx-guide',   title: 'XiaoXiao固定器械使用教程', level: '初级', duration: '2 分钟', rating: 5, category: 'strength', subcategory: '跟练课程', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1nX8dzJEu9', cover: 'https://i1.hdslb.com/bfs/archive/c05161e3c9eb74ee51037ee803081eb80ec82b1a.jpg' },
         ],
       },
       {
@@ -98,14 +117,8 @@ export const categoryDetailMap = {
     title: '拉伸教学',
     subtitle: '安娜(growingannanas) — 训练前后拉伸跟练',
     description: '运动前动态激活 + 运动后全身放松，仅需2节课，科学拉伸不伤身。',
-    totalVideos: 4,
+    totalVideos: 3,
     subcategories: [
-      {
-        name: '训练后放松',
-        videos: [
-          { id: 'st-xx-cool',    title: 'XiaoXiao爬坡后拉伸跟练', level: '初级', duration: '4 分钟', rating: 5, category: 'stretch', subcategory: '训练后放松', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1oFxuzeEVN', cover: 'https://i1.hdslb.com/bfs/archive/06e946e2b1353617d21b5fb83101c7b0ccd7474c.jpg' },
-        ],
-      },
       {
         name: '训练前热身',
         videos: [
@@ -127,8 +140,16 @@ export const categoryDetailMap = {
     title: '跑步机',
     subtitle: '从新手到进阶，科学跑步不伤膝',
     description: '跑步机是最常见的有氧器械，但正确的使用方式很多人并不了解。从基础走路到高强度间歇，系统学习每一种模式。',
-    totalVideos: 8,
+    totalVideos: 9,
     subcategories: [
+      {
+        name: '器械教学',
+        videos: [
+          { id: 'tm-lbj-treadmill',  title: '辣不加香菜·跑步机爬坡', level: '初级', duration: '2 分钟', rating: 5, category: 'treadmill', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1gtnEzzEFK', cover: 'https://i0.hdslb.com/bfs/archive/3664e91e738983c8ecd2017339072bdd5665dd0d.jpg' },
+          { id: 'tm-lbj-climb',      title: '辣不加香菜·爬楼机',     level: '初级', duration: '2 分钟', rating: 5, category: 'treadmill', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1bb6gByEcd', cover: 'https://i0.hdslb.com/bfs/archive/70a19649dc32887609d4beb88f9f63e13def9dde.jpg' },
+          { id: 'tm-lbj-elliptical', title: '辣不加香菜·椭圆仪',     level: '初级', duration: '1 分钟', rating: 5, category: 'treadmill', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1JN1XBfEPD', cover: 'https://i0.hdslb.com/bfs/archive/3a26e41b05cb05f2e95a804e577685f7efbd8e00.jpg' },
+        ],
+      },
       {
         name: '爬坡跟练',
         videos: [
@@ -185,6 +206,12 @@ export const categoryDetailMap = {
           { id: 'fw-anna-full',  title: '安娜30分钟全身哑铃', level: '中级', duration: '30 分钟', rating: 5, category: 'free-weight', subcategory: '哑铃', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1dx4y1U7Lf', cover: 'https://i1.hdslb.com/bfs/archive/f9fe35fbfbf7a4990f02a1eb93691e6ff647320c.jpg' },
           { id: 'fw-anna-arm',   title: '安娜20分钟哑铃手臂', level: '初级', duration: '20 分钟', rating: 5, category: 'free-weight', subcategory: '哑铃', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1PS411K7wT', cover: 'https://i2.hdslb.com/bfs/archive/1472c8561b76b895aae205a356d15b6feb07274c.jpg' },
           { id: 'fw-anna-stand', title: '安娜25分钟站立哑铃', level: '初级', duration: '25 分钟', rating: 5, category: 'free-weight', subcategory: '哑铃', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1AuZPYiEK1', cover: 'https://i2.hdslb.com/bfs/archive/55e07aa63ef18c9dc409c82e26eddfa7a410c8cb.jpg' },
+        ],
+      },
+      {
+        name: '器械教学',
+        videos: [
+          { id: 'fw-lbj-rdl',     title: '辣不加香菜·罗马尼亚硬拉', level: '初级', duration: '2 分钟', rating: 5, category: 'free-weight', subcategory: '器械教学', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1FbNFzwEWM', cover: 'https://i2.hdslb.com/bfs/archive/16b9290cf7494d519d775b39a0131c643c165925.jpg' },
         ],
       },
       {

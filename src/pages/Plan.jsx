@@ -230,18 +230,20 @@ export default function Plan() {
             <div className="rounded-[14px] p-3.5 text-[13px] flex items-center gap-2" style={{ color: '#c0392b', background: '#fff5f5', border: '1px solid #fdd' }}>🩸 {today.note}</div>
           )}
 
-          {/* 热身 ── 淡粉底 */}
+          {/* 热身 ── 淡粉底 + 安娜B站封面 */}
           {wu && (
             <motion.div whileHover={{ y: -3, boxShadow: shadowLg }} transition={{ duration: 0.3 }}
-              className="rounded-[18px] p-5 flex items-center justify-between" style={{ background: '#FFF6F8', boxShadow: shadow }}>
-              <div className="flex items-center gap-4">
+              className="rounded-[18px] p-5 flex items-center justify-between gap-4" style={{ background: '#FFF6F8', boxShadow: shadow }}>
+              <div className="flex items-center gap-4 min-w-0">
                 <button onClick={() => toggleDone(wu.globalIdx)}
                   className="w-[24px] h-[24px] rounded-[6px] border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200"
                   style={{ borderColor: doneMap[`${selectedDay}-${wu.globalIdx}`] ? PINK : '#ddd', background: doneMap[`${selectedDay}-${wu.globalIdx}`] ? PINK : '#fff', cursor: 'pointer' }}>
                   {doneMap[`${selectedDay}-${wu.globalIdx}`] && <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
                 </button>
-                <span className="text-[22px]">🔥</span>
-                <div>
+                {/* 安娜热身视频封面 */}
+                <img src="https://i2.hdslb.com/bfs/archive/81cc3dd0cfef84b34edf2b31673e7ec124f541d0.jpg" alt="安娜热身"
+                  className="w-[72px] h-[48px] rounded-[8px] object-cover flex-shrink-0" />
+                <div className="min-w-0">
                   <div className="text-[16px] font-semibold text-[#111]" style={{ textDecoration: doneMap[`${selectedDay}-${wu.globalIdx}`] ? 'line-through' : 'none', opacity: doneMap[`${selectedDay}-${wu.globalIdx}`] ? 0.45 : 1 }}>训练前热身</div>
                   <div className="text-[13px] text-[#999] mt-0.5">约 {wuLabel} · {wuDesc}</div>
                 </div>
@@ -259,20 +261,22 @@ export default function Plan() {
               onToggle={() => toggleDone(ex.globalIdx)} />
           ))}
 
-          {/* 拉伸 ── 淡紫底 */}
+          {/* 拉伸 ── 淡紫底 + 安娜B站封面 */}
           {grouped.cooldown.length > 0 && (() => {
             const cd = grouped.cooldown[0];
             return (
               <motion.div whileHover={{ y: -3, boxShadow: shadowLg }} transition={{ duration: 0.3 }}
-                className="rounded-[18px] p-5 flex items-center justify-between" style={{ background: '#FFF8FD', boxShadow: shadow }}>
-                <div className="flex items-center gap-4">
+                className="rounded-[18px] p-5 flex items-center justify-between gap-4" style={{ background: '#FFF8FD', boxShadow: shadow }}>
+                <div className="flex items-center gap-4 min-w-0">
                   <button onClick={() => toggleDone(cd.globalIdx)}
                     className="w-[24px] h-[24px] rounded-[6px] border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200"
                     style={{ borderColor: doneMap[`${selectedDay}-${cd.globalIdx}`] ? PINK : '#ddd', background: doneMap[`${selectedDay}-${cd.globalIdx}`] ? PINK : '#fff', cursor: 'pointer' }}>
                     {doneMap[`${selectedDay}-${cd.globalIdx}`] && <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
                   </button>
-                  <span className="text-[22px]">🧘</span>
-                  <div>
+                  {/* 安娜拉伸视频封面 */}
+                  <img src="https://i1.hdslb.com/bfs/archive/8a05daf284197acd7de8df61443470a02760c3ec.jpg" alt="安娜拉伸"
+                    className="w-[72px] h-[48px] rounded-[8px] object-cover flex-shrink-0" />
+                  <div className="min-w-0">
                     <div className="text-[16px] font-semibold text-[#111]" style={{ textDecoration: doneMap[`${selectedDay}-${cd.globalIdx}`] ? 'line-through' : 'none', opacity: doneMap[`${selectedDay}-${cd.globalIdx}`] ? 0.45 : 1 }}>训练后拉伸</div>
                     <div className="text-[13px] text-[#999] mt-0.5">约 {cdMin} 分钟 · 缓解肌肉酸痛</div>
                   </div>

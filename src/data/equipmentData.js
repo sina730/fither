@@ -24,13 +24,13 @@ const COVERS = {
 
 /* ========== 顶层分类 ========== */
 export const mainCategories = [
-  { id: 'all',           name: '全部',       icon: '📋', count: 87 },
+  { id: 'all',           name: '全部',       icon: '📋', count: 94 },
   { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 5 },
   { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 11 },
   { id: 'strength',      name: '力量器材',   icon: '🏋️', count: 35 },
   { id: 'free-weight',   name: '自由重量',   icon: '💪', count: 10 },
-  { id: 'cardio',        name: '有氧燃脂',   icon: '🔥', count: 6 },
-  { id: 'glutes-legs',   name: '臀腿训练',   icon: '🍑', count: 7 },
+  { id: 'cardio',        name: '有氧燃脂',   icon: '💦', count: 6 },
+  { id: 'glutes-legs',   name: '臀腿训练',   icon: '🍑', count: 14 },
   { id: 'chest-back',    name: '胸肩背',     icon: '🎯', count: 7 },
   { id: 'core',          name: '核心训练',   icon: '🔥', count: 7 },
 ];
@@ -281,8 +281,20 @@ export const categoryDetailMap = {
     title: '臀腿训练',
     subtitle: '打造完美臀腿线条',
     description: '针对臀部和腿部的专项训练，涵盖经典动作与进阶变式，塑造紧致有型的下肢曲线。',
-    totalVideos: 7,
+    totalVideos: 14,
     subcategories: [
+      {
+        name: '帕梅拉臀腿',
+        videos: [
+          { id: 'gl-pam-hip1',   title: '帕梅拉·10分钟臀部训练',    level: '初级', duration: '11 分钟', rating: 5, category: 'glutes-legs', subcategory: '帕梅拉臀腿', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1oK4y1a7rk', cover: 'https://i0.hdslb.com/bfs/archive/33311599c7056508f1350a9802751d942b57c8d0.jpg' },
+          { id: 'gl-pam-hip2',   title: '帕梅拉·12分钟侧臀训练',    level: '初级', duration: '13 分钟', rating: 5, category: 'glutes-legs', subcategory: '帕梅拉臀腿', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1X5411d71V', cover: 'https://i1.hdslb.com/bfs/archive/58ace054e48e177502c221e5ec42c2c702e6add1.jpg' },
+          { id: 'gl-pam-hip3',   title: '帕梅拉·10分钟黄金腰臀比',  level: '初级', duration: '11 分钟', rating: 5, category: 'glutes-legs', subcategory: '帕梅拉臀腿', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1SX4y117W2', cover: 'https://i0.hdslb.com/bfs/archive/4de170d5bdaabf807cb3bc4d3785c0444b660ae2.jpg' },
+          { id: 'gl-pam-hip4',   title: '帕梅拉·10分钟蜜桃翘臀',    level: '初级', duration: '10 分钟', rating: 5, category: 'glutes-legs', subcategory: '帕梅拉臀腿', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV12f4y1q7Vm', cover: 'https://i0.hdslb.com/bfs/archive/4c176d674c1cb74d59f868addb3f688a40d68c16.jpg' },
+          { id: 'gl-pam-hip5',   title: '帕梅拉·12分钟翘臀轰炸',    level: '中级', duration: '13 分钟', rating: 5, category: 'glutes-legs', subcategory: '帕梅拉臀腿', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1qZ421W7oc', cover: 'https://i1.hdslb.com/bfs/archive/373a52bacbf02acd0189e40c0487d8191aed9c59.jpg' },
+          { id: 'gl-pam-hip6',   title: '帕梅拉·15分钟翘臀负重',    level: '中级', duration: '16 分钟', rating: 5, category: 'glutes-legs', subcategory: '帕梅拉臀腿', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1iF411978n', cover: 'https://i2.hdslb.com/bfs/archive/ec8964911f1116b66c09f017bd5cf0bfbacc6b5a.jpg' },
+          { id: 'gl-pam-hip7',   title: '帕梅拉·10分钟大腿内侧',    level: '初级', duration: '10 分钟', rating: 5, category: 'glutes-legs', subcategory: '帕梅拉臀腿', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1Vf4y1J7Uo', cover: 'https://i1.hdslb.com/bfs/archive/4147693c0458f89e63294e488fe0ea1c10f7f4f0.jpg' },
+        ],
+      },
       {
         name: '臀桥',
         videos: [

@@ -19,11 +19,12 @@ const COVERS = {
   glutes: ['#E8F5E9', '#EDF8EE', '#E3F0E4', '#F0FAF1', '#E6F3E7'],
   chestBack: ['#FCE4EC', '#FDE8EF', '#FBE0E8', '#FEF0F4', '#FDEAF0'],
   core: ['#FFF8E1', '#FFFDE7', '#FEF9E8', '#FFFAED', '#FFFCEF'],
+  'home-workout': ['#FFF0F5', '#FFF5F8', '#FEF0F4', '#FFF3F7', '#FEF2F5'],
 };
 
 /* ========== 顶层分类 ========== */
 export const mainCategories = [
-  { id: 'all',           name: '全部',       icon: '📋', count: 43 },
+  { id: 'all',           name: '全部',       icon: '📋', count: 49 },
   { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 3 },
   { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 6 },
   { id: 'strength',      name: '力量器材',   icon: '🏋️', count: 16 },
@@ -31,6 +32,7 @@ export const mainCategories = [
   { id: 'glutes-legs',   name: '臀腿训练',   icon: '🍑', count: 6 },
   { id: 'chest-back',    name: '胸肩背',     icon: '🎯', count: 6 },
   { id: 'core',          name: '核心训练',   icon: '🔥', count: 6 },
+  { id: 'home-workout',  name: '居家训练',   icon: '🏠', count: 6 },
 ];
 
 /* ========== 各分类详情 ========== */
@@ -298,6 +300,37 @@ export const categoryDetailMap = {
         videos: [
           { id: 'cr-side-plank',   title: '侧桥稳定训练',    level: '中级', duration: '5 分钟',  rating: 4, category: 'core', subcategory: '侧桥', bilibiliUrl: '', cover: '' },
           { id: 'cr-side-adv',     title: '侧桥旋转进阶',    level: '高级', duration: '6 分钟',  rating: 4, category: 'core', subcategory: '侧桥', bilibiliUrl: '', cover: '' },
+        ],
+      },
+    ],
+  },
+
+  /* ───── 居家训练（安娜growingannanas视频）───── */
+  'home-workout': {
+    title: '居家训练',
+    subtitle: '安娜(growingannanas) — 零基础居家跟练',
+    description: '无需大型器械，一副哑铃+一张瑜伽垫，在家也能高效塑形燃脂。全部视频来自B站UP主安娜。',
+    totalVideos: 6,
+    subcategories: [
+      {
+        name: '全身燃脂',
+        videos: [
+          { id: 'hw-cardio',       title: '安娜30分钟无跳跃HIIT',     level: '中级', duration: '30 分钟', rating: 5, category: 'home-workout', subcategory: '全身燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV12R4y1E7iC', cover: '' },
+          { id: 'hw-lowimpact',    title: '安娜30分钟低冲击有氧',     level: '初级', duration: '30 分钟', rating: 5, category: 'home-workout', subcategory: '全身燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV15Y4v1b7By', cover: '' },
+        ],
+      },
+      {
+        name: '哑铃塑形',
+        videos: [
+          { id: 'hw-dumbbell',     title: '安娜30分钟全身哑铃塑形',   level: '中级', duration: '30 分钟', rating: 5, category: 'home-workout', subcategory: '哑铃塑形', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1dx4y1U7Lf', cover: '' },
+          { id: 'hw-upper',        title: '安娜20分钟哑铃手臂塑形',   level: '初级', duration: '20 分钟', rating: 5, category: 'home-workout', subcategory: '哑铃塑形', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1PS411K7wT', cover: '' },
+        ],
+      },
+      {
+        name: '新手入门',
+        videos: [
+          { id: 'hw-beginner',     title: '安娜25分钟站立哑铃训练',   level: '初级', duration: '25 分钟', rating: 5, category: 'home-workout', subcategory: '新手入门', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1AuZPYiEK1', cover: '' },
+          { id: 'hw-core',         title: '安娜20分钟TABATA腹肌',     level: '中级', duration: '20 分钟', rating: 5, category: 'home-workout', subcategory: '新手入门', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1fF4m1j7Yr', cover: '' },
         ],
       },
     ],

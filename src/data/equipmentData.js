@@ -23,8 +23,8 @@ const COVERS = {
 
 /* ========== 顶层分类 ========== */
 export const mainCategories = [
-  { id: 'all',           name: '全部',       icon: '📋', count: 48 },
-  { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 8 },
+  { id: 'all',           name: '全部',       icon: '📋', count: 42 },
+  { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 2 },
   { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 6 },
   { id: 'strength',      name: '力量器材',   icon: '🏋️', count: 16 },
   { id: 'free-weight',   name: '自由重量',   icon: '💪', count: 6 },
@@ -85,44 +85,23 @@ export const categoryDetailMap = {
     ],
   },
 
-  /* ───── 拉伸教学 ───── */
+  /* ───── 拉伸教学（仅2条安娜视频）───── */
   stretch: {
     title: '拉伸教学',
-    subtitle: '科学拉伸，提升柔韧，预防损伤',
-    description: '训练前后的拉伸与放松课程，针对不同部位设计，帮你保持身体的柔韧与健康。',
-    totalVideos: 8,
+    subtitle: '安娜(growingannanas) — 训练前后拉伸跟练',
+    description: '运动前动态激活 + 运动后全身放松，仅需2节课，科学拉伸不伤身。',
+    totalVideos: 2,
     subcategories: [
       {
         name: '训练前热身',
         videos: [
-          { id: 'wu-full',         title: '全身动态热身',    level: '初级', duration: '5 分钟', rating: 5, category: 'stretch', subcategory: '训练前热身', bilibiliUrl: '', cover: '' },
-          { id: 'wu-joint',        title: '关节激活热身',    level: '初级', duration: '4 分钟', rating: 4, category: 'stretch', subcategory: '训练前热身', bilibiliUrl: '', cover: '' },
+          { id: 'wu-anna',         title: '安娜全身激活热身',  level: '初级', duration: '5 分钟', rating: 5, category: 'stretch', subcategory: '训练前热身', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1n1i7BGEjC', cover: '' },
         ],
       },
       {
-        name: '上肢拉伸',
+        name: '训练后拉伸',
         videos: [
-          { id: 'st-upper',        title: '肩颈手臂拉伸',    level: '初级', duration: '8 分钟', rating: 5, category: 'stretch', subcategory: '上肢拉伸', bilibiliUrl: '', cover: '' },
-        ],
-      },
-      {
-        name: '下肢拉伸',
-        videos: [
-          { id: 'st-lower',        title: '腿部全面拉伸',    level: '初级', duration: '10 分钟', rating: 5, category: 'stretch', subcategory: '下肢拉伸', bilibiliUrl: '', cover: '' },
-          { id: 'st-hip',          title: '髋部深层拉伸',    level: '中级', duration: '8 分钟', rating: 4, category: 'stretch', subcategory: '下肢拉伸', bilibiliUrl: '', cover: '' },
-        ],
-      },
-      {
-        name: '全身拉伸',
-        videos: [
-          { id: 'st-full',         title: '全身综合拉伸',    level: '初级', duration: '12 分钟', rating: 5, category: 'stretch', subcategory: '全身拉伸', bilibiliUrl: '', cover: '' },
-        ],
-      },
-      {
-        name: '训练后放松',
-        videos: [
-          { id: 'cd-foam',         title: '泡沫轴放松',      level: '初级', duration: '10 分钟', rating: 5, category: 'stretch', subcategory: '训练后放松', bilibiliUrl: '', cover: '' },
-          { id: 'cd-cool',         title: '训练后冷身拉伸',  level: '初级', duration: '8 分钟', rating: 5, category: 'stretch', subcategory: '训练后放松', bilibiliUrl: '', cover: '' },
+          { id: 'cd-anna',         title: '安娜全身放松拉伸',  level: '初级', duration: '15 分钟', rating: 5, category: 'stretch', subcategory: '训练后拉伸', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1ev421y7PD', cover: '' },
         ],
       },
     ],

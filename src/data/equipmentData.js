@@ -24,15 +24,15 @@ const COVERS = {
 
 /* ========== 顶层分类 ========== */
 export const mainCategories = [
-  { id: 'all',           name: '全部',       icon: '📋', count: 100 },
+  { id: 'all',           name: '全部',       icon: '📋', count: 105 },
   { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 5 },
   { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 11 },
   { id: 'strength',      name: '力量器材',   icon: '🏋️', count: 38 },
-  { id: 'free-weight',   name: '自由重量',   icon: '💪', count: 10 },
+  { id: 'free-weight',   name: '自由重量',   icon: '💪', count: 11 },
   { id: 'cardio',        name: '有氧燃脂',   icon: '💦', count: 6 },
   { id: 'glutes-legs',   name: '臀腿训练',   icon: '🍑', count: 14 },
-  { id: 'chest-back',    name: '胸肩背',     icon: '🎯', count: 10 },
-  { id: 'core',          name: '核心训练',   icon: '🔥', count: 7 },
+  { id: 'chest-back',    name: '胸肩背',     icon: '🎯', count: 9 },
+  { id: 'core',          name: '核心训练',   icon: '🔥', count: 12 },
 ];
 /* ========== 各分类详情 ========== */
 export const categoryDetailMap = {
@@ -208,8 +208,14 @@ export const categoryDetailMap = {
     title: '自由重量',
     subtitle: '哑铃、杠铃、壶铃、弹力带 — 自由掌控力量',
     description: '自由重量训练能激活更多稳定肌群，是塑形和增肌的高效方式。学会正确姿势，安全训练。',
-    totalVideos: 9,
+    totalVideos: 10,
     subcategories: [
+      {
+        name: '帕梅拉上肢',
+        videos: [
+          { id: 'fw-pam-arm2',   title: '帕梅拉·15分钟上肢+腹部',   level: '中级', duration: '16 分钟', rating: 5, category: 'free-weight', subcategory: '帕梅拉上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV17V4y157Ww', cover: 'https://i2.hdslb.com/bfs/archive/097ea03220b2ca0009f141b23343b0c461fc1d69.jpg' },
+        ],
+      },
       {
         name: '哑铃',
         videos: [
@@ -337,13 +343,12 @@ export const categoryDetailMap = {
     title: '胸肩背',
     subtitle: '塑造优美上身线条',
     description: '针对胸部、肩部和背部的综合训练，改善体态，打造挺拔优雅的上半身。',
-    totalVideos: 10,
+    totalVideos: 9,
     subcategories: [
       {
         name: '帕梅拉上肢',
         videos: [
           { id: 'cb-pam-arm1',   title: '帕梅拉·15分钟完美天鹅臂',  level: '初级', duration: '16 分钟', rating: 5, category: 'chest-back', subcategory: '帕梅拉上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1cF411Z7TW', cover: 'https://i0.hdslb.com/bfs/archive/33b8003b732e41441ce38884b285208ee3dee947.jpg' },
-          { id: 'cb-pam-arm2',   title: '帕梅拉·15分钟上肢+腹部',   level: '中级', duration: '16 分钟', rating: 5, category: 'chest-back', subcategory: '帕梅拉上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV17V4y157Ww', cover: 'https://i2.hdslb.com/bfs/archive/097ea03220b2ca0009f141b23343b0c461fc1d69.jpg' },
           { id: 'cb-pam-arm3',   title: '帕梅拉·10分钟上肢训练',    level: '初级', duration: '10 分钟', rating: 5, category: 'chest-back', subcategory: '帕梅拉上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1KT4y1j7Cd', cover: 'https://i2.hdslb.com/bfs/archive/1aa8d22abcafa32671d443459aeb2a6b28d5fd23.jpg' },
           { id: 'cb-pam-back',   title: '帕梅拉·直背圆肩改善训练',  level: '初级', duration: '20 分钟', rating: 5, category: 'chest-back', subcategory: '帕梅拉上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1aZC5YkEnE', cover: 'https://i0.hdslb.com/bfs/archive/4de37836f8bca577439037d4d630a7f0d551b62d.jpg' },
         ],
@@ -382,8 +387,18 @@ export const categoryDetailMap = {
     title: '核心训练',
     subtitle: '稳定核心，激活全身力量',
     description: '核心是身体的动力中心。从基础卷腹到进阶动作，系统强化腹部和腰部肌群。',
-    totalVideos: 7,
+    totalVideos: 12,
     subcategories: [
+      {
+        name: '帕梅拉腹部',
+        videos: [
+          { id: 'cr-pam-abs1',   title: '帕梅拉·10分钟马甲线训练',  level: '初级', duration: '10 分钟', rating: 5, category: 'core', subcategory: '帕梅拉腹部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV18b4y1Q7ey', cover: 'https://i0.hdslb.com/bfs/archive/2dcad7b7bc28573e26df66b461ab3ffda35aa6b9.jpg' },
+          { id: 'cr-pam-abs2',   title: '帕梅拉·10分钟下腹部训练',  level: '初级', duration: '10 分钟', rating: 5, category: 'core', subcategory: '帕梅拉腹部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1rt4y1k7Wq', cover: 'https://i2.hdslb.com/bfs/archive/35f173da3790afe49ff2582457f92890640d9b0b.jpg' },
+          { id: 'cr-pam-abs3',   title: '帕梅拉·10分钟天堂虐腹',    level: '中级', duration: '11 分钟', rating: 5, category: 'core', subcategory: '帕梅拉腹部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1MN4y1z7Vg', cover: 'https://i1.hdslb.com/bfs/archive/63322a45c661dc0fca66fe0e525a75fc5861a393.jpg' },
+          { id: 'cr-pam-abs4',   title: '帕梅拉·10分钟天堂虐腹2弹',  level: '中级', duration: '11 分钟', rating: 5, category: 'core', subcategory: '帕梅拉腹部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1i94y1u7ck', cover: 'https://i0.hdslb.com/bfs/archive/785199cdd106fd2a964e6bc3d0c9ca1878a7ed91.jpg' },
+          { id: 'cr-pam-abs5',   title: '帕梅拉·10分钟腹肌无器械',  level: '初级', duration: '10 分钟', rating: 5, category: 'core', subcategory: '帕梅拉腹部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1rEdLBDENd', cover: 'https://i0.hdslb.com/bfs/archive/c61f29f5eb602e871eb9036b6e4abb68be45678a.jpg' },
+        ],
+      },
       {
         name: '高强度燃脂',
         videos: [

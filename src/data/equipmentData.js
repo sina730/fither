@@ -23,15 +23,14 @@ const COVERS = {
 
 /* ========== 顶层分类 ========== */
 export const mainCategories = [
-  { id: 'all',           name: '全部',       icon: '📋', count: 80 },
-  { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 3 },
+  { id: 'all',           name: '全部',       icon: '📋', count: 87 },
+  { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 5 },
   { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 11 },
   { id: 'strength',      name: '力量器材',   icon: '🏋️', count: 35 },
   { id: 'free-weight',   name: '自由重量',   icon: '💪', count: 10 },
-  { id: 'glutes-legs',   name: '臀腿训练',   icon: '🍑', count: 7 },
+  { id: 'glutes-legs',   name: '臀腿训练',   icon: '🍑', count: 12 },
   { id: 'chest-back',    name: '胸肩背',     icon: '🎯', count: 7 },
   { id: 'core',          name: '核心训练',   icon: '🔥', count: 7 },
-  { id: 'pam-beginner',  name: '新手跟练',   icon: '🌟', count: 7 },
 ];
 /* ========== 各分类详情 ========== */
 export const categoryDetailMap = {
@@ -118,8 +117,15 @@ export const categoryDetailMap = {
     title: '拉伸教学',
     subtitle: '安娜(growingannanas) — 训练前后拉伸跟练',
     description: '运动前动态激活 + 运动后全身放松，仅需2节课，科学拉伸不伤身。',
-    totalVideos: 3,
+    totalVideos: 5,
     subcategories: [
+      {
+        name: '帕梅拉拉伸',
+        videos: [
+          { id: 'st-pam-full',     title: '帕梅拉·10分钟全身拉伸',    level: '初级', duration: '11 分钟', rating: 5, category: 'stretch', subcategory: '帕梅拉拉伸', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1ga411w7i3', cover: 'https://i2.hdslb.com/bfs/archive/64a46fcd19aeb36e08ccf9ef2f544f624dc83a7d.jpg' },
+          { id: 'st-pam-leg',      title: '帕梅拉·10分钟腿部拉伸',    level: '初级', duration: '10 分钟', rating: 5, category: 'stretch', subcategory: '帕梅拉拉伸', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV13v411y7v4', cover: 'https://i1.hdslb.com/bfs/archive/f6f59447a608f95ff0b715b83306b144635d58f1.jpg' },
+        ],
+      },
       {
         name: '训练前热身',
         videos: [
@@ -242,12 +248,22 @@ export const categoryDetailMap = {
     title: '臀腿训练',
     subtitle: '打造完美臀腿线条',
     description: '针对臀部和腿部的专项训练，涵盖经典动作与进阶变式，塑造紧致有型的下肢曲线。',
-    totalVideos: 7,
+    totalVideos: 12,
     subcategories: [
       {
         name: '有氧燃脂',
         videos: [
           { id: 'gl-anna-hiit',  title: '安娜30分钟无跳跃HIIT', level: '中级', duration: '30 分钟', rating: 5, category: 'glutes-legs', subcategory: '有氧燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV12R4y1E7iC', cover: 'https://i2.hdslb.com/bfs/archive/42b36bbd27ca481d0cf293131efcbc627303e29c.jpg' },
+        ],
+      },
+      {
+        name: '新手跟练',
+        videos: [
+          { id: 'gl-pam-day2',      title: '帕梅拉·新手全身燃脂26min', level: '初级', duration: '26 分钟', rating: 5, category: 'glutes-legs', subcategory: '新手跟练', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1854y1q7qW', cover: 'https://i2.hdslb.com/bfs/archive/0c2d820e7f5130ab166296e3e9611d2ea5a23926.jpg' },
+          { id: 'gl-pam-hiit',      title: '帕梅拉·10分钟暴汗有氧',    level: '初级', duration: '11 分钟', rating: 5, category: 'glutes-legs', subcategory: '新手跟练', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1R3411A7g4', cover: 'https://i2.hdslb.com/bfs/archive/173a6c38ab24f9a7b394c2bb6b5f7c1f14412610.jpg' },
+          { id: 'gl-pam-jump',      title: '帕梅拉·15分钟跳跃有氧',    level: '中级', duration: '15 分钟', rating: 5, category: 'glutes-legs', subcategory: '新手跟练', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1QS4y1P7Yu', cover: 'https://i1.hdslb.com/bfs/archive/16cabdade9df66e50fe477d740c93ee2d66c22c1.jpg' },
+          { id: 'gl-pam-dance',     title: '帕梅拉·10分钟帕比狂欢舞',  level: '初级', duration: '9 分钟',  rating: 5, category: 'glutes-legs', subcategory: '新手跟练', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1hc411w7rr', cover: 'https://i2.hdslb.com/bfs/archive/cfe9457eef815eeb68b8672dd8dc0a56274869e0.jpg' },
+          { id: 'gl-pam-fun',       title: '帕梅拉·12分钟趣味有氧',    level: '中级', duration: '11 分钟', rating: 5, category: 'glutes-legs', subcategory: '新手跟练', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1e5411n7Mq', cover: 'https://i0.hdslb.com/bfs/archive/f053f26eb139dc849e7327980766f3f7de2d2609.jpg' },
         ],
       },
       {
@@ -368,38 +384,6 @@ export const categoryDetailMap = {
         videos: [
           { id: 'cr-side-plank',   title: '侧桥稳定训练',    level: '中级', duration: '5 分钟',  rating: 4, category: 'core', subcategory: '侧桥', bilibiliUrl: '', cover: '' },
           { id: 'cr-side-adv',     title: '侧桥旋转进阶',    level: '高级', duration: '6 分钟',  rating: 4, category: 'core', subcategory: '侧桥', bilibiliUrl: '', cover: '' },
-        ],
-      },
-    ],
-  },
-
-  /* ───── 新手跟练（帕梅拉PamelaReif视频）───── */
-  'pam-beginner': {
-    title: '新手跟练',
-    subtitle: '帕梅拉(PamelaReif) — 零基础入门首选',
-    description: '新手友好的全身燃脂、有氧舞蹈和拉伸课程，无需器械，在家轻松跟练。',
-    totalVideos: 7,
-    subcategories: [
-      {
-        name: '全身燃脂',
-        videos: [
-          { id: 'pam-day2',       title: '帕梅拉·新手全身燃脂(26分钟)', level: '初级', duration: '26 分钟', rating: 5, category: 'pam-beginner', subcategory: '全身燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1854y1q7qW', cover: 'https://i2.hdslb.com/bfs/archive/0c2d820e7f5130ab166296e3e9611d2ea5a23926.jpg' },
-          { id: 'pam-hiit',       title: '帕梅拉·10分钟暴汗有氧',     level: '初级', duration: '11 分钟', rating: 5, category: 'pam-beginner', subcategory: '全身燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1R3411A7g4', cover: 'https://i2.hdslb.com/bfs/archive/173a6c38ab24f9a7b394c2bb6b5f7c1f14412610.jpg' },
-          { id: 'pam-jump',       title: '帕梅拉·15分钟跳跃有氧',     level: '中级', duration: '15 分钟', rating: 5, category: 'pam-beginner', subcategory: '全身燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1QS4y1P7Yu', cover: 'https://i1.hdslb.com/bfs/archive/16cabdade9df66e50fe477d740c93ee2d66c22c1.jpg' },
-        ],
-      },
-      {
-        name: '舞蹈有氧',
-        videos: [
-          { id: 'pam-dance',      title: '帕梅拉·10分钟帕比狂欢舞',   level: '初级', duration: '9 分钟',  rating: 5, category: 'pam-beginner', subcategory: '舞蹈有氧', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1hc411w7rr', cover: 'https://i2.hdslb.com/bfs/archive/cfe9457eef815eeb68b8672dd8dc0a56274869e0.jpg' },
-          { id: 'pam-fun',        title: '帕梅拉·12分钟趣味有氧',     level: '中级', duration: '11 分钟', rating: 5, category: 'pam-beginner', subcategory: '舞蹈有氧', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1e5411n7Mq', cover: 'https://i0.hdslb.com/bfs/archive/f053f26eb139dc849e7327980766f3f7de2d2609.jpg' },
-        ],
-      },
-      {
-        name: '拉伸放松',
-        videos: [
-          { id: 'pam-stretch',    title: '帕梅拉·10分钟全身拉伸',     level: '初级', duration: '11 分钟', rating: 5, category: 'pam-beginner', subcategory: '拉伸放松', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1ga411w7i3', cover: 'https://i2.hdslb.com/bfs/archive/64a46fcd19aeb36e08ccf9ef2f544f624dc83a7d.jpg' },
-          { id: 'pam-leg-stretch',title: '帕梅拉·10分钟腿部拉伸',     level: '初级', duration: '10 分钟', rating: 5, category: 'pam-beginner', subcategory: '拉伸放松', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV13v411y7v4', cover: 'https://i1.hdslb.com/bfs/archive/f6f59447a608f95ff0b715b83306b144635d58f1.jpg' },
         ],
       },
     ],

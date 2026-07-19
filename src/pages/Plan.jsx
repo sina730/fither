@@ -114,7 +114,7 @@ export default function Plan() {
   const wuMin = wu ? Math.round((wu.sec || 180) / 60) : 3;
   const wuLabel = wu?.reps || `${wuMin} 分钟`;
   const wuDesc = plan?.scene === 'gym' ? '含跑步机快走 · 激活全身肌群' : '激活全身肌群 · 预防运动损伤';
-  const wuUrl = wu?.videoUrl || 'https://player.bilibili.com/player.html?bvid=BV1Ft4y1Q7Xa';
+  const wuUrl = wu?.videoUrl || 'https://player.bilibili.com/player.html?bvid=BV1n1i7BGEjC';
   const cdMin = Math.round(grouped.cooldown.reduce((a, e) => a + (e.sec || e.timePerSet || 30) * (e.sets || 1), 0) / 60);
 
   if (!plan || !today) {
@@ -277,7 +277,7 @@ export default function Plan() {
                     <div className="text-[13px] text-[#999] mt-0.5">约 {cdMin} 分钟 · 缓解肌肉酸痛</div>
                   </div>
                 </div>
-                <a href="https://player.bilibili.com/player.html?bvid=BV1ei4y1y7pz" target="_blank" rel="noopener noreferrer"
+                <a href="https://player.bilibili.com/player.html?bvid=BV1ev421y7PD" target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-2 text-[13px] font-medium rounded-[999px] px-5 py-2.5 transition-all hover:shadow-lg flex-shrink-0"
                   style={{ color: '#8e6fc4', border: '1px solid #e8dff5', background: '#faf7ff' }}>▶ 拉伸课程</a>
               </motion.div>

@@ -24,13 +24,13 @@ const COVERS = {
 
 /* ========== 顶层分类 ========== */
 export const mainCategories = [
-  { id: 'all',           name: '全部',       icon: '📋', count: 63 },
+  { id: 'all',           name: '全部',       icon: '📋', count: 66 },
   { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 5 },
   { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 5 },
   { id: 'strength',      name: '力量器材',   icon: '🏋️', count: 21 },
   { id: 'upper-body',    name: '上肢塑形',   icon: '💪', count: 11 },
   { id: 'cardio',        name: '有氧燃脂',   icon: '💦', count: 6 },
-  { id: 'glutes-legs',   name: '臀腿训练',   icon: '🍑', count: 7 },
+  { id: 'glutes-legs',   name: '臀腿训练',   icon: '🍑', count: 10 },
   { id: 'core',          name: '核心训练',   icon: '🔥', count: 8 },
 ];
 /* ========== 各分类详情 ========== */
@@ -179,6 +179,14 @@ export const categoryDetailMap = {
     description: '针对臀部和腿部的专项训练，涵盖经典动作与进阶变式，塑造紧致有型的下肢曲线。',
     totalVideos: 7,
     subcategories: [
+      {
+        name: '安娜臀腿',
+        videos: [
+          { id: 'gl-anna-leg1',  title: '安娜·40分钟疯狂练腿日',   level: '中级', duration: '43 分钟', rating: 5, category: 'glutes-legs', subcategory: '安娜臀腿', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV11L4y1t7e6', cover: 'https://i2.hdslb.com/bfs/archive/f5c62d68cb69560272cdd9e1404ebff09cdca365.jpg' },
+          { id: 'gl-anna-leg2',  title: '安娜·30分钟臀腿2合1',      level: '中级', duration: '45 分钟', rating: 5, category: 'glutes-legs', subcategory: '安娜臀腿', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1114y1a7NK', cover: 'https://i1.hdslb.com/bfs/archive/ab00569ae7e4bfbae6ba931c2ff6587065a04416.png' },
+          { id: 'gl-anna-leg3',  title: '安娜·30分钟弹力带臀腿',    level: '中级', duration: '35 分钟', rating: 5, category: 'glutes-legs', subcategory: '安娜臀腿', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1nd4y1F72L', cover: 'https://i2.hdslb.com/bfs/archive/3d9a2c049a7a1e58e15a15047e76cc1787d92611.jpg' },
+        ],
+      },
       {
         name: '帕梅拉臀腿',
         videos: [

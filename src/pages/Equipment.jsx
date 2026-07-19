@@ -28,7 +28,6 @@ function VideoCard({ video, index }) {
   const playIcons = {
     strength: '🏋️', stretch: '🧘', treadmill: '🏃',
     'free-weight': '💪', 'glutes-legs': '🍑', 'chest-back': '🎯', core: '🔥',
-    'home-workout': '🏠',
   };
   const emoji = playIcons[video.category] || '▶';
   const hotCount = ((video.title.length * 1733 + index * 421) % 8000 + 2500).toFixed(0);

@@ -24,14 +24,14 @@ const COVERS = {
 
 /* ========== 顶层分类 ========== */
 export const mainCategories = [
-  { id: 'all',           name: '全部',       icon: '📋', count: 94 },
+  { id: 'all',           name: '全部',       icon: '📋', count: 97 },
   { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 5 },
   { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 11 },
   { id: 'strength',      name: '力量器材',   icon: '🏋️', count: 35 },
   { id: 'free-weight',   name: '自由重量',   icon: '💪', count: 10 },
   { id: 'cardio',        name: '有氧燃脂',   icon: '💦', count: 6 },
   { id: 'glutes-legs',   name: '臀腿训练',   icon: '🍑', count: 14 },
-  { id: 'chest-back',    name: '胸肩背',     icon: '🎯', count: 7 },
+  { id: 'chest-back',    name: '胸肩背',     icon: '🎯', count: 10 },
   { id: 'core',          name: '核心训练',   icon: '🔥', count: 7 },
 ];
 /* ========== 各分类详情 ========== */
@@ -334,12 +334,15 @@ export const categoryDetailMap = {
     title: '胸肩背',
     subtitle: '塑造优美上身线条',
     description: '针对胸部、肩部和背部的综合训练，改善体态，打造挺拔优雅的上半身。',
-    totalVideos: 7,
+    totalVideos: 10,
     subcategories: [
       {
-        name: '全身综合',
+        name: '帕梅拉上肢',
         videos: [
-          { id: 'cb-anna-low',   title: '安娜30分钟全身力量',   level: '初级', duration: '30 分钟', rating: 5, category: 'chest-back', subcategory: '全身综合', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1RpP7zNEE2', cover: 'https://i0.hdslb.com/bfs/archive/1362b070eb623388f5d506ebe6118ebfa0455ca3.jpg' },
+          { id: 'cb-pam-arm1',   title: '帕梅拉·15分钟完美天鹅臂',  level: '初级', duration: '16 分钟', rating: 5, category: 'chest-back', subcategory: '帕梅拉上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1cF411Z7TW', cover: 'https://i0.hdslb.com/bfs/archive/33b8003b732e41441ce38884b285208ee3dee947.jpg' },
+          { id: 'cb-pam-arm2',   title: '帕梅拉·15分钟上肢+腹部',   level: '中级', duration: '16 分钟', rating: 5, category: 'chest-back', subcategory: '帕梅拉上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV17V4y157Ww', cover: 'https://i2.hdslb.com/bfs/archive/097ea03220b2ca0009f141b23343b0c461fc1d69.jpg' },
+          { id: 'cb-pam-arm3',   title: '帕梅拉·10分钟上肢训练',    level: '初级', duration: '10 分钟', rating: 5, category: 'chest-back', subcategory: '帕梅拉上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1KT4y1j7Cd', cover: 'https://i2.hdslb.com/bfs/archive/1aa8d22abcafa32671d443459aeb2a6b28d5fd23.jpg' },
+          { id: 'cb-pam-back',   title: '帕梅拉·直背圆肩改善训练',  level: '初级', duration: '20 分钟', rating: 5, category: 'chest-back', subcategory: '帕梅拉上肢', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1aZC5YkEnE', cover: 'https://i0.hdslb.com/bfs/archive/4de37836f8bca577439037d4d630a7f0d551b62d.jpg' },
         ],
       },
       {

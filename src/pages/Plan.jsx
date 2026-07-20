@@ -10,7 +10,7 @@ import { getCurrentUser, isLoggedIn, logout as doLogout } from '../utils/auth';
    ============================================ */
 const C = {
   pink: '#f06a9a', pinkBg: '#fff4f8', pinkLight: '#fde8ef', pinkBorder: 'rgba(240,106,154,0.10)',
-  title: '#29262c', body: '#686269', sub: '#9d969f', muted: '#aaa4ab',
+  title: '#29262c', body: '#686269', sub: '#99939b', muted: '#99939b',
   cardBg: 'rgba(255,255,255,0.82)', cardBorder: 'rgba(45,30,36,0.045)',
   shadow: '0 12px 32px rgba(50,25,35,0.045)', shadowSm: '0 8px 22px rgba(45,24,34,0.035)',
 };
@@ -79,7 +79,7 @@ function DayCard({ day, isSelected, onClick }) {
         boxShadow: isSelected ? '0 8px 20px rgba(240,106,154,0.14)' : C.shadowSm,
       }}>
       {done && <span className="absolute top-[10px] right-[10px] w-[18px] h-[18px] rounded-full flex items-center justify-center text-[10px]" style={{ background: '#4ade80', color: '#fff' }}>✓</span>}
-      <span className="text-[13px] font-semibold" style={{ color: isSelected ? C.pink : '#888' }}>Day {String(day.day).padStart(2, '0')}</span>
+      <span className="text-[13px] font-semibold" style={{ color: isSelected ? C.pink : '#99939b' }}>Day {String(day.day).padStart(2, '0')}</span>
       <span className="text-[20px]">{icon}</span>
       <span className="text-[11px] font-medium" style={{ color: isSelected ? '#d46082' : C.sub }}>{day.isPeriodDay ? '经期日' : day.type}</span>
       {isSelected && <div className="w-[38px] h-[3px] rounded-[2px]" style={{ background: C.pink }} />}
@@ -146,16 +146,8 @@ function ParamBox({ val, label }) {
 /** 将速度/坡度/阻力等参数自动加黑加粗 */
 function NoteText({ text }) {
   if (!text) return <p className="text-[12px] m-0 mt-0.5" style={{ color: '#99939b' }}>—</p>;
-  // 匹配：速度X.X-X.X、坡度X-X、阻力X-X档、慢跑/快走/循环 等参数片段
-  const parts = text.split(/(速度\d[\d.]*[-~]\d[\d.]*|速度\d[\d.]*|坡度\d+[-~]\d+|阻力\d+[-~]\d+档?|慢跑\d+min|快走\d+min|循环|速\d[\d.]*|坡\d+[-~]\d+)/g);
   return (
-    <p className="text-[12px] m-0 mt-0.5" style={{ color: '#99939b' }}>
-      {parts.map((part, i) =>
-        /[速度坡度阻力速坡]/.test(part) || /^\d/.test(part)
-          ? <span key={i} style={{ color: '#4b464d', fontWeight: 700 }}>{part}</span>
-          : <span key={i}>{part}</span>
-      )}
-    </p>
+    <p className="text-[12px] m-0 mt-0.5" style={{ color: '#99939b' }}>{text}</p>
   );
 }
 
@@ -318,11 +310,11 @@ export default function Plan() {
           </Link>
           <div className="flex items-center" style={{ gap: 44 }}>
             <Link to="/" className="text-[16px] font-medium no-underline" style={{ color: '#666' }}>首页</Link>
-            <span className="text-[16px] font-semibold relative cursor-default" style={{ color: '#F56898' }}>
+            <span className="text-[18px] font-semibold relative cursor-default" style={{ color: '#F56898' }}>
               训练计划<span className="absolute -bottom-[25px] left-1/2 -translate-x-1/2 w-[36px] h-[3px] rounded-[999px] block" style={{ background: '#F56898' }} />
             </span>
-            <Link to="/equipment" className="text-[16px] font-medium no-underline" style={{ color: '#666' }}>器材教学</Link>
-            <Link to="/diet" className="text-[16px] font-medium no-underline" style={{ color: '#666' }}>饮食建议</Link>
+            <Link to="/equipment" className="text-[18px] font-medium no-underline" style={{ color: '#666' }}>动作指导</Link>
+            <Link to="/diet" className="text-[18px] font-medium no-underline" style={{ color: '#666' }}>饮食建议</Link>
           </div>
           <div className="flex items-center gap-3 flex-shrink-0" style={{ width: 160, justifyContent: 'flex-end' }}>
             {loggedIn ? (
@@ -425,7 +417,7 @@ export default function Plan() {
                       <div className="h-[6px] rounded-[3px] bg-[#eee] overflow-hidden">
                         <motion.div className="h-full rounded-[3px]" animate={{ width: `${todayPct}%` }} transition={{ duration: 0.7 }} style={{ background: C.pink }} />
                       </div>
-                      <p className="text-[10.5px] m-0 mt-1" style={{ color: C.sub }}>{todayDone}/{todayTotal} 动作</p>
+                      <p className="text-[10.5px] m-0 mt-1" style={{ color: '#99939b' }}>{todayDone}/{todayTotal} 动作</p>
                     </div>
                   </div>
                 </DashCard>
@@ -433,7 +425,7 @@ export default function Plan() {
                 <DashCard icon="📅" iconBg="linear-gradient(135deg, #fff8f0, #fff0e0)" title="今日课程">
                   <div>
                     <p className="text-[15px] font-semibold m-0 leading-tight" style={{ color: '#302d33' }}>Day {today.day} · {today.isPeriodDay ? '经期日' : today.type}</p>
-                    <p className="text-[11.5px] m-0 mt-0.5" style={{ color: C.sub }}>{today.isPeriodDay ? '低强度拉伸恢复' : goal === '减脂' ? '燃脂有氧训练' : goal === '增肌' ? '力量增肌训练' : '全身塑形训练'}</p>
+                    <p className="text-[11.5px] m-0 mt-0.5" style={{ color: '#99939b' }}>{today.isPeriodDay ? '低强度拉伸恢复' : goal === '减脂' ? '燃脂有氧训练' : goal === '增肌' ? '力量增肌训练' : '全身塑形训练'}</p>
                   </div>
                 </DashCard>
               </div>

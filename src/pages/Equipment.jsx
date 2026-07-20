@@ -194,10 +194,10 @@ export default function Equipment() {
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 44 }}>
             <Link to="/" style={{ fontSize: 16, fontWeight: 500, color: '#666', textDecoration: 'none' }}>首页</Link>
-            <Link to="/plan" style={{ fontSize: 16, fontWeight: 500, color: '#666', textDecoration: 'none' }}>训练计划</Link>
-            <span style={{ fontSize: 16, fontWeight: 600, color: PINK, position: 'relative', cursor: 'default' }}>
-              器材教学<span style={{ position: 'absolute', bottom: -25, left: '50%', transform: 'translateX(-50%)', width: 36, height: 3, borderRadius: 999, background: PINK, display: 'block' }} /></span>
-            <Link to="/diet" style={{ fontSize: 16, fontWeight: 500, color: '#666', textDecoration: 'none' }}>饮食建议</Link>
+            <Link to="/plan" style={{ fontSize: 18, fontWeight: 500, color: '#666', textDecoration: 'none' }}>训练计划</Link>
+            <span style={{ fontSize: 18, fontWeight: 600, color: PINK, position: 'relative', cursor: 'default' }}>
+              动作指导<span style={{ position: 'absolute', bottom: -25, left: '50%', transform: 'translateX(-50%)', width: 36, height: 3, borderRadius: 999, background: PINK, display: 'block' }} /></span>
+            <Link to="/diet" style={{ fontSize: 18, fontWeight: 500, color: '#666', textDecoration: 'none' }}>饮食建议</Link>
           </div>
           <div className="flex items-center gap-3 flex-shrink-0" style={{ width: 160, justifyContent: 'flex-end' }}>
             {loggedIn ? (

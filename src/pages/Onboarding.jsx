@@ -269,10 +269,10 @@ export default function Onboarding() {
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 44 }}>
             <Link to="/" style={{ fontSize: 16, fontWeight: 500, color: T.cAux, textDecoration: 'none' }}>首页</Link>
-            <span style={{ fontSize: 16, fontWeight: 600, color: T.cPink, position: 'relative', cursor: 'default' }}>
+            <span style={{ fontSize: 18, fontWeight: 600, color: T.cPink, position: 'relative', cursor: 'default' }}>
               训练计划<span style={{ position: 'absolute', bottom: -25, left: '50%', transform: 'translateX(-50%)', width: 36, height: 3, borderRadius: 999, background: T.cPink, display: 'block' }} /></span>
-            <Link to="/equipment" style={{ fontSize: 16, fontWeight: 500, color: T.cAux, textDecoration: 'none' }}>器材教学</Link>
-            <Link to="/diet" style={{ fontSize: 16, fontWeight: 500, color: T.cAux, textDecoration: 'none' }}>饮食建议</Link>
+            <Link to="/equipment" style={{ fontSize: 18, fontWeight: 500, color: T.cAux, textDecoration: 'none' }}>动作指导</Link>
+            <Link to="/diet" style={{ fontSize: 18, fontWeight: 500, color: T.cAux, textDecoration: 'none' }}>饮食建议</Link>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexShrink: 0 }}>
             <Link to="/" style={{ height: 42, padding: '0 20px', fontSize: 15, fontWeight: 600, color: '#FFF', borderRadius: 999, border: 'none', display: 'inline-flex', alignItems: 'center', textDecoration: 'none', background: T.cPinkGrad, boxShadow: '0 6px 20px rgba(245,104,152,0.22)' }}>返回首页</Link>

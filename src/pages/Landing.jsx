@@ -10,12 +10,12 @@ function uk(key) {
   return u ? `${key}__${u.email}` : key;
 }
 
-const navLinks = ['首页', '训练计划', '器材教学', '饮食建议'];
+const navLinks = ['首页', '训练计划', '动作指导', '饮食建议'];
 
 const navRoutes = {
   '首页': '/',
   '训练计划': '/plan',
-  '器材教学': '/equipment',
+  '动作指导': '/equipment',
   '饮食建议': '/diet',
 };
 
@@ -35,7 +35,7 @@ const features = [
         <path d="M6.5 6.5h11" /><rect x="4" y="3" width="16" height="4" rx="1" /><rect x="7" y="7" width="10" height="14" rx="2" /><line x1="9" y1="9" x2="12" y2="9" /><line x1="9" y1="13" x2="12" y2="13" /><line x1="9" y1="17" x2="12" y2="17" />
       </svg>
     ),
-    title: '器材教学',
+    title: '动作指导',
     desc: '详细视频讲解，轻松上手',
   },
   {

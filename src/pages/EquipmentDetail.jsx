@@ -20,13 +20,13 @@ export default function EquipmentDetail() {
         <div className="text-center">
           <span className="text-[56px] block mb-4">🔍</span>
           <p className="text-[18px] text-[#999] mb-2">课程未找到</p>
-          <Link to="/equipment" className="text-[15px] font-medium" style={{ color: PINK }}>← 返回器材教学</Link>
+          <Link to="/equipment" className="text-[15px] font-medium" style={{ color: PINK }}>← 返回动作指导</Link>
         </div>
       </div>
     );
   }
 
-  /* 返回链接：优先返回分类页，否则返回器材教学首页 */
+  /* 返回链接：优先返回分类页，否则返回动作指导首页 */
   const backUrl = video.category ? `/equipment/${video.category}` : '/equipment';
   const backLabel = '返回';
 
@@ -54,9 +54,9 @@ export default function EquipmentDetail() {
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 44 }}>
             <Link to="/" style={{ fontSize: 16, fontWeight: 500, color: '#666', textDecoration: 'none' }}>首页</Link>
-            <Link to="/plan" style={{ fontSize: 16, fontWeight: 500, color: '#666', textDecoration: 'none' }}>训练计划</Link>
-            <Link to="/equipment" style={{ fontSize: 16, fontWeight: 500, color: '#666', textDecoration: 'none' }}>器材教学</Link>
-            <Link to="/diet" style={{ fontSize: 16, fontWeight: 500, color: '#666', textDecoration: 'none' }}>饮食建议</Link>
+            <Link to="/plan" style={{ fontSize: 18, fontWeight: 500, color: '#666', textDecoration: 'none' }}>训练计划</Link>
+            <Link to="/equipment" style={{ fontSize: 18, fontWeight: 500, color: '#666', textDecoration: 'none' }}>动作指导</Link>
+            <Link to="/diet" style={{ fontSize: 18, fontWeight: 500, color: '#666', textDecoration: 'none' }}>饮食建议</Link>
           </div>
           <div style={{ width: 160, flexShrink: 0 }} />
         </div>
@@ -71,7 +71,7 @@ export default function EquipmentDetail() {
         >
           {/* 面包屑 */}
           <div className="flex items-center gap-2 text-[13px] text-[#bbb] mb-5">
-            <Link to="/equipment" className="hover:text-[#F56898] transition-colors">器材教学</Link>
+            <Link to="/equipment" className="hover:text-[#F56898] transition-colors">动作指导</Link>
             <span>/</span>
             {video.category && (
               <>

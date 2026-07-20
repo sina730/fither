@@ -235,14 +235,14 @@ function DietAdvice() {
               <div className="flex-1" style={{ padding: '22px 40px 36px 8px' }}>
                 <div className="flex items-center gap-2" style={{ marginTop: -10, marginBottom: 8 }}>
                   <div className="w-[5px] h-[20px] rounded-[3px]" style={{ background: T.pink }} />
-                  <h3 className="text-[18px] font-semibold m-0" style={{ color: '#444' }}>
+                  <h3 className="text-[20px] font-semibold m-0" style={{ color: '#444' }}>
                     {active}饮食原则
                   </h3>
                 </div>
-                <p className="text-[16px] leading-relaxed" style={{ color: '#888', marginTop: -14 }}>{advice.desc}</p>
-                <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: 14, marginTop: 11 }}>
+                <p className="text-[18px] leading-relaxed" style={{ color: '#888', marginTop: -10 }}>{advice.desc}</p>
+                <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: 14, marginTop: 22 }}>
                   {advice.tips.map((tip, i) => (
-                    <li key={i} className="flex items-center gap-3 text-[16px]" style={{ color: '#555' }}>
+                    <li key={i} className="flex items-center gap-3 text-[18px]" style={{ color: '#555' }}>
                       <span
                         className="w-[22px] h-[22px] rounded-full flex items-center justify-center text-[11px] flex-shrink-0 text-white font-medium"
                         style={{ background: T.pink }}
@@ -360,7 +360,7 @@ function FoodRecommendations() {
               onClick={() => setActiveCat(cat.id)}
               whileHover={{ y: -1 }}
               whileTap={{ scale: 0.97 }}
-              className="flex items-center gap-2 text-[13px] font-medium border-0 cursor-pointer transition-all flex-shrink-0"
+              className="flex items-center gap-2 text-[15px] font-medium border-0 cursor-pointer transition-all flex-shrink-0"
               style={{
                 height: 38,
                 padding: '0 20px',
@@ -386,7 +386,7 @@ function FoodRecommendations() {
                 <span className="mr-1.5">{cat.icon}</span>
                 {cat.title}
               </h3>
-              <span className="text-[10px] font-semibold tracking-widest" style={{ color: '#ccc' }}>{cat.enTitle}</span>
+              <span className="text-[11px] font-semibold tracking-widest" style={{ color: '#ccc' }}>{cat.enTitle}</span>
             </div>
             <p className="text-[13px] m-0" style={{ color: T.sub }}>{cat.desc}</p>
           </div>
@@ -436,12 +436,12 @@ function AvoidFoods() {
             transition={{ delay: i * 0.06, duration: 0.4 }}
             whileHover={{ y: -4, boxShadow: '0 10px 25px rgba(255,111,165,0.12)' }}
             className="flex-shrink-0 flex flex-col items-center gap-3 rounded-[18px] overflow-hidden cursor-default transition-shadow"
-            style={{ width: 150, background: '#fff', border: '1px solid rgba(255,111,165,0.08)', boxShadow: '0 2px 12px rgba(0,0,0,0.03)' }}
+            style={{ width: 170, background: '#fff', border: '1px solid rgba(255,111,165,0.08)', boxShadow: '0 2px 12px rgba(0,0,0,0.03)' }}
           >
             {food.image ? (
-              <img src={food.image} alt={food.name} style={{ width: '100%', height: 120, objectFit: 'contain', objectPosition: 'center' }} />
+              <img src={food.image} alt={food.name} style={{ width: '100%', height: 150, objectFit: 'contain', objectPosition: 'center' }} />
             ) : (
-              <div className="flex items-center justify-center" style={{ width: '100%', height: 120, background: '#fff4f7' }}>
+              <div className="flex items-center justify-center" style={{ width: '100%', height: 150, background: '#fff4f7' }}>
                 <span className="text-[28px]" style={{ color: '#d46082' }}>{food.name.charAt(0)}</span>
               </div>
             )}
@@ -524,9 +524,9 @@ export default function Diet() {
             {/* Nav links */}
             <div className="flex items-center" style={{ gap: 44 }}>
               <Link to="/" className="text-[16px] font-medium no-underline" style={{ color: '#666' }}>首页</Link>
-              <Link to="/plan" className="text-[16px] font-medium no-underline" style={{ color: '#666' }}>训练计划</Link>
-              <Link to="/equipment" className="text-[16px] font-medium no-underline" style={{ color: '#666' }}>器材教学</Link>
-              <span className="text-[16px] font-semibold relative cursor-default" style={{ color: '#F56898' }}>
+              <Link to="/plan" className="text-[18px] font-medium no-underline" style={{ color: '#666' }}>训练计划</Link>
+              <Link to="/equipment" className="text-[18px] font-medium no-underline" style={{ color: '#666' }}>动作指导</Link>
+              <span className="text-[18px] font-semibold relative cursor-default" style={{ color: '#F56898' }}>
                 饮食建议
                 <span className="absolute -bottom-[25px] left-1/2 -translate-x-1/2 w-[36px] h-[3px] rounded-[999px] block" style={{ background: '#F56898' }} />
               </span>

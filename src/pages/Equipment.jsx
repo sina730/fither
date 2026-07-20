@@ -276,7 +276,7 @@ export default function Equipment() {
               <div className="flex items-baseline gap-3 mb-3 flex-wrap justify-center">
                 <h1 className="text-[clamp(28px,4vw,44px)] font-bold leading-[1.2]"
                   style={{ color: '#111', letterSpacing: '-1px' }}>
-                  掌握每个器材
+                  掌握每个器材和动作
                 </h1>
                 <span className="text-[clamp(30px,4.5vw,48px)] font-bold leading-[1.2]"
                   style={{ color: PINK, letterSpacing: '-1px' }}>

@@ -22,7 +22,7 @@ function calcCal(min) { return Math.round(min * 6.5); }
 function getMetrics(ex) {
   const m = [];
   if (ex.sets > 1) m.push({ val: ex.sets, label: '组数' });
-  if (ex.reps && ex.reps !== '—') m.push({ val: ex.reps, label: ex.type === '有氧' || ex.type === '热身' || ex.type === '拉伸' ? '时间' : '次数' });
+  if (ex.reps && ex.reps !== '—' && ex.type !== '有氧' && ex.type !== '热身' && ex.type !== '拉伸') m.push({ val: ex.reps, label: '次数' });
   if (ex.rest && ex.rest !== '—') m.push({ val: ex.rest, label: '休息' });
   return m;
 }
@@ -58,7 +58,7 @@ function uk(key) {
 
 function DayCard({ day, isSelected, onClick }) {
   const done = day._done;
-  const typeIcons = { '力量日': '💪', '燃脂日': '🔥', '塑形日': '✨', '健康日': '🌱', '有氧日': '🏃', '综合日': '⭐', '经期拉伸': '🩸', '经期恢复': '🌸' };
+  const typeIcons = { '力量日': '💪', '燃脂日': '🔥', '塑形日': '✨', '健康日': '🌱', '有氧日': '🏃', '综合日': '⭐', '经期拉伸': '🩸', '经期恢复': '🌸', '经期慢走': '🚶' };
   const icon = day.isPeriodDay ? '🩸' : (typeIcons[day.type] || '💪');
   return (
     <motion.button onClick={onClick} whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}

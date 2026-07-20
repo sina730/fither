@@ -37,8 +37,12 @@ const phS = { ...IS, color: T.cPh, fontSize: '18px', fontWeight: 400 };
 const timeOpts = [
   { value: '15', label: '15 分钟' }, { value: '30', label: '30 分钟' },
   { value: '45', label: '45 分钟' }, { value: '60', label: '60 分钟' },
-  { value: '90', label: '90 分钟' }, { value: 'custom', label: '自定义' },
+  { value: '75', label: '75 分钟' }, { value: '90', label: '90 分钟' },
 ];
+const dayOpts = Array.from({ length: 54 }, (_, i) => {
+  const d = i + 7;
+  return { value: String(d), label: `${d} 天` };
+});
 const goalOpts = [
   { value: '减脂', label: '🔥  减脂' }, { value: '增肌', label: '💪  增肌' },
   { value: '塑形', label: '✨  塑形' }, { value: '保持健康', label: '🌱  保持健康' },
@@ -206,9 +210,7 @@ export default function Onboarding() {
   const nav = useNavigate();
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
-  const [bodyFat, setBodyFat] = useState('');
   const [dailyMinutes, setDailyMinutes] = useState('');
-  const [customMinutes, setCustomMinutes] = useState('');
   const [goal, setGoal] = useState('');
   const [bodyParts, setBodyParts] = useState([]);
   const [planDays, setPlanDays] = useState('');
@@ -218,8 +220,7 @@ export default function Onboarding() {
   const [targetWeight, setTargetWeight] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  const effMin = dailyMinutes === 'custom' ? customMinutes : dailyMinutes;
-  const valid = goal && effMin >= 10 && planDays >= 7;
+  const valid = goal && dailyMinutes && planDays;
 
   const submit = (e) => {
     e.preventDefault();
@@ -228,8 +229,8 @@ export default function Onboarding() {
     const u = getCurrentUser();
     const profileKey = u ? `fither_profile__${u.email}` : 'fither_profile';
     localStorage.setItem(profileKey, JSON.stringify({
-      height: height || '', weight: weight || '', targetWeight: targetWeight || '', bodyFat,
-      dailyMinutes: parseInt(effMin), goal, scene: scene || 'home',
+      height: height || '', weight: weight || '', targetWeight: targetWeight || '', bodyFat: '',
+      dailyMinutes: parseInt(dailyMinutes), goal, scene: scene || 'home',
       bodyParts: bodyParts.length === 0 ? [] : bodyParts,
       durationDays: parseInt(planDays),
       restrictions: [],
@@ -291,31 +292,20 @@ export default function Onboarding() {
                 <div>
                   <label style={{ display: 'block', fontSize: T.lblF, fontWeight: T.lblW, color: T.cLabel, marginBottom: T.s8 }}>身高 (cm)</label>
                   <input type="number" value={height} onChange={(e) => setHeight(e.target.value)} min={0}
-                    placeholder="165" style={IS} onFocus={onF} onBlur={onB} />
+                    style={IS} onFocus={onF} onBlur={onB} />
                 </div>
                 {/* 体重 */}
                 <div>
                   <label style={{ display: 'block', fontSize: T.lblF, fontWeight: T.lblW, color: T.cLabel, marginBottom: T.s8 }}>体重 (kg)</label>
                   <input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} min={0}
-                    placeholder="55" style={IS} onFocus={onF} onBlur={onB} />
-                </div>
-                {/* 目标体重（仅减脂显示） */}
-                {goal === '减脂' && (
-                  <div>
-                    <label style={{ display: 'block', fontSize: T.lblF, fontWeight: T.lblW, color: T.cLabel, marginBottom: T.s8 }}>目标体重 (kg)</label>
-                    <input type="number" value={targetWeight} onChange={(e) => setTargetWeight(e.target.value)} min={0}
-                      placeholder={`当前 ${weight || '?'} kg，你想减到多少？`}
-                      style={IS} onFocus={onF} onBlur={onB} />
-                  </div>
-                )}
-                {/* 体脂率 */}
-                <div>
-                  <label style={{ display: 'block', fontSize: T.lblF, fontWeight: T.lblW, color: T.cLabel, marginBottom: T.s8 }}>体脂率</label>
-                  <input type="text" value={bodyFat} onChange={(e) => setBodyFat(e.target.value)}
-                    placeholder="例如：25%，或填「不知道」"
                     style={IS} onFocus={onF} onBlur={onB} />
                 </div>
-                {goal !== '减脂' && <div />}
+                {/* 目标体重（选填） */}
+                <div>
+                  <label style={{ display: 'block', fontSize: T.lblF, fontWeight: T.lblW, color: T.cLabel, marginBottom: T.s8 }}>目标体重 (kg) <span style={{ fontSize: 14, fontWeight: 400, color: T.cUnit }}>选填</span></label>
+                  <input type="number" value={targetWeight} onChange={(e) => setTargetWeight(e.target.value)} min={0}
+                    style={IS} onFocus={onF} onBlur={onB} />
+                </div>
               </div>
 
               {/* ====== 🎯 训练偏好 ====== */}
@@ -335,17 +325,11 @@ export default function Onboarding() {
                 <div>
                   <label style={{ display: 'block', fontSize: T.lblF, fontWeight: T.lblW, color: T.cLabel, marginBottom: T.s8 }}>每日空闲训练时间</label>
                   <Select value={dailyMinutes} onChange={setDailyMinutes} options={timeOpts} placeholder="请选择训练时间" />
-                  {dailyMinutes === 'custom' && (
-                    <div style={{ marginTop: T.s8 }}>
-                      <InputGroup value={customMinutes} onChange={(e) => setCustomMinutes(e.target.value)} unit="分钟" placeholder="输入分钟数" type="number" min={10} />
-                    </div>
-                  )}
                 </div>
                 {/* 计划周期 */}
                 <div>
                   <label style={{ display: 'block', fontSize: T.lblF, fontWeight: T.lblW, color: T.cLabel, marginBottom: T.s8 }}>计划周期 (天)</label>
-                  <input type="number" value={planDays} onChange={(e) => setPlanDays(e.target.value)} min={7}
-                    placeholder="最少 7 天，建议 21–60" style={IS} onFocus={onF} onBlur={onB} />
+                  <Select value={planDays} onChange={setPlanDays} options={dayOpts} placeholder="7-60 天" />
                 </div>
                 {/* 训练部位 */}
                 <div>

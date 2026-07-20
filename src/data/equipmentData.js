@@ -244,12 +244,12 @@ export const categoryDetailMap = {
       {
         name: '哑铃肩部',
         videos: [
-          { id: 'ub-db-front',   title: '哑铃前平举·打造好体态',    level: '初级', duration: '2 分钟', rating: 5, category: 'upper-body', subcategory: '哑铃肩部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1eb4y1J788', cover: COVERS.freeWeight[0] },
-          { id: 'ub-db-press',   title: '坐姿哑铃推肩·打造好体态',  level: '初级', duration: '2 分钟', rating: 5, category: 'upper-body', subcategory: '哑铃肩部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1i44y1L7XG', cover: COVERS.freeWeight[1] },
-          { id: 'ub-db-lateral', title: '哑铃侧平举·打造好体态',    level: '初级', duration: '2 分钟', rating: 5, category: 'upper-body', subcategory: '哑铃肩部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV17r4y1e7fX', cover: COVERS.freeWeight[2] },
-          { id: 'ub-db-fill',    title: '填补肩上角·哑铃跟练',      level: '中级', duration: '8 分钟', rating: 5, category: 'upper-body', subcategory: '哑铃肩部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1oB61BsEDK', cover: COVERS.freeWeight[3] },
-          { id: 'ub-db-guide',   title: '哑铃侧平举·保姆级教学',    level: '初级', duration: '5 分钟', rating: 5, category: 'upper-body', subcategory: '哑铃肩部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1e1421k7sn', cover: COVERS.freeWeight[4] },
-          { id: 'ub-db-rear',    title: '哑铃俯身飞鸟·练肩后束',    level: '初级', duration: '4 分钟', rating: 5, category: 'upper-body', subcategory: '哑铃肩部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1j66iBAELB', cover: COVERS.freeWeight[0] },
+          { id: 'ub-db-front',   title: '哑铃前平举·打造好体态',    level: '初级', duration: '2 分钟', rating: 5, category: 'upper-body', subcategory: '哑铃肩部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1eb4y1J788', cover: 'https://i1.hdslb.com/bfs/archive/b04a54cb563d4063972496546d4bec85a67afcd4.jpg' },
+          { id: 'ub-db-press',   title: '坐姿哑铃推肩·打造好体态',  level: '初级', duration: '2 分钟', rating: 5, category: 'upper-body', subcategory: '哑铃肩部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1i44y1L7XG', cover: 'https://i0.hdslb.com/bfs/archive/ca784f3b61e75e0a13a93eaec555033b7835cffb.jpg' },
+          { id: 'ub-db-lateral', title: '哑铃侧平举·打造好体态',    level: '初级', duration: '2 分钟', rating: 5, category: 'upper-body', subcategory: '哑铃肩部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV17r4y1e7fX', cover: 'https://i1.hdslb.com/bfs/archive/3b5fd4fc4a287c0943d0d8225b20f3de993c8388.jpg' },
+          { id: 'ub-db-fill',    title: '填补肩上角·哑铃跟练',      level: '中级', duration: '8 分钟', rating: 5, category: 'upper-body', subcategory: '哑铃肩部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1oB61BsEDK', cover: 'https://i2.hdslb.com/bfs/archive/84bd84fe62ab53ba5bed93b8a91df75e867a2050.jpg' },
+          { id: 'ub-db-guide',   title: '哑铃侧平举·保姆级教学',    level: '初级', duration: '5 分钟', rating: 5, category: 'upper-body', subcategory: '哑铃肩部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1e1421k7sn', cover: 'https://i2.hdslb.com/bfs/archive/539681caa4bef9e864816e21b84257a8a7b6eca5.jpg' },
+          { id: 'ub-db-rear',    title: '哑铃俯身飞鸟·练肩后束',    level: '初级', duration: '4 分钟', rating: 5, category: 'upper-body', subcategory: '哑铃肩部', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1j66iBAELB', cover: 'https://i0.hdslb.com/bfs/archive/16503ee15672f7e63305e554d1eb611c865b2e50.jpg' },
         ],
       },
 

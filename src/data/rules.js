@@ -41,6 +41,62 @@ const SIMPLICITY = {
        每项 = { name, sets, reps, rest, type, sec, videoId, equipment[, isFollowAlong] }
    ================================================================ */
 
+// ── 健身房·减脂 15分钟 四方案（4天一轮）──
+const gymCut15Schemes = {
+  '全身': [
+    { name:'跑步机匀速慢跑',  sets:1,reps:'15 分钟',type:'有氧',sec:900,videoId:'tm-pro-treadmill',equipment:'treadmill',  note:'速度5.4-6.0 无坡度 平稳匀速慢跑' },
+    { name:'跑步机坡度快走',  sets:1,reps:'15 分钟',type:'有氧',sec:900,videoId:'tm-lbj-treadmill',equipment:'treadmill',  note:'速度3.8-4.2 坡度8-10 低冲击燃脂' },
+    { name:'跑步机间歇变速',  sets:1,reps:'15 分钟',type:'有氧',sec:900,videoId:'tm-pro-treadmill',equipment:'treadmill',  note:'慢跑2min(速6)+快走1min(速4.5) 循环' },
+    { name:'椭圆机稳态有氧',  sets:1,reps:'15 分钟',type:'有氧',sec:900,videoId:'tm-lbj-elliptical',equipment:'elliptical',note:'中等阻力匀速踩踏 换运动模式避免瓶颈' },
+  ],
+  '下肢': [
+    { name:'跑步机高坡度快走',sets:1,reps:'15 分钟',type:'有氧',sec:900,videoId:'tm-lbj-treadmill',equipment:'treadmill',  note:'坡度10-12 强化臀腿发力' },
+    { name:'跑步机坡度快走',  sets:1,reps:'15 分钟',type:'有氧',sec:900,videoId:'tm-lbj-treadmill',equipment:'treadmill',  note:'坡度8-10 持续刺激下肢' },
+    { name:'跑步机间歇变速',  sets:1,reps:'15 分钟',type:'有氧',sec:900,videoId:'tm-pro-treadmill',equipment:'treadmill',  note:'快走2min(速5坡8)+慢跑1min(速6坡0)循环' },
+    { name:'椭圆机下肢侧重',  sets:1,reps:'15 分钟',type:'有氧',sec:900,videoId:'tm-lbj-elliptical',equipment:'elliptical',note:'双脚大幅度蹬踏 重心下沉 侧重臀腿发力' },
+  ],
+  '上肢': [
+    { name:'跑步机匀速慢跑',  sets:1,reps:'15 分钟',type:'有氧',sec:900,videoId:'tm-pro-treadmill',equipment:'treadmill',  note:'双臂自然摆动 保持肩背放松' },
+    { name:'跑步机坡度快走',  sets:1,reps:'15 分钟',type:'有氧',sec:900,videoId:'tm-lbj-treadmill',equipment:'treadmill',  note:'坡度6-8 摆臂幅度加大活动上肢' },
+    { name:'跑步机间歇变速',  sets:1,reps:'15 分钟',type:'有氧',sec:900,videoId:'tm-pro-treadmill',equipment:'treadmill',  note:'慢跑2min(速6)+快走1min(速4.5)循环' },
+    { name:'椭圆机上肢侧重',  sets:1,reps:'15 分钟',type:'有氧',sec:900,videoId:'tm-lbj-elliptical',equipment:'elliptical',note:'拉高阻力 双手大力推拉把手 重点锻炼肩臂' },
+  ],
+  '核心': [
+    { name:'跑步机核心慢跑',  sets:1,reps:'15 分钟',type:'有氧',sec:900,videoId:'tm-pro-treadmill',equipment:'treadmill',  note:'速度5.0-5.5 全程收紧核心 保持躯干稳定' },
+    { name:'跑步机核心快走',  sets:1,reps:'15 分钟',type:'有氧',sec:900,videoId:'tm-lbj-treadmill',equipment:'treadmill',  note:'坡度6-8 收腹挺胸 核心持续发力' },
+    { name:'跑步机间歇变速',  sets:1,reps:'15 分钟',type:'有氧',sec:900,videoId:'tm-pro-treadmill',equipment:'treadmill',  note:'频繁变速 全程收紧核心维持平衡' },
+    { name:'椭圆机核心联动',  sets:1,reps:'15 分钟',type:'有氧',sec:900,videoId:'tm-lbj-elliptical',equipment:'elliptical',note:'中等阻力 手脚协调联动 核心收紧稳定躯干' },
+  ],
+};
+
+// ── 健身房·减脂 30分钟 四方案（4天一轮），主体20min ──
+const gymCut30Schemes = {
+  '全身': [
+    { name:'跑步机匀速慢跑',  sets:1,reps:'20 分钟',type:'有氧',sec:1200,videoId:'tm-pro-treadmill',equipment:'treadmill',  note:'坡度0 速度5.5-6.0 平稳慢跑 手脚自然摆动' },
+    { name:'跑步机高坡度快走',sets:1,reps:'20 分钟',type:'有氧',sec:1200,videoId:'tm-lbj-treadmill',equipment:'treadmill',  note:'坡度8-10 速度3.8-4.2 全身协调发力 低冲击燃脂' },
+    { name:'跑步机间歇变速跑',sets:1,reps:'20 分钟',type:'有氧',sec:1200,videoId:'tm-pro-treadmill',equipment:'treadmill',  note:'慢跑2min(速6)+慢走1min(速4.5) 循环填满20分钟' },
+    { name:'椭圆机稳态有氧',  sets:1,reps:'20 分钟',type:'有氧',sec:1200,videoId:'tm-lbj-elliptical',equipment:'elliptical',note:'阻力3档 双手活动把手 手脚同步发力' },
+  ],
+  '下肢': [
+    { name:'跑步机匀速慢跑',  sets:1,reps:'20 分钟',type:'有氧',sec:1200,videoId:'tm-pro-treadmill',equipment:'treadmill',  note:'坡度3-5 脚步加大 侧重大腿小腿发力' },
+    { name:'跑步机高坡度快走',sets:1,reps:'20 分钟',type:'有氧',sec:1200,videoId:'tm-lbj-treadmill',equipment:'treadmill',  note:'坡度12 重心后移 重点刺激臀部大腿后侧' },
+    { name:'跑步机间歇变速跑',sets:1,reps:'20 分钟',type:'有氧',sec:1200,videoId:'tm-pro-treadmill',equipment:'treadmill',  note:'慢走段坡度调到6 强化腿部持续发力' },
+    { name:'椭圆机下肢侧重',  sets:1,reps:'20 分钟',type:'有氧',sec:1200,videoId:'tm-lbj-elliptical',equipment:'elliptical',note:'手扶固定短扶手 加大踏板蹬踏幅度 侧重臀腿' },
+  ],
+  '上肢': [
+    { name:'跑步机匀速慢跑',  sets:1,reps:'20 分钟',type:'有氧',sec:1200,videoId:'tm-pro-treadmill',equipment:'treadmill',  note:'加大手臂前后摆动幅度 激活肩臂' },
+    { name:'跑步机高坡度快走',sets:1,reps:'20 分钟',type:'有氧',sec:1200,videoId:'tm-lbj-treadmill',equipment:'treadmill',  note:'双手大幅度前后摆臂 弥补爬坡下肢占比过高' },
+    { name:'跑步机间歇变速跑',sets:1,reps:'20 分钟',type:'有氧',sec:1200,videoId:'tm-pro-treadmill',equipment:'treadmill',  note:'加速阶段加大摆臂 慢走阶段拉伸手臂肌群' },
+    { name:'椭圆机上肢侧重',  sets:1,reps:'20 分钟',type:'有氧',sec:1200,videoId:'tm-lbj-elliptical',equipment:'elliptical',note:'阻力5-6档 重点推拉把手 强化肩背手臂' },
+  ],
+  '核心': [
+    { name:'跑步机匀速慢跑',  sets:1,reps:'20 分钟',type:'有氧',sec:1200,videoId:'tm-pro-treadmill',equipment:'treadmill',  note:'全程不扶扶手 收紧腹部维持平衡 强化核心' },
+    { name:'跑步机高坡度快走',sets:1,reps:'20 分钟',type:'有氧',sec:1200,videoId:'tm-lbj-treadmill',equipment:'treadmill',  note:'不扶扶手 爬坡时收紧腰腹对抗前倾压力' },
+    { name:'跑步机间歇变速跑',sets:1,reps:'20 分钟',type:'有氧',sec:1200,videoId:'tm-pro-treadmill',equipment:'treadmill',  note:'变速切换时全程收腹 防止身体晃动 核心持续受力' },
+    { name:'椭圆机核心联动',  sets:1,reps:'20 分钟',type:'有氧',sec:1200,videoId:'tm-lbj-elliptical',equipment:'elliptical',note:'全程收紧腹部 腰背挺直不塌腰 手脚协调' },
+  ],
+};
+
 // ── 健身房·减脂：有氧为主，优先跟练 ──
 const gymCut = [
   // 跟练视频 — 时间匹配时优先
@@ -144,22 +200,8 @@ const homeHealth = [
 /* ================================================================
    三、经期动作
    ================================================================ */
-const periodLight = [
-  { name: '安娜5分钟快速拉伸',    sets:1, reps:'5 分钟',  rest:'—',type:'拉伸', sec:300,  videoId:'wu-anna',     equipment:'bodyweight' },
-  { name: '安娜10分钟拉伸练习',   sets:1, reps:'10 分钟', rest:'—',type:'拉伸', sec:600,  videoId:'wu-anna2',    equipment:'bodyweight' },
-  { name: '帕梅拉·10分钟腿部拉伸',sets:1, reps:'10 分钟', rest:'—',type:'拉伸', sec:600,  videoId:'st-pam-leg',  equipment:'bodyweight' },
-  { name: '帕梅拉·10分钟全身拉伸',sets:1, reps:'11 分钟', rest:'—',type:'拉伸', sec:660,  videoId:'st-pam-full', equipment:'bodyweight' },
-  { name: '安娜15分钟放松拉伸',   sets:1, reps:'15 分钟', rest:'—',type:'拉伸', sec:900,  videoId:'cd-anna',     equipment:'bodyweight' },
-];
-
-const periodRecovery = [
-  { name: '安娜5分钟快速拉伸',    sets:1, reps:'5 分钟',  rest:'—',type:'拉伸', sec:300,  videoId:'wu-anna',     equipment:'bodyweight' },
-  { name: '帕梅拉·10分钟上肢训练',sets:1, reps:'10 分钟', rest:'—',type:'力量', sec:600,  videoId:'ub-pam-arm3', equipment:'bodyweight' },
-  { name: '帕梅拉·10分钟全身拉伸',sets:1, reps:'11 分钟', rest:'—',type:'拉伸', sec:660,  videoId:'st-pam-full', equipment:'bodyweight' },
-];
-
 /* ================================================================
-   四、场景×目标 → 动作池映射
+   三、场景×目标 → 动作池映射
    ================================================================ */
 const poolMap = {
   home: { '减脂': homeCut, '增肌': homeBuild, '塑形': homeShape, '保持健康': homeHealth },
@@ -167,7 +209,7 @@ const poolMap = {
 };
 
 /* ================================================================
-   五、主生成函数
+   四、主生成函数
    ================================================================ */
 export function generatePlan(profile) {
   const {
@@ -206,11 +248,20 @@ export function generatePlan(profile) {
     let dayEx;
 
     if (isPd && pdDay <= 2) {
-      // 经期第 1-2 天：纯拉伸
-      dayEx = periodLight.map((e) => ({ ...e }));
-    } else if (isPd && pdDay <= 4) {
-      // 经期第 3-4 天：轻量恢复
-      dayEx = periodRecovery.map((e) => ({ ...e }));
+      // 经期第 1-2 天：15 分钟拉伸
+      dayEx = [{ name:'安娜15分钟放松拉伸', sets:1,reps:'15 分钟',type:'拉伸',sec:900,videoId:'cd-anna',equipment:'bodyweight' }];
+    } else if (isPd && pdDay <= 6) {
+      // 经期第 3-6 天：跑步机慢走恢复（时长跟随用户设定）
+      const pdSec = dailyMinutes * 60;
+      const pdMin = dailyMinutes;
+      dayEx = [{ name:'跑步机慢走放松', sets:1,reps:`${pdMin} 分钟`,type:'有氧',sec:pdSec,videoId:'tm-pro-treadmill',equipment:'treadmill',note:'经期恢复 坡度0-2 速度3-4 慢走放松' }];
+    } else if (isGym && goal === '减脂' && (dailyMinutes === 15 || dailyMinutes === 30)) {
+      // 健身房·减脂·15/30分钟 → 四方案轮换（4天一轮）
+      const bp = (bodyParts && bodyParts.length > 0) ? bodyParts[0] : '全身';
+      const schemes = dailyMinutes === 15
+        ? (gymCut15Schemes[bp] || gymCut15Schemes['全身'])
+        : (gymCut30Schemes[bp] || gymCut30Schemes['全身']);
+      dayEx = [{ ...schemes[(day - 1) % 4] }];
     } else {
       // ═══ 核心逻辑：简化填充 ═══
       // 可用时间 = 用户时长 - 5min热身 - 5min拉伸
@@ -229,14 +280,16 @@ export function generatePlan(profile) {
     // 前插热身、后插拉伸
     const warmupEx = { name: '训练前热身', sets: 1, reps: '5 分钟', rest: '—', type: '热身', sec: 300, videoId: 'wu-anna', equipment: 'bodyweight' };
     const stretchEx = { name: '训练后放松拉伸', sets: 1, reps: '5 分钟', rest: '—', type: '拉伸', sec: 300, videoId: 'cd-teagan', equipment: 'bodyweight' };
-    const full = [warmupEx, ...dayEx, stretchEx];
+    // 15min方案+经期天不加额外热身拉伸
+    const skipWrap = isPd || (isGym && goal === '减脂' && dailyMinutes === 15);
+    const full = skipWrap ? dayEx : [warmupEx, ...dayEx, stretchEx];
 
     const totalMin = Math.round(full.reduce((a, e) => a + e.sec * (e.sets || 1), 0) / 60);
 
     // 简化日类型标签 — 不做复杂分化
     let typeLabel;
     if (isPd && pdDay <= 2) typeLabel = '经期拉伸';
-    else if (isPd) typeLabel = '经期恢复';
+    else if (isPd && pdDay <= 6) typeLabel = '经期慢走';
     else if (goal === '减脂') typeLabel = '燃脂日';
     else if (goal === '增肌') typeLabel = '力量日';
     else if (goal === '塑形') typeLabel = '塑形日';
@@ -244,7 +297,7 @@ export function generatePlan(profile) {
 
     schedule.push({
       day, exercises: full,
-      note: isPd && pdDay <= 2 ? '经期前2天 — 纯拉伸放松' : isPd ? '经期恢复 — 轻量训练' : '',
+      note: isPd && pdDay <= 2 ? '经期前2天 — 15分钟拉伸放松' : isPd && pdDay <= 6 ? '经期第3-6天 — 跑步机慢走恢复' : '',
       estimatedMinutes: totalMin, type: typeLabel, isPeriodDay: isPd,
     });
   }
@@ -258,7 +311,7 @@ export function generatePlan(profile) {
 }
 
 /* ================================================================
-   六、简化时间填充算法（v4 核心改动）
+   五、简化时间填充算法（v4 核心改动）
    ================================================================ */
 
 /** 每类目标的主体动作上限 */
@@ -374,7 +427,7 @@ function pickOneSimple(pool, remainingSec, excludeEquip, offset) {
 }
 
 /* ================================================================
-   七、导出选项（Onboarding 依赖，不变）
+   六、导出选项（Onboarding 依赖，不变）
    ================================================================ */
 export const goalOptions = [
   { value: '减脂', label: '🔥  减脂' }, { value: '增肌', label: '💪  增肌' },

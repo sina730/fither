@@ -24,13 +24,13 @@ const COVERS = {
 
 /* ========== 顶层分类 ========== */
 export const mainCategories = [
-  { id: 'all',           name: '全部',       icon: '📋', count: 74 },
+  { id: 'all',           name: '全部',       icon: '📋', count: 92 },
   { id: 'stretch',       name: '拉伸教学',   icon: '🧘', count: 6 },
   { id: 'treadmill',     name: '跑步机',     icon: '🏃', count: 6 },
   { id: 'strength',      name: '力量器材',   icon: '🏋️', count: 21 },
   { id: 'upper-body',    name: '上肢塑形',   icon: '💪', count: 17 },
-  { id: 'cardio',        name: '有氧燃脂',   icon: '💦', count: 6 },
-  { id: 'glutes-legs',   name: '臀腿训练',   icon: '🍑', count: 10 },
+  { id: 'cardio',        name: '有氧燃脂',   icon: '💦', count: 16 },
+  { id: 'glutes-legs',   name: '臀腿训练',   icon: '🍑', count: 18 },
   { id: 'core',          name: '核心训练',   icon: '🔥', count: 8 },
 ];
 /* ========== 各分类详情 ========== */
@@ -148,13 +148,23 @@ export const categoryDetailMap = {
     title: '有氧燃脂',
     subtitle: '安娜+帕梅拉 — 居家暴汗燃脂跟练',
     description: '无器械全身有氧，从新手入门到进阶暴汗，在家就能高效燃脂。',
-    totalVideos: 6,
+    totalVideos: 16,
     subcategories: [
       {
         name: 'HIIT燃脂',
         videos: [
-          { id: 'cd-anna-hiit',  title: '安娜30分钟无跳跃HIIT', level: '中级', duration: '30 分钟', rating: 5, category: 'cardio', subcategory: 'HIIT燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV12R4y1E7iC', cover: 'https://i2.hdslb.com/bfs/archive/42b36bbd27ca481d0cf293131efcbc627303e29c.jpg' },
-          { id: 'cd-pam-jump',   title: '帕梅拉·15分钟跳跃有氧', level: '中级', duration: '15 分钟', rating: 5, category: 'cardio', subcategory: 'HIIT燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1QS4y1P7Yu', cover: 'https://i1.hdslb.com/bfs/archive/16cabdade9df66e50fe477d740c93ee2d66c22c1.jpg' },
+          { id: 'cd-anna-hiit',   title: '安娜30分钟无跳跃HIIT', level: '中级', duration: '30 分钟', rating: 5, category: 'cardio', subcategory: 'HIIT燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV12R4y1E7iC', cover: 'https://i2.hdslb.com/bfs/archive/42b36bbd27ca481d0cf293131efcbc627303e29c.jpg' },
+          { id: 'cd-anna-hiit2',  title: '安娜15分钟快速爆汗HIIT', level: '中级', duration: '15 分钟', rating: 5, category: 'cardio', subcategory: 'HIIT燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1W2421F7VV', cover: 'https://i1.hdslb.com/bfs/archive/b596a44accab24693ba464a04774d6c3742125ae.jpg' },
+          { id: 'cd-anna-hiit3',  title: '安娜15分钟低强度无跳跃', level: '初级', duration: '15 分钟', rating: 5, category: 'cardio', subcategory: 'HIIT燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1U24y1Z71P', cover: 'https://i1.hdslb.com/bfs/archive/a97f5c1832e8a6bb2ac626aafc0378b23f620376.jpg' },
+          { id: 'cd-anna-hiit4',  title: '安娜20分钟无跳跃训练', level: '初级', duration: '20 分钟', rating: 5, category: 'cardio', subcategory: 'HIIT燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1oJ4m1Y7mR', cover: 'https://i2.hdslb.com/bfs/archive/d4a12573119beefd03a3641281a494ed9137a708.jpg' },
+          { id: 'cd-anna-hiit5',  title: '安娜20分钟杀手级全身HIIT', level: '中级', duration: '20 分钟', rating: 5, category: 'cardio', subcategory: 'HIIT燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1XT411A7mW', cover: 'https://i2.hdslb.com/bfs/archive/3e6abfb82c4e043548005b6eff72a6e5c1d7f448.jpg' },
+          { id: 'cd-anna-hiit6',  title: '安娜20分钟低冲击全身训练', level: '初级', duration: '20 分钟', rating: 5, category: 'cardio', subcategory: 'HIIT燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV17v4y1U7Er', cover: 'https://i0.hdslb.com/bfs/archive/6163cdc655eeb822ad9bdb3289944608ed5cb5f5.jpg' },
+          { id: 'cd-anna-hiit7',  title: '安娜30分钟高强度全身HIIT', level: '中级', duration: '30 分钟', rating: 5, category: 'cardio', subcategory: 'HIIT燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1fm4y1H7pU', cover: 'https://i1.hdslb.com/bfs/archive/e63c4fe4878b8c5cbb222dbb2e3f661b42b05b79.jpg' },
+          { id: 'cd-anna-hiit8',  title: '安娜35分钟居家有氧燃脂', level: '中级', duration: '35 分钟', rating: 5, category: 'cardio', subcategory: 'HIIT燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1R14y1i7k5', cover: 'https://i2.hdslb.com/bfs/archive/b137186650e78e74f1bfccf39efe9c3f577e8f3d.jpg' },
+          { id: 'cd-anna-hiit9',  title: '安娜40分钟无跳跃全身有氧', level: '初级', duration: '40 分钟', rating: 5, category: 'cardio', subcategory: 'HIIT燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1zJ4m1e7WP', cover: 'https://i0.hdslb.com/bfs/archive/3a33d1d2a6f0f7fb8132f1ccfa67c1d1a3d7b91b.jpg' },
+          { id: 'cd-anna-hiit10', title: '安娜40分钟无跳跃HIIT+核心', level: '中级', duration: '40 分钟', rating: 5, category: 'cardio', subcategory: 'HIIT燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1Xe411o74H', cover: 'https://i1.hdslb.com/bfs/archive/4e840c06a67df877b716785144eae3b12e345349.jpg' },
+          { id: 'cd-anna-hiit11', title: '安娜50min全站立HIIT训练', level: '中级', duration: '50 分钟', rating: 5, category: 'cardio', subcategory: 'HIIT燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1e24y1Z7Q4', cover: 'https://i1.hdslb.com/bfs/archive/d5d0eb4bb6d4c70067afcad79accee1454d22210.jpg' },
+          { id: 'cd-pam-jump',    title: '帕梅拉·15分钟跳跃有氧', level: '中级', duration: '15 分钟', rating: 5, category: 'cardio', subcategory: 'HIIT燃脂', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1QS4y1P7Yu', cover: 'https://i1.hdslb.com/bfs/archive/16cabdade9df66e50fe477d740c93ee2d66c22c1.jpg' },
         ],
       },
       {
@@ -179,7 +189,7 @@ export const categoryDetailMap = {
     title: '臀腿训练',
     subtitle: '打造完美臀腿线条',
     description: '针对臀部和腿部的专项训练，涵盖经典动作与进阶变式，塑造紧致有型的下肢曲线。',
-    totalVideos: 7,
+    totalVideos: 18,
     subcategories: [
       {
         name: '安娜臀腿',
@@ -199,6 +209,19 @@ export const categoryDetailMap = {
           { id: 'gl-pam-hip5',   title: '帕梅拉·12分钟翘臀轰炸',    level: '中级', duration: '13 分钟', rating: 5, category: 'glutes-legs', subcategory: '帕梅拉臀腿', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1qZ421W7oc', cover: 'https://i1.hdslb.com/bfs/archive/373a52bacbf02acd0189e40c0487d8191aed9c59.jpg' },
           { id: 'gl-pam-hip6',   title: '帕梅拉·15分钟翘臀负重',    level: '中级', duration: '16 分钟', rating: 5, category: 'glutes-legs', subcategory: '帕梅拉臀腿', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1iF411978n', cover: 'https://i2.hdslb.com/bfs/archive/ec8964911f1116b66c09f017bd5cf0bfbacc6b5a.jpg' },
           { id: 'gl-pam-hip7',   title: '帕梅拉·10分钟大腿内侧',    level: '初级', duration: '10 分钟', rating: 5, category: 'glutes-legs', subcategory: '帕梅拉臀腿', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1Vf4y1J7Uo', cover: 'https://i1.hdslb.com/bfs/archive/4147693c0458f89e63294e488fe0ea1c10f7f4f0.jpg' },
+          { id: 'gl-pam-hip8',   title: '帕梅拉40min无站立臀腿合集', level: '初级', duration: '40 分钟', rating: 5, category: 'glutes-legs', subcategory: '帕梅拉臀腿', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1JY4y1e7Vw', cover: 'https://i1.hdslb.com/bfs/archive/80d14ee35d2fad5d9dc8e8e89841d1461486d5c0.jpg' },
+          { id: 'gl-pam-hip9',   title: '帕梅拉50min臀腿深蹲版',    level: '中级', duration: '50 分钟', rating: 5, category: 'glutes-legs', subcategory: '帕梅拉臀腿', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1nu411b757', cover: 'https://i0.hdslb.com/bfs/archive/2a5d40fddba95b317c926f7fe53f3df5a3888d1f.jpg' },
+        ],
+      },
+      {
+        name: '安娜臀腿跟练',
+        videos: [
+          { id: 'gl-anna-glutes4', title: '安娜15分钟臀部塑型训练',  level: '中级', duration: '15 分钟', rating: 5, category: 'glutes-legs', subcategory: '安娜臀腿跟练', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1bX4y1g7Z8', cover: 'https://i1.hdslb.com/bfs/archive/f2817493dd8635aa2274e0bc7e31b06c731fd7dd.jpg' },
+          { id: 'gl-anna-glutes5', title: '安娜20分钟翘臀训练 无器械',level: '中级', duration: '20 分钟', rating: 5, category: 'glutes-legs', subcategory: '安娜臀腿跟练', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1YQ4y1w7kr', cover: 'https://i1.hdslb.com/bfs/archive/55dfa8fcc23007bf046f0b37cf1f5e19cbd29328.jpg' },
+          { id: 'gl-anna-glutes6', title: '安娜20分钟腿部塑形训练',  level: '中级', duration: '20 分钟', rating: 5, category: 'glutes-legs', subcategory: '安娜臀腿跟练', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1ET421v7L3', cover: 'https://i2.hdslb.com/bfs/archive/c7be979a09472efe838798a1c22159912cdd89ab.jpg' },
+          { id: 'gl-anna-glutes7', title: '安娜30分钟腿臀训练 无器械',level: '中级', duration: '30 分钟', rating: 5, category: 'glutes-legs', subcategory: '安娜臀腿跟练', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV15x421k7yw', cover: 'https://i1.hdslb.com/bfs/archive/aba870bd5b8543eb5f0591e2a590f243724b2d4f.jpg' },
+          { id: 'gl-anna-glutes8', title: '安娜30分钟腿臀训练 配哑铃',level: '中级', duration: '30 分钟', rating: 5, category: 'glutes-legs', subcategory: '安娜臀腿跟练', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1nM411f7vZ', cover: 'https://i0.hdslb.com/bfs/archive/b913a74b0410116889da3314243a0f7d3e7e3f12.jpg' },
+          { id: 'gl-anna-glutes9', title: '安娜40分钟腿臀训练 无器械',level: '中级', duration: '40 分钟', rating: 5, category: 'glutes-legs', subcategory: '安娜臀腿跟练', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1iw411j7aW', cover: 'https://i1.hdslb.com/bfs/archive/5022c0c11a3f9b3ba66a6b4cf4ae0157a5daa5b1.jpg' },
         ],
       },
 

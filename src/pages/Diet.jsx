@@ -10,14 +10,14 @@ function uk(key) {
   return u ? `${key}__${u.email}` : key;
 }
 
-const goalIcons = { '减脂': '🔥', '增肌': '💪', '塑形': '✨', '保持健康': '🌱' };
-const goalLabelMap = { '减脂': '减脂', '增肌': '增肌', '塑形': '塑形', '保持健康': '保持健康' };
+const goalIcons = { '减脂': '🔥', '增肌': '💪', '塑形': '✨' };
+const goalLabelMap = { '减脂': '减脂', '增肌': '增肌', '塑形': '塑形' };
 
 function UserCard({ onClose, onGoPlan, onLogout }) {
   const cardRef = useRef(null);
   const user = getCurrentUser();
   const profile = storage.get(uk('profile'));
-  const goal = profile?.goal || '保持健康';
+  const goal = profile?.goal || '减脂';
   const checkinDays = Object.keys(storage.get(uk('checkins')) || {}).length;
   const initial = (user?.email || '?')[0].toUpperCase();
 
@@ -232,17 +232,17 @@ function DietAdvice() {
           >
             <div className="flex flex-col md:flex-row">
               {/* 左侧：饮食原则 */}
-              <div className="flex-1" style={{ padding: '36px 40px' }}>
-                <div className="flex items-center gap-2 mb-5">
-                  <div className="w-[5px] h-[18px] rounded-[3px]" style={{ background: T.pink }} />
-                  <h3 className="text-[16px] font-semibold m-0" style={{ color: '#444' }}>
+              <div className="flex-1" style={{ padding: '22px 40px 36px 8px' }}>
+                <div className="flex items-center gap-2" style={{ marginTop: -10, marginBottom: 8 }}>
+                  <div className="w-[5px] h-[20px] rounded-[3px]" style={{ background: T.pink }} />
+                  <h3 className="text-[18px] font-semibold m-0" style={{ color: '#444' }}>
                     {active}饮食原则
                   </h3>
                 </div>
-                <p className="text-[14px] mb-6 leading-relaxed" style={{ color: '#888' }}>{advice.desc}</p>
-                <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <p className="text-[16px] leading-relaxed" style={{ color: '#888', marginTop: -14 }}>{advice.desc}</p>
+                <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: 14, marginTop: 11 }}>
                   {advice.tips.map((tip, i) => (
-                    <li key={i} className="flex items-center gap-3 text-[14px]" style={{ color: '#555' }}>
+                    <li key={i} className="flex items-center gap-3 text-[16px]" style={{ color: '#555' }}>
                       <span
                         className="w-[22px] h-[22px] rounded-full flex items-center justify-center text-[11px] flex-shrink-0 text-white font-medium"
                         style={{ background: T.pink }}

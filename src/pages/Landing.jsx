@@ -49,14 +49,14 @@ const features = [
   },
 ];
 
-const goalIcons = { '减脂': '🔥', '增肌': '💪', '塑形': '✨', '保持健康': '🌱' };
-const goalLabelMap = { '减脂': '减脂', '增肌': '增肌', '塑形': '塑形', '保持健康': '保持健康' };
+const goalIcons = { '减脂': '🔥', '增肌': '💪', '塑形': '✨' };
+const goalLabelMap = { '减脂': '减脂', '增肌': '增肌', '塑形': '塑形' };
 
 function UserCard({ onClose, onGoPlan, onLogout }) {
   const cardRef = useRef(null);
   const user = getCurrentUser();
   const profile = storage.get(uk('profile'));
-  const goal = profile?.goal || '保持健康';
+  const goal = profile?.goal || '减脂';
   const checkinDays = Object.keys(storage.get(uk('checkins')) || {}).length;
   const initial = (user?.email || '?')[0].toUpperCase();
 

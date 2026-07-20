@@ -39,14 +39,16 @@ const timeOpts = [
   { value: '45', label: '45 分钟' }, { value: '60', label: '60 分钟' },
   { value: '75', label: '75 分钟' }, { value: '90', label: '90 分钟' },
 ];
+const homeTimeOpts = timeOpts.filter(o => ['15','30','45','60'].includes(o.value));
 const dayOpts = Array.from({ length: 54 }, (_, i) => {
   const d = i + 7;
   return { value: String(d), label: `${d} 天` };
 });
 const goalOpts = [
   { value: '减脂', label: '🔥  减脂' }, { value: '增肌', label: '💪  增肌' },
-  { value: '塑形', label: '✨  塑形' }, { value: '保持健康', label: '🌱  保持健康' },
+  { value: '塑形', label: '✨  塑形' },
 ];
+const homeGoalOpts = goalOpts.filter(o => o.value !== '塑形');
 const bpOpts = [
   { value: '上肢', label: '上肢' }, { value: '下肢', label: '下肢' },
   { value: '核心', label: '核心' }, { value: '全身', label: '全身' },
@@ -56,7 +58,7 @@ const menOpts = [
 ];
 
 /* ====== Select（单选，完全匹配 Input 样式） ====== */
-function Select({ value, onChange, options, placeholder }) {
+function Select({ value, onChange, options, placeholder, disabled }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
   useEffect(() => {
@@ -66,9 +68,10 @@ function Select({ value, onChange, options, placeholder }) {
   const sel = options.find((o) => o.value === value);
   return (
     <div ref={ref} style={{ position: 'relative', width: '100%' }}>
-      <button type="button" onClick={() => setOpen(!open)}
+      <button type="button" onClick={() => !disabled && setOpen(!open)}
         style={{
-          ...IS, display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer',
+          ...IS, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.55 : 1,
           borderColor: open ? T.cFocus : T.cBorder,
           boxShadow: open ? `0 0 0 4px ${T.cFocusRing}` : 'none',
           color: sel ? T.cLabel : T.cPh, fontSize: sel ? T.iF : '18px', fontWeight: sel ? 400 : 400,
@@ -104,7 +107,7 @@ function Select({ value, onChange, options, placeholder }) {
 }
 
 /* ====== MultiSelect（多选，完全匹配 Input 样式） ====== */
-function MultiSelect({ values, onChange, options, placeholder }) {
+function MultiSelect({ values, onChange, options, placeholder, disabled }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
   useEffect(() => {
@@ -115,9 +118,10 @@ function MultiSelect({ values, onChange, options, placeholder }) {
   const display = labels.length > 0 ? labels.join('、') : placeholder;
   return (
     <div ref={ref} style={{ position: 'relative', width: '100%' }}>
-      <button type="button" onClick={() => setOpen(!open)}
+      <button type="button" onClick={() => !disabled && setOpen(!open)}
         style={{
-          ...IS, display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer',
+          ...IS, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.55 : 1,
           borderColor: open ? T.cFocus : T.cBorder,
           boxShadow: open ? `0 0 0 4px ${T.cFocusRing}` : 'none',
           color: values.length > 0 ? T.cLabel : T.cPh, fontSize: values.length > 0 ? T.iF : '18px', fontWeight: 400,
@@ -212,7 +216,7 @@ export default function Onboarding() {
   const [weight, setWeight] = useState('');
   const [dailyMinutes, setDailyMinutes] = useState('');
   const [goal, setGoal] = useState('');
-  const [bodyParts, setBodyParts] = useState([]);
+  const [bodyParts, setBodyParts] = useState(['']);
   const [planDays, setPlanDays] = useState('');
   const [menstrual, setMenstrual] = useState('');
   const [periodDate, setPeriodDate] = useState('');
@@ -221,6 +225,13 @@ export default function Onboarding() {
   const [submitting, setSubmitting] = useState(false);
 
   const valid = goal && dailyMinutes && planDays;
+
+  // 居家减脂：训练部位自动锁定全身
+  const lockBodyParts = (scene === 'home' && goal === '减脂') || (scene === 'gym' && goal === '塑形');
+  useEffect(() => { if (lockBodyParts) setBodyParts(['全身']); }, [lockBodyParts]);
+  // 居家场景：清除无效时长(75/90)、无效目标(塑形)
+  useEffect(() => { if (scene === 'home' && ['75','90'].includes(dailyMinutes)) setDailyMinutes(''); }, [scene, dailyMinutes]);
+  useEffect(() => { if (scene === 'home' && goal === '塑形') setGoal(''); }, [scene, goal]);
 
   const submit = (e) => {
     e.preventDefault();
@@ -292,19 +303,19 @@ export default function Onboarding() {
                 <div>
                   <label style={{ display: 'block', fontSize: T.lblF, fontWeight: T.lblW, color: T.cLabel, marginBottom: T.s8 }}>身高 (cm)</label>
                   <input type="number" value={height} onChange={(e) => setHeight(e.target.value)} min={0}
-                    style={IS} onFocus={onF} onBlur={onB} />
+                    placeholder="请填写你的身高" style={IS} onFocus={onF} onBlur={onB} />
                 </div>
                 {/* 体重 */}
                 <div>
                   <label style={{ display: 'block', fontSize: T.lblF, fontWeight: T.lblW, color: T.cLabel, marginBottom: T.s8 }}>体重 (kg)</label>
                   <input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} min={0}
-                    style={IS} onFocus={onF} onBlur={onB} />
+                    placeholder="请填写你的体重" style={IS} onFocus={onF} onBlur={onB} />
                 </div>
                 {/* 目标体重（选填） */}
                 <div>
                   <label style={{ display: 'block', fontSize: T.lblF, fontWeight: T.lblW, color: T.cLabel, marginBottom: T.s8 }}>目标体重 (kg) <span style={{ fontSize: 14, fontWeight: 400, color: T.cUnit }}>选填</span></label>
                   <input type="number" value={targetWeight} onChange={(e) => setTargetWeight(e.target.value)} min={0}
-                    style={IS} onFocus={onF} onBlur={onB} />
+                    placeholder="请填写你的目标体重" style={IS} onFocus={onF} onBlur={onB} />
                 </div>
               </div>
 
@@ -319,12 +330,12 @@ export default function Onboarding() {
                 {/* 训练目标 */}
                 <div>
                   <label style={{ display: 'block', fontSize: T.lblF, fontWeight: T.lblW, color: T.cLabel, marginBottom: T.s8 }}>训练目标</label>
-                  <Select value={goal} onChange={setGoal} options={goalOpts} placeholder="请选择训练目标" />
+                  <Select value={goal} onChange={setGoal} options={scene === 'home' ? homeGoalOpts : goalOpts} placeholder="请选择训练目标" />
                 </div>
                 {/* 训练时间 */}
                 <div>
                   <label style={{ display: 'block', fontSize: T.lblF, fontWeight: T.lblW, color: T.cLabel, marginBottom: T.s8 }}>每日空闲训练时间</label>
-                  <Select value={dailyMinutes} onChange={setDailyMinutes} options={timeOpts} placeholder="请选择训练时间" />
+                  <Select value={dailyMinutes} onChange={setDailyMinutes} options={scene === 'home' ? homeTimeOpts : timeOpts} placeholder="请选择训练时间" />
                 </div>
                 {/* 计划周期 */}
                 <div>
@@ -333,8 +344,8 @@ export default function Onboarding() {
                 </div>
                 {/* 训练部位 */}
                 <div>
-                  <label style={{ display: 'block', fontSize: T.lblF, fontWeight: T.lblW, color: T.cLabel, marginBottom: T.s8 }}>训练部位</label>
-                  <MultiSelect values={bodyParts} onChange={setBodyParts} options={bpOpts} placeholder="可多选，默认全身" />
+                  <label style={{ display: 'block', fontSize: T.lblF, fontWeight: T.lblW, color: T.cLabel, marginBottom: T.s8 }}>训练部位 {lockBodyParts && <span style={{ color: '#f06a9a', fontSize: '13px', fontWeight: 400 }}>（当前目标自动锁定全身）</span>}</label>
+                  <Select value={bodyParts[0] || ''} onChange={(v) => setBodyParts(v ? [v] : [])} options={bpOpts} placeholder={lockBodyParts ? '全身' : '请选择训练部位'} disabled={lockBodyParts} />
                 </div>
               </div>
 

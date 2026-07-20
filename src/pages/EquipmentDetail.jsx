@@ -158,13 +158,13 @@ export default function EquipmentDetail() {
           )}
 
           {/* 返回按钮 */}
-          <div className="flex justify-center pb-8">
+          <div className="flex justify-center" style={{ marginTop: 38, paddingBottom: 32 }}>
             <button
               onClick={() => nav(-1)}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-[999px] text-[14px] font-medium transition-all hover:-translate-y-0.5"
-              style={{ color: PINK, background: '#fde8ef', border: 'none', cursor: 'pointer' }}
+              className="inline-flex items-center gap-3 px-14 py-5 rounded-[999px] text-[24px] font-semibold transition-all hover:-translate-y-0.5"
+              style={{ color: '#fff', background: `linear-gradient(135deg, ${PINK}, #FF9ABB)`, border: 'none', cursor: 'pointer', boxShadow: '0 6px 20px rgba(245,104,152,0.25)' }}
             >
-              ← {backLabel}
+              ← 返回列表
             </button>
           </div>
         </motion.div>

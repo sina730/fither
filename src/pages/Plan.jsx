@@ -22,19 +22,28 @@ function calcCal(min) { return Math.round(min * 6.5); }
 function getMetrics(ex) {
   const m = [];
   if (ex.sets > 1) m.push({ val: ex.sets, label: '组数' });
-  if (ex.reps && ex.reps !== '—' && ex.type !== '有氧' && ex.type !== '热身' && ex.type !== '拉伸') m.push({ val: ex.reps, label: '次数' });
+  // 只有器械力量才显示次数/休息（跟练视频 reps 是时长文本）
+  if (ex.reps && ex.reps !== '—' && ex.type !== '有氧' && ex.type !== '热身' && ex.type !== '拉伸' && !ex.reps.includes('分钟')) m.push({ val: ex.reps, label: '次数' });
   if (ex.rest && ex.rest !== '—') m.push({ val: ex.rest, label: '休息' });
   return m;
 }
-function getDur(ex) { const t = ex.sec * (ex.sets || 1); return t >= 60 ? `${Math.round(t / 60)} 分钟` : `${t} 秒`; }
+function getDur(ex) {
+  // 器械力量统一显示：3组=8分钟，4组=10分钟（跟练视频 sets=1 不算）
+  if (ex.type === '力量' && ex.sets > 1) {
+    if (ex.sets <= 3) return '8 分钟';
+    return '10 分钟';
+  }
+  const t = ex.sec * (ex.sets || 1);
+  return t >= 60 ? `${Math.round(t / 60)} 分钟` : `${t} 秒`;
+}
 function getNote(ex) {
   if (ex.note) return ex.note;
   const map = { '热身': '热身激活 · 提高心率', '拉伸': '放松肌肉 · 缓解肌肉酸痛', '有氧': '有氧燃脂 · 提升心肺', '力量': '力量训练 · 增强肌力', '核心': '核心训练 · 稳定躯干' };
   return map[ex.type] || '';
 }
 
-const goalIcons = { '减脂': '🔥', '增肌': '💪', '塑形': '✨', '保持健康': '🌱' };
-const goalLabelMap = { '减脂': '减脂', '增肌': '增肌', '塑形': '塑形', '保持健康': '保持健康' };
+const goalIcons = { '减脂': '🔥', '增肌': '💪', '塑形': '✨' };
+const goalLabelMap = { '减脂': '减脂', '增肌': '增肌', '塑形': '塑形' };
 
 /* ============================================
    打卡系统
@@ -58,7 +67,7 @@ function uk(key) {
 
 function DayCard({ day, isSelected, onClick }) {
   const done = day._done;
-  const typeIcons = { '力量日': '💪', '燃脂日': '🔥', '塑形日': '✨', '健康日': '🌱', '有氧日': '🏃', '综合日': '⭐', '经期拉伸': '🩸', '经期恢复': '🌸', '经期慢走': '🚶' };
+  const typeIcons = { '力量日': '💪', '燃脂日': '🔥', '燃脂+力量': '🔥💪', '塑形日': '✨', '训练日': '🎯', '有氧日': '🏃', '综合日': '⭐', '经期拉伸': '🩸', '经期恢复': '🌸', '经期慢走': '🚶', '经期快走': '🚶‍♀️', '经期散步': '🚶' };
   const icon = day.isPeriodDay ? '🩸' : (typeIcons[day.type] || '💪');
   return (
     <motion.button onClick={onClick} whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}
@@ -98,12 +107,10 @@ function ExerciseRow({ ex, idx, checked, onToggle, onStart }) {
       className="flex items-center gap-4" style={{ height: 86, padding: '0 22px', borderBottom: '1px solid rgba(0,0,0,0.035)', opacity: checked ? 0.55 : 1 }}>
       {/* Seq */}
       <div className="w-[36px] h-[36px] rounded-full flex items-center justify-center text-[13px] font-bold flex-shrink-0" style={{ background: '#fde8ef', color: '#ee6a98' }}>{idx}</div>
-      {/* Thumb */}
-      <div className="flex-shrink-0 rounded-[9px] flex items-center justify-center text-[22px]" style={{ width: 102, height: 62, background: 'linear-gradient(135deg, #fde8ef, #fff4f8)' }}>🏋️</div>
       {/* Name + note */}
-      <div className="min-w-0" style={{ width: '28%' }}>
+      <div className="min-w-0 flex-1">
         <p className="text-[15px] font-semibold m-0 leading-tight truncate" style={{ color: '#353138', textDecoration: checked ? 'line-through' : 'none' }}>{ex.name}</p>
-        <p className="text-[11.5px] m-0 mt-0.5" style={{ color: '#99939b' }}>{getNote(ex)}</p>
+        <NoteText text={getNote(ex)} />
       </div>
       {/* Params */}
       <div className="flex gap-4 flex-1 justify-center">
@@ -133,6 +140,22 @@ function ParamBox({ val, label }) {
       <p className="text-[13px] font-semibold m-0 leading-tight" style={{ color: '#4b464d' }}>{val}</p>
       <p className="text-[10.5px] m-0 mt-[3px] leading-tight" style={{ color: C.muted }}>{label}</p>
     </div>
+  );
+}
+
+/** 将速度/坡度/阻力等参数自动加黑加粗 */
+function NoteText({ text }) {
+  if (!text) return <p className="text-[12px] m-0 mt-0.5" style={{ color: '#99939b' }}>—</p>;
+  // 匹配：速度X.X-X.X、坡度X-X、阻力X-X档、慢跑/快走/循环 等参数片段
+  const parts = text.split(/(速度\d[\d.]*[-~]\d[\d.]*|速度\d[\d.]*|坡度\d+[-~]\d+|阻力\d+[-~]\d+档?|慢跑\d+min|快走\d+min|循环|速\d[\d.]*|坡\d+[-~]\d+)/g);
+  return (
+    <p className="text-[12px] m-0 mt-0.5" style={{ color: '#99939b' }}>
+      {parts.map((part, i) =>
+        /[速度坡度阻力速坡]/.test(part) || /^\d/.test(part)
+          ? <span key={i} style={{ color: '#4b464d', fontWeight: 700 }}>{part}</span>
+          : <span key={i}>{part}</span>
+      )}
+    </p>
   );
 }
 
@@ -273,7 +296,7 @@ export default function Plan() {
   }
 
   const cal = calcCal(today.estimatedMinutes);
-  const goal = plan?.profile?.goal || '保持健康';
+  const goal = plan?.profile?.goal || '减脂';
   const gym = plan?.scene === 'gym';
   const wk = Math.floor(sel / 7) + 1;
   const goalIcon = goalIcons[goal] || '🎯';
@@ -372,16 +395,9 @@ export default function Plan() {
             {/* Training list container */}
             <div className="rounded-[24px] overflow-hidden" style={{ background: C.cardBg, border: `1px solid ${C.cardBorder}`, boxShadow: C.shadow }}>
               {today.exercises.some(e => e.type === '热身') && (
-                <div className="flex items-center justify-between" style={{ height: 68, padding: '0 22px', background: 'linear-gradient(90deg, #fff7fa, #fffdfd)', borderBottom: '1px solid rgba(0,0,0,0.035)' }}>
-                  <div className="flex items-center gap-3">
-                    <span className="text-[18px]">🔥</span>
-                    <div><p className="text-[14px] font-semibold m-0" style={{ color: '#353138' }}>开始训练</p><p className="text-[11px] m-0 mt-0.5" style={{ color: C.sub }}>约 3–5 分钟 · 激活身体，预防运动损伤</p></div>
-                  </div>
-                  <motion.button whileHover={{ background: '#fde8ef' }} whileTap={{ scale: 0.97 }}
-                    className="flex items-center gap-1.5 text-[12px] font-semibold rounded-[18px] border-0 cursor-default transition-colors"
-                    style={{ height: 36, padding: '0 18px', color: '#ee6695', background: '#fff7fa', border: '1px solid #f7bfd1' }}>
-                    <svg width="9" height="9" viewBox="0 0 24 24" fill="#ee6695"><polygon points="8,5 19,12 8,19" /></svg>开始
-                  </motion.button>
+                <div className="flex items-center justify-center" style={{ height: 52, padding: '0 22px', background: 'linear-gradient(90deg, #fff7fa, #fffdfd)', borderBottom: '1px solid rgba(0,0,0,0.035)' }}>
+                  <span className="text-[18px] mr-3">🔥</span>
+                  <p className="text-[18px] font-semibold m-0" style={{ color: '#353138' }}>开始训练</p>
                 </div>
               )}
               {today.exercises.map((ex, i) => (

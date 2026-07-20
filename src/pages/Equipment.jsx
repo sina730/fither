@@ -10,14 +10,14 @@ function uk(key) {
   return u ? `${key}__${u.email}` : key;
 }
 
-const goalIcons = { '减脂': '🔥', '增肌': '💪', '塑形': '✨', '保持健康': '🌱' };
-const goalLabelMap = { '减脂': '减脂', '增肌': '增肌', '塑形': '塑形', '保持健康': '保持健康' };
+const goalIcons = { '减脂': '🔥', '增肌': '💪', '塑形': '✨' };
+const goalLabelMap = { '减脂': '减脂', '增肌': '增肌', '塑形': '塑形' };
 
 function UserCard({ onClose, onGoPlan, onLogout }) {
   const cardRef = useRef(null);
   const user = getCurrentUser();
   const profile = storage.get(uk('profile'));
-  const goal = profile?.goal || '保持健康';
+  const goal = profile?.goal || '减脂';
   const checkinDays = Object.keys(storage.get(uk('checkins')) || {}).length;
   const initial = (user?.email || '?')[0].toUpperCase();
 
@@ -285,13 +285,13 @@ export default function Equipment() {
               </div>
 
               {/* 小字 */}
-              <p className="text-[clamp(14px,1.6vw,17px)] leading-relaxed"
-                style={{ color: '#999', maxWidth: 420, marginTop: 10 }}>
+              <p className="text-[clamp(16px,1.8vw,19px)] leading-relaxed"
+                style={{ color: '#999', maxWidth: 420, marginTop: 21 }}>
                 新手自信指南，详细视频讲解，<br />轻松上手每一个器材
               </p>
 
               {/* 搜索框 — flex 布局，图标与输入区永不重叠 */}
-              <div className="flex items-stretch" style={{ width: 480, maxWidth: '92vw', marginTop: 80, height: 56, borderRadius: 28, background: '#fff', border: '1px solid #f2f2f2', boxShadow: '0 2px 16px rgba(0,0,0,0.04)', overflow: 'hidden' }}>
+              <div className="flex items-stretch" style={{ width: 487, maxWidth: '92vw', marginTop: 80, height: 63, borderRadius: 31, background: '#fff', border: '1px solid #f2f2f2', boxShadow: '0 2px 16px rgba(0,0,0,0.04)', overflow: 'hidden' }}>
                 {/* 左侧放大镜图标区 */}
                 <div className="flex items-center justify-center flex-shrink-0" style={{ width: 60, background: '#fef7fa' }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F56898" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">

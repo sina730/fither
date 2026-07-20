@@ -1,16 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { isLoggedIn } from '../utils/auth';
+import { isLoggedIn, getCurrentUser, logout } from '../utils/auth';
+import { storage } from '../utils/storage';
 
-const navLinks = ['首页', '训练计划', '器材教学', '饮食建议', '关于我们'];
+/** 按用户隔离 key（与 Plan.jsx 保持一致） */
+function uk(key) {
+  const u = getCurrentUser();
+  return u ? `${key}__${u.email}` : key;
+}
+
+const navLinks = ['首页', '训练计划', '器材教学', '饮食建议'];
 
 const navRoutes = {
   '首页': '/',
   '训练计划': '/plan',
   '器材教学': '/equipment',
   '饮食建议': '/diet',
-  '关于我们': '/',
 };
 
 const features = [
@@ -43,13 +49,76 @@ const features = [
   },
 ];
 
+const goalIcons = { '减脂': '🔥', '增肌': '💪', '塑形': '✨', '保持健康': '🌱' };
+const goalLabelMap = { '减脂': '减脂', '增肌': '增肌', '塑形': '塑形', '保持健康': '保持健康' };
+
+function UserCard({ onClose, onGoPlan, onLogout }) {
+  const cardRef = useRef(null);
+  const user = getCurrentUser();
+  const profile = storage.get(uk('profile'));
+  const goal = profile?.goal || '保持健康';
+  const checkinDays = Object.keys(storage.get(uk('checkins')) || {}).length;
+  const initial = (user?.email || '?')[0].toUpperCase();
+
+  useEffect(() => {
+    const h = (e) => { if (cardRef.current && !cardRef.current.contains(e.target)) onClose(); };
+    document.addEventListener('mousedown', h);
+    return () => document.removeEventListener('mousedown', h);
+  }, [onClose]);
+
+  return (
+    <motion.div ref={cardRef} initial={{ opacity: 0, y: -8, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.2 }}
+      className="absolute right-0 top-[50px] z-50 rounded-[20px] overflow-hidden"
+      style={{ width: 280, background: 'rgba(255,255,255,0.96)', backdropFilter: 'blur(20px)', border: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 16px 48px rgba(50,25,35,0.12)' }}>
+      <div style={{ padding: '22px 22px 18px', display: 'flex', alignItems: 'center', gap: 14, borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+        <div className="w-[46px] h-[46px] rounded-full flex items-center justify-center text-white text-[20px] font-bold flex-shrink-0"
+          style={{ background: 'linear-gradient(135deg, #f06a9a, #FF9ABB)', boxShadow: '0 4px 16px rgba(240,106,154,0.25)' }}>{initial}</div>
+        <p className="text-[16px] font-semibold m-0 tracking-[-0.2px]" style={{ color: '#2d2a30' }}>{user?.email || '未登录'}</p>
+      </div>
+      <div style={{ padding: '16px 22px', display: 'flex', justifyContent: 'space-around', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+        <div className="text-center">
+          <p className="text-[22px] font-bold m-0 leading-none" style={{ color: '#302d33' }}>{goalIcons[goal] || '🎯'} {goalLabelMap[goal] || goal}</p>
+          <p className="text-[11px] m-0 mt-1" style={{ color: '#9d969f' }}>健身目标</p>
+        </div>
+        <div style={{ width: 1, background: 'rgba(0,0,0,0.05)' }} />
+        <div className="text-center">
+          <p className="text-[22px] font-bold m-0 leading-none" style={{ color: '#302d33' }}>{checkinDays}<span className="text-[13px] font-normal ml-0.5" style={{ color: '#9d969f' }}>天</span></p>
+          <p className="text-[11px] m-0 mt-1" style={{ color: '#9d969f' }}>累计打卡</p>
+        </div>
+      </div>
+      <div style={{ padding: '8px 12px' }}>
+        <button onClick={onGoPlan}
+          className="w-full text-left text-[13px] font-medium border-0 bg-transparent cursor-pointer rounded-[10px] transition-colors flex items-center gap-2"
+          style={{ height: 40, padding: '0 12px', color: '#565158' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = '#fdf2f6'; e.currentTarget.style.color = '#ee6a98'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#565158'; }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+          查看训练计划
+        </button>
+        <button onClick={onLogout}
+          className="w-full text-left text-[13px] font-medium border-0 bg-transparent cursor-pointer rounded-[10px] transition-colors flex items-center gap-2"
+          style={{ height: 40, padding: '0 12px', color: '#999' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = '#fafafa'; e.currentTarget.style.color = '#666'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#999'; }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
+          退出登录
+        </button>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Landing() {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [showUserCard, setShowUserCard] = useState(false);
+
+  const loggedIn = isLoggedIn();
 
   const handleCTA = () => {
-    if (isLoggedIn()) {
-      navigate('/plan');
+    if (loggedIn) {
+      const hasProfile = !!storage.get(uk('profile'));
+      navigate(hasProfile ? '/plan' : '/onboarding');
     } else {
       navigate('/login');
     }
@@ -99,14 +168,14 @@ export default function Landing() {
       >
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3 shrink-0">
-          <div className="w-11 h-11 rounded-xl bg-[#f06a9a] flex items-center justify-center shadow-lg shadow-[#f06a9a]/25">
+          <div className="w-[42px] h-[42px] rounded-[12px] flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F56898, #FF9ABB)', boxShadow: '0 4px 16px rgba(245,104,152,0.28)' }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
           </div>
           <div className="flex flex-col leading-none gap-0.5">
-            <span className="text-[26px] font-bold tracking-tight text-[#111]">FitHer</span>
-            <span className="text-[12px] text-[#f06a9a] tracking-wide">为更好的自己</span>
+            <span className="text-[30px] font-bold" style={{ color: '#111' }}>FitHer</span>
+            <span className="text-[12px]" style={{ color: '#F56898' }}>为更好的自己</span>
           </div>
         </Link>
 
@@ -123,13 +192,13 @@ export default function Landing() {
                 transition={{ delay: 0.4 + i * 0.06, duration: 0.5, ease: 'easeOut' }}
               >
                 {isActive ? (
-                  <span className="inline-block px-6 py-2.5 bg-[#fde8ef] text-[#f06a9a] text-[15px] font-semibold rounded-[30px] cursor-default">
+                  <span className="inline-block px-6 py-2.5 bg-[#fde8ef] text-[#F56898] text-[18px] font-semibold rounded-[30px] cursor-default">
                     {link}
                   </span>
                 ) : (
                   <Link
                     to={route}
-                    className="text-[15px] font-medium text-[#555] hover:text-[#f06a9a] transition-colors"
+                    className="text-[18px] font-medium text-[#666] hover:text-[#F56898] transition-colors"
                   >
                     {link}
                   </Link>
@@ -141,18 +210,38 @@ export default function Landing() {
 
         {/* 右侧操作区 */}
         <div className="flex items-center gap-[18px] shrink-0">
-          <Link
-            to="/login"
-            className="w-[80px] h-[40px] border border-gray-300 text-[14px] font-medium text-[#555] rounded-[30px] bg-white/50 backdrop-blur-sm hover:bg-white/80 hover:border-gray-400 transition-all flex items-center justify-center"
-          >
-            登录
-          </Link>
-          <button
-            onClick={handleCTA}
-            className="w-[120px] h-[42px] bg-[#f06a9a] text-white text-[14px] font-semibold rounded-[30px] shadow-[0_8px_25px_rgba(240,106,154,0.25)] hover:shadow-[0_12px_35px_rgba(240,106,154,0.4)] transition-all"
-          >
-            开始训练
-          </button>
+          {loggedIn ? (
+            <div className="relative">
+              <button
+                onClick={() => setShowUserCard(!showUserCard)}
+                className="h-[42px] text-white text-[18px] font-semibold rounded-[30px] transition-all flex items-center justify-center"
+                style={{ padding: '0 22px', background: 'linear-gradient(135deg, #F56898, #FF9ABB)', boxShadow: '0 8px 25px rgba(240,106,154,0.25)' }}
+              >
+                个人主页
+              </button>
+              {showUserCard && <UserCard
+                onClose={() => setShowUserCard(false)}
+                onGoPlan={() => { setShowUserCard(false); const hasProfile = !!storage.get(uk('profile')); navigate(hasProfile ? '/plan' : '/onboarding'); }}
+                onLogout={() => { logout(); setShowUserCard(false); navigate('/'); }}
+              />}
+            </div>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="w-[80px] h-[40px] border border-gray-300 text-[18px] font-medium text-[#666] rounded-[30px] bg-white/50 backdrop-blur-sm hover:bg-white/80 hover:border-gray-400 transition-all flex items-center justify-center"
+              >
+                登录
+              </Link>
+              <button
+                onClick={handleCTA}
+                className="w-[120px] h-[42px] text-white text-[18px] font-semibold rounded-[30px] shadow-[0_8px_25px_rgba(240,106,154,0.25)] hover:shadow-[0_12px_35px_rgba(240,106,154,0.4)] transition-all"
+                style={{ background: 'linear-gradient(135deg, #F56898, #FF9ABB)' }}
+              >
+                开始训练
+              </button>
+            </>
+          )}
         </div>
       </motion.nav>
 
@@ -224,12 +313,12 @@ export default function Landing() {
             }}
             whileTap={{ scale: 0.97 }}
             onClick={handleCTA}
-            className="inline-flex items-center justify-center gap-2.5 w-[260px] h-[60px] text-white text-[16px] font-semibold rounded-[30px] shadow-[0_15px_40px_rgba(240,100,150,0.25)] transition-all mt-6"
+            className="inline-flex items-center justify-center gap-2.5 w-[260px] h-[60px] text-white text-[18px] font-semibold rounded-[30px] shadow-[0_15px_40px_rgba(240,100,150,0.25)] transition-all mt-6"
             style={{
               background: 'linear-gradient(135deg, #F56898 0%, #FF9ABB 100%)',
             }}
           >
-            开始我的专属训练
+            {loggedIn ? '进入我的训练计划' : '开启我的专属训练'}
             <motion.span
               animate={{ x: [0, 4, 0] }}
               transition={{ delay: 1.7, duration: 1.2, repeat: Infinity, repeatDelay: 3 }}

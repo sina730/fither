@@ -1,8 +1,73 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { foodLibrary, libraryCategories, allLibraryFoods, dietAdvice, avoidFoods, heroFeatures } from '../data/foods';
-import { logout as doLogout, isLoggedIn } from '../utils/auth';
+import { logout, getCurrentUser } from '../utils/auth';
+import { storage } from '../utils/storage';
+
+function uk(key) {
+  const u = getCurrentUser();
+  return u ? `${key}__${u.email}` : key;
+}
+
+const goalIcons = { '减脂': '🔥', '增肌': '💪', '塑形': '✨', '保持健康': '🌱' };
+const goalLabelMap = { '减脂': '减脂', '增肌': '增肌', '塑形': '塑形', '保持健康': '保持健康' };
+
+function UserCard({ onClose, onGoPlan, onLogout }) {
+  const cardRef = useRef(null);
+  const user = getCurrentUser();
+  const profile = storage.get(uk('profile'));
+  const goal = profile?.goal || '保持健康';
+  const checkinDays = Object.keys(storage.get(uk('checkins')) || {}).length;
+  const initial = (user?.email || '?')[0].toUpperCase();
+
+  useEffect(() => {
+    const h = (e) => { if (cardRef.current && !cardRef.current.contains(e.target)) onClose(); };
+    document.addEventListener('mousedown', h);
+    return () => document.removeEventListener('mousedown', h);
+  }, [onClose]);
+
+  return (
+    <motion.div ref={cardRef} initial={{ opacity: 0, y: -8, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.2 }}
+      className="absolute right-0 top-[50px] z-50 rounded-[20px] overflow-hidden"
+      style={{ width: 280, background: 'rgba(255,255,255,0.96)', backdropFilter: 'blur(20px)', border: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 16px 48px rgba(50,25,35,0.12)' }}>
+      <div style={{ padding: '22px 22px 18px', display: 'flex', alignItems: 'center', gap: 14, borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+        <div className="w-[46px] h-[46px] rounded-full flex items-center justify-center text-white text-[20px] font-bold flex-shrink-0"
+          style={{ background: 'linear-gradient(135deg, #F56898, #FF9ABB)', boxShadow: '0 4px 16px rgba(245,104,152,0.25)' }}>{initial}</div>
+        <p className="text-[16px] font-semibold m-0 tracking-[-0.2px]" style={{ color: '#2d2a30' }}>{user?.email || '未登录'}</p>
+      </div>
+      <div style={{ padding: '16px 22px', display: 'flex', justifyContent: 'space-around', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+        <div className="text-center">
+          <p className="text-[22px] font-bold m-0 leading-none" style={{ color: '#302d33' }}>{goalIcons[goal] || '🎯'} {goalLabelMap[goal] || goal}</p>
+          <p className="text-[11px] m-0 mt-1" style={{ color: '#9d969f' }}>健身目标</p>
+        </div>
+        <div style={{ width: 1, background: 'rgba(0,0,0,0.05)' }} />
+        <div className="text-center">
+          <p className="text-[22px] font-bold m-0 leading-none" style={{ color: '#302d33' }}>{checkinDays}<span className="text-[13px] font-normal ml-0.5" style={{ color: '#9d969f' }}>天</span></p>
+          <p className="text-[11px] m-0 mt-1" style={{ color: '#9d969f' }}>累计打卡</p>
+        </div>
+      </div>
+      <div style={{ padding: '8px 12px' }}>
+        <button onClick={onGoPlan}
+          className="w-full text-left text-[13px] font-medium border-0 bg-transparent cursor-pointer rounded-[10px] transition-colors flex items-center gap-2"
+          style={{ height: 40, padding: '0 12px', color: '#565158' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = '#fdf2f6'; e.currentTarget.style.color = '#ee6a98'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#565158'; }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+          查看训练计划
+        </button>
+        <button onClick={onLogout}
+          className="w-full text-left text-[13px] font-medium border-0 bg-transparent cursor-pointer rounded-[10px] transition-colors flex items-center gap-2"
+          style={{ height: 40, padding: '0 12px', color: '#999' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = '#fafafa'; e.currentTarget.style.color = '#666'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#999'; }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
+          退出登录
+        </button>
+      </div>
+    </motion.div>
+  );
+}
 
 /* ============================================
    Design Tokens
@@ -422,12 +487,8 @@ function FooterTip() {
    ============================================ */
 export default function Diet() {
   const navigate = useNavigate();
-  const loggedIn = isLoggedIn();
-
-  const handleLogout = () => {
-    doLogout();
-    navigate('/');
-  };
+  const [showUserCard, setShowUserCard] = useState(false);
+  const loggedIn = !!getCurrentUser();
 
   return (
     <div
@@ -441,62 +502,54 @@ export default function Diet() {
         {/* ═══ NAV ═══ */}
         <nav
           className="sticky top-0 z-30"
-          style={{ height: 72, background: 'rgba(255,255,255,0.88)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(0,0,0,0.04)' }}
+          style={{ height: 72, background: 'rgba(255,255,255,0.88)', backdropFilter: 'blur(18px)', borderBottom: '1px solid rgba(0,0,0,0.04)' }}
         >
-          <div className="flex items-center justify-between h-full" style={{ maxWidth: 1440, margin: '0 auto', padding: '0 40px' }}>
+          <div className="flex items-center justify-between h-full" style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px' }}>
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2.5 no-underline">
+            <Link to="/" className="flex items-center gap-3 no-underline flex-shrink-0">
               <div
-                className="w-[38px] h-[38px] rounded-[11px] flex items-center justify-center"
-                style={{ background: `linear-gradient(135deg, ${T.pink}, #FF9ABB)`, boxShadow: `0 4px 14px rgba(255,111,165,0.22)` }}
+                className="w-[42px] h-[42px] rounded-[12px] flex items-center justify-center"
+                style={{ background: `linear-gradient(135deg, #F56898, #FF9ABB)`, boxShadow: '0 4px 16px rgba(245,104,152,0.28)' }}
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                 </svg>
               </div>
               <div className="flex flex-col leading-none gap-0.5">
-                <span className="text-[24px] font-bold" style={{ color: '#222' }}>FitHer</span>
-                <span className="text-[10px]" style={{ color: T.pink }}>为更好的自己</span>
+                <span className="text-[28px] font-bold" style={{ color: '#111' }}>FitHer</span>
+                <span className="text-[12px]" style={{ color: '#F56898' }}>为更好的自己</span>
               </div>
             </Link>
 
             {/* Nav links */}
-            <div className="flex items-center gap-8">
-              <Link to="/" className="text-[14px] font-medium no-underline" style={{ color: '#565158' }}>首页</Link>
-              <Link to="/plan" className="text-[14px] font-medium no-underline" style={{ color: '#565158' }}>训练计划</Link>
-              <Link to="/equipment" className="text-[14px] font-medium no-underline" style={{ color: '#565158' }}>器材教学</Link>
-              <span className="text-[14px] font-semibold relative cursor-default" style={{ color: T.pink }}>
+            <div className="flex items-center" style={{ gap: 44 }}>
+              <Link to="/" className="text-[16px] font-medium no-underline" style={{ color: '#666' }}>首页</Link>
+              <Link to="/plan" className="text-[16px] font-medium no-underline" style={{ color: '#666' }}>训练计划</Link>
+              <Link to="/equipment" className="text-[16px] font-medium no-underline" style={{ color: '#666' }}>器材教学</Link>
+              <span className="text-[16px] font-semibold relative cursor-default" style={{ color: '#F56898' }}>
                 饮食建议
-                <span className="absolute -bottom-[20px] left-1/2 -translate-x-1/2 w-[42px] h-[2px] rounded-[2px] block" style={{ background: T.pink }} />
+                <span className="absolute -bottom-[25px] left-1/2 -translate-x-1/2 w-[36px] h-[3px] rounded-[999px] block" style={{ background: '#F56898' }} />
               </span>
-              <Link to="/" className="text-[14px] font-medium no-underline" style={{ color: '#565158' }}>关于我们</Link>
             </div>
 
             {/* Right actions */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-shrink-0" style={{ width: 160, justifyContent: 'flex-end' }}>
               {loggedIn ? (
-                <button
-                  onClick={handleLogout}
-                  className="text-[13px] font-medium border rounded-[22px] bg-white cursor-pointer"
-                  style={{ height: 42, padding: '0 20px', borderColor: '#e8e8e8', color: '#888' }}
-                >
-                  退出
-                </button>
+                <div className="relative">
+                  <button onClick={() => setShowUserCard(!showUserCard)}
+                    className="h-[42px] text-white text-[16px] font-semibold rounded-[30px] transition-all flex items-center justify-center border-0 cursor-pointer"
+                    style={{ padding: '0 20px', background: 'linear-gradient(135deg, #F56898, #FF9ABB)', boxShadow: '0 8px 25px rgba(240,106,154,0.25)' }}>
+                    个人主页
+                  </button>
+                  {showUserCard && <UserCard
+                    onClose={() => setShowUserCard(false)}
+                    onGoPlan={() => { setShowUserCard(false); const hasProfile = !!storage.get(uk('profile')); navigate(hasProfile ? '/plan' : '/onboarding'); }}
+                    onLogout={() => { logout(); setShowUserCard(false); navigate('/'); }}
+                  />}
+                </div>
               ) : (
-                <Link
-                  to="/login"
-                  className="text-[13px] font-medium border rounded-[22px] bg-white no-underline inline-flex items-center"
-                  style={{ height: 42, padding: '0 20px', borderColor: '#e8e8e8', color: '#888' }}
-                >
-                  登录
-                </Link>
+                <Link to="/login" className="text-[16px] font-medium no-underline" style={{ color: '#666' }}>登录</Link>
               )}
-              <button
-                className="text-[13px] font-semibold text-white border-0 rounded-[22px] cursor-pointer"
-                style={{ height: 42, padding: '0 22px', background: `linear-gradient(135deg, ${T.pink}, #FF9ABB)`, boxShadow: `0 4px 14px rgba(255,111,165,0.2)` }}
-              >
-                开始训练
-              </button>
             </div>
           </div>
         </nav>

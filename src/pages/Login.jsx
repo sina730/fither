@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { login } from '../utils/auth';
+import { login, getCurrentUser } from '../utils/auth';
+import { storage } from '../utils/storage';
+
+function uk(key) {
+  const u = getCurrentUser();
+  return u ? `${key}__${u.email}` : key;
+}
 
 export default function Login() {
   const navigate = useNavigate();
@@ -14,7 +20,9 @@ export default function Login() {
     setError('');
     const result = login(email, password);
     if (result.ok) {
-      navigate('/onboarding');
+      // 登录后检查是否已有训练计划，有则跳过填表
+      const hasProfile = !!storage.get(uk('profile'));
+      navigate(hasProfile ? '/plan' : '/onboarding');
     } else {
       setError(result.error);
     }

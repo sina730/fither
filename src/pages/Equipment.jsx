@@ -1,7 +1,73 @@
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { mainCategories, allVideos, getCoverStyle } from '../data/equipmentData';
+import { logout, getCurrentUser } from '../utils/auth';
+import { storage } from '../utils/storage';
+
+function uk(key) {
+  const u = getCurrentUser();
+  return u ? `${key}__${u.email}` : key;
+}
+
+const goalIcons = { '减脂': '🔥', '增肌': '💪', '塑形': '✨', '保持健康': '🌱' };
+const goalLabelMap = { '减脂': '减脂', '增肌': '增肌', '塑形': '塑形', '保持健康': '保持健康' };
+
+function UserCard({ onClose, onGoPlan, onLogout }) {
+  const cardRef = useRef(null);
+  const user = getCurrentUser();
+  const profile = storage.get(uk('profile'));
+  const goal = profile?.goal || '保持健康';
+  const checkinDays = Object.keys(storage.get(uk('checkins')) || {}).length;
+  const initial = (user?.email || '?')[0].toUpperCase();
+
+  useEffect(() => {
+    const h = (e) => { if (cardRef.current && !cardRef.current.contains(e.target)) onClose(); };
+    document.addEventListener('mousedown', h);
+    return () => document.removeEventListener('mousedown', h);
+  }, [onClose]);
+
+  return (
+    <motion.div ref={cardRef} initial={{ opacity: 0, y: -8, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.2 }}
+      className="absolute right-0 top-[50px] z-50 rounded-[20px] overflow-hidden"
+      style={{ width: 280, background: 'rgba(255,255,255,0.96)', backdropFilter: 'blur(20px)', border: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 16px 48px rgba(50,25,35,0.12)' }}>
+      <div style={{ padding: '22px 22px 18px', display: 'flex', alignItems: 'center', gap: 14, borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+        <div className="w-[46px] h-[46px] rounded-full flex items-center justify-center text-white text-[20px] font-bold flex-shrink-0"
+          style={{ background: 'linear-gradient(135deg, #F56898, #FF9ABB)', boxShadow: '0 4px 16px rgba(245,104,152,0.25)' }}>{initial}</div>
+        <p className="text-[16px] font-semibold m-0 tracking-[-0.2px]" style={{ color: '#2d2a30' }}>{user?.email || '未登录'}</p>
+      </div>
+      <div style={{ padding: '16px 22px', display: 'flex', justifyContent: 'space-around', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+        <div className="text-center">
+          <p className="text-[22px] font-bold m-0 leading-none" style={{ color: '#302d33' }}>{goalIcons[goal] || '🎯'} {goalLabelMap[goal] || goal}</p>
+          <p className="text-[11px] m-0 mt-1" style={{ color: '#9d969f' }}>健身目标</p>
+        </div>
+        <div style={{ width: 1, background: 'rgba(0,0,0,0.05)' }} />
+        <div className="text-center">
+          <p className="text-[22px] font-bold m-0 leading-none" style={{ color: '#302d33' }}>{checkinDays}<span className="text-[13px] font-normal ml-0.5" style={{ color: '#9d969f' }}>天</span></p>
+          <p className="text-[11px] m-0 mt-1" style={{ color: '#9d969f' }}>累计打卡</p>
+        </div>
+      </div>
+      <div style={{ padding: '8px 12px' }}>
+        <button onClick={onGoPlan}
+          className="w-full text-left text-[13px] font-medium border-0 bg-transparent cursor-pointer rounded-[10px] transition-colors flex items-center gap-2"
+          style={{ height: 40, padding: '0 12px', color: '#565158' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = '#fdf2f6'; e.currentTarget.style.color = '#ee6a98'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#565158'; }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+          查看训练计划
+        </button>
+        <button onClick={onLogout}
+          className="w-full text-left text-[13px] font-medium border-0 bg-transparent cursor-pointer rounded-[10px] transition-colors flex items-center gap-2"
+          style={{ height: 40, padding: '0 12px', color: '#999' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = '#fafafa'; e.currentTarget.style.color = '#666'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#999'; }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
+          退出登录
+        </button>
+      </div>
+    </motion.div>
+  );
+}
 
 /* ========== Design Tokens ========== */
 const PINK = '#F56898';
@@ -86,6 +152,8 @@ function VideoCard({ video, index }) {
 export default function Equipment() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [showUserCard, setShowUserCard] = useState(false);
+  const loggedIn = !!getCurrentUser();
 
   const filteredVideos = useMemo(() => {
     let list = activeCategory === 'all' ? allVideos : allVideos.filter((v) => v.category === activeCategory);
@@ -130,9 +198,25 @@ export default function Equipment() {
             <span style={{ fontSize: 16, fontWeight: 600, color: PINK, position: 'relative', cursor: 'default' }}>
               器材教学<span style={{ position: 'absolute', bottom: -25, left: '50%', transform: 'translateX(-50%)', width: 36, height: 3, borderRadius: 999, background: PINK, display: 'block' }} /></span>
             <Link to="/diet" style={{ fontSize: 16, fontWeight: 500, color: '#666', textDecoration: 'none' }}>饮食建议</Link>
-            <span style={{ fontSize: 16, fontWeight: 500, color: '#999', cursor: 'default' }}>关于我们</span>
           </div>
-          <div style={{ width: 160, flexShrink: 0 }} />
+          <div className="flex items-center gap-3 flex-shrink-0" style={{ width: 160, justifyContent: 'flex-end' }}>
+            {loggedIn ? (
+              <div className="relative">
+                <button onClick={() => setShowUserCard(!showUserCard)}
+                  className="h-[42px] text-white text-[16px] font-semibold rounded-[30px] transition-all flex items-center justify-center border-0 cursor-pointer"
+                  style={{ padding: '0 20px', background: 'linear-gradient(135deg, #F56898, #FF9ABB)', boxShadow: '0 8px 25px rgba(240,106,154,0.25)' }}>
+                  个人主页
+                </button>
+                {showUserCard && <UserCard
+                  onClose={() => setShowUserCard(false)}
+                  onGoPlan={() => { setShowUserCard(false); const hasProfile = !!storage.get(uk('profile')); nav(hasProfile ? '/plan' : '/onboarding'); }}
+                  onLogout={() => { logout(); setShowUserCard(false); nav('/'); }}
+                />}
+              </div>
+            ) : (
+              <Link to="/login" className="text-[16px] font-medium no-underline" style={{ color: '#666' }}>登录</Link>
+            )}
+          </div>
         </div>
       </nav>
 
@@ -202,7 +286,7 @@ export default function Equipment() {
 
               {/* 小字 */}
               <p className="text-[clamp(14px,1.6vw,17px)] leading-relaxed"
-                style={{ color: '#999', maxWidth: 420 }}>
+                style={{ color: '#999', maxWidth: 420, marginTop: 10 }}>
                 新手自信指南，详细视频讲解，<br />轻松上手每一个器材
               </p>
 

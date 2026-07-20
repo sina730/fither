@@ -92,6 +92,7 @@ export const categoryDetailMap = {
         name: '训练前热身',
         videos: [
           { id: 'wu-anna',         title: '安娜5分钟快速拉伸',  level: '初级', duration: '5 分钟', rating: 5, category: 'stretch', subcategory: '训练前热身', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1jM4y177oN', cover: 'https://i2.hdslb.com/bfs/archive/0fee648cdc0d068e65dfa29e75a529f0977ed725.jpg' },
+          { id: 'cd-teagan',       title: 'Teagan Dixon·5分钟全身拉伸', level: '初级', duration: '5 分钟', rating: 5, category: 'stretch', subcategory: '训练前热身', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1qA411A7u3', cover: 'https://i0.hdslb.com/bfs/archive/275a50c3b9b1e5ab055049d093105b162b03ebd0.jpg' },
           { id: 'wu-anna2',        title: '安娜10分钟拉伸练习',  level: '初级', duration: '10 分钟', rating: 5, category: 'stretch', subcategory: '训练前热身', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1UH4y1H7Wc', cover: 'https://i0.hdslb.com/bfs/archive/b1508116df1d4b2c2c31079551c89bdb706553d7.jpg' },
         ],
       },
@@ -106,7 +107,6 @@ export const categoryDetailMap = {
         name: '训练后拉伸',
         videos: [
           { id: 'cd-anna',         title: '安娜15分钟放松拉伸',  level: '初级', duration: '15 分钟', rating: 5, category: 'stretch', subcategory: '训练后拉伸', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1ev421y7PD', cover: 'https://i1.hdslb.com/bfs/archive/8a05daf284197acd7de8df61443470a02760c3ec.jpg' },
-          { id: 'cd-teagan',       title: 'Teagan Dixon·5分钟全身拉伸', level: '初级', duration: '5 分钟', rating: 5, category: 'stretch', subcategory: '训练后拉伸', bilibiliUrl: 'https://player.bilibili.com/player.html?bvid=BV1qA411A7u3', cover: COVERS.stretch[0] },
         ],
       },
     ],

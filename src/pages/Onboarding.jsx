@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { sceneOptions } from '../data/rules';
+import { getCurrentUser } from '../utils/auth';
 
 /* ====== Design Tokens ====== */
 const T = {
@@ -46,7 +47,6 @@ const bpOpts = [
   { value: '上肢', label: '上肢' }, { value: '下肢', label: '下肢' },
   { value: '核心', label: '核心' }, { value: '全身', label: '全身' },
 ];
-const dietOpts = ['海鲜', '牛奶', '鸡蛋', '坚果', '牛肉', '麸质', '辛辣', '生冷'];
 const menOpts = [
   { value: 'period', label: '经期中' }, { value: 'upcoming', label: '即将来临' }, { value: 'none', label: '非经期' },
 ];
@@ -212,7 +212,6 @@ export default function Onboarding() {
   const [goal, setGoal] = useState('');
   const [bodyParts, setBodyParts] = useState([]);
   const [planDays, setPlanDays] = useState('');
-  const [restrictions, setRestrictions] = useState([]);
   const [menstrual, setMenstrual] = useState('');
   const [periodDate, setPeriodDate] = useState('');
   const [scene, setScene] = useState('');
@@ -226,12 +225,14 @@ export default function Onboarding() {
     e.preventDefault();
     if (!valid || submitting) return;
     setSubmitting(true);
-    localStorage.setItem('fither_profile', JSON.stringify({
+    const u = getCurrentUser();
+    const profileKey = u ? `fither_profile__${u.email}` : 'fither_profile';
+    localStorage.setItem(profileKey, JSON.stringify({
       height: height || '', weight: weight || '', targetWeight: targetWeight || '', bodyFat,
       dailyMinutes: parseInt(effMin), goal, scene: scene || 'home',
       bodyParts: bodyParts.length === 0 ? [] : bodyParts,
       durationDays: parseInt(planDays),
-      restrictions: restrictions.filter((r) => r !== '__none__'),
+      restrictions: [],
       hasMenstrual: menstrual === 'period' || menstrual === 'upcoming',
       menstrualStatus: menstrual, periodDate: periodDate || '', menstrualDays: 28,
     }));
@@ -244,7 +245,7 @@ export default function Onboarding() {
       {/* ====== Nav ====== */}
       <motion.nav initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
         style={{ position: 'sticky', top: 0, zIndex: 30, background: 'rgba(255,255,255,0.82)', backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
-        <div style={{ height: 72, display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: 1240, margin: '0 auto', padding: '0 40px' }}>
+        <div style={{ height: 72, display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: 1280, margin: '0 auto', padding: '0 32px' }}>
           <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, textDecoration: 'none' }}>
             <div style={{ width: 42, height: 42, borderRadius: 12, background: T.cPinkGrad, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 16px rgba(245,104,152,0.28)' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
@@ -262,8 +263,7 @@ export default function Onboarding() {
             <Link to="/diet" style={{ fontSize: 16, fontWeight: 500, color: T.cAux, textDecoration: 'none' }}>饮食建议</Link>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexShrink: 0 }}>
-            <Link to="/login" style={{ fontSize: 15, fontWeight: 500, color: T.cAux, textDecoration: 'none' }}>登录</Link>
-            <button style={{ width: 120, height: 42, fontSize: 15, fontWeight: 600, color: '#FFF', borderRadius: 999, border: 'none', cursor: 'pointer', background: T.cPinkGrad, boxShadow: '0 6px 20px rgba(245,104,152,0.22)' }}>开始训练</button>
+            <Link to="/" style={{ height: 42, padding: '0 20px', fontSize: 15, fontWeight: 600, color: '#FFF', borderRadius: 999, border: 'none', display: 'inline-flex', alignItems: 'center', textDecoration: 'none', background: T.cPinkGrad, boxShadow: '0 6px 20px rgba(245,104,152,0.22)' }}>返回首页</Link>
           </div>
         </div>
       </motion.nav>
@@ -362,19 +362,6 @@ export default function Onboarding() {
                   <label style={{ display: 'block', fontSize: T.lblF, fontWeight: T.lblW, color: T.cLabel, marginBottom: T.s8 }}>最近经期日期</label>
                   <input type="date" value={periodDate} onChange={(e) => setPeriodDate(e.target.value)}
                     style={IS} onFocus={onF} onBlur={onB} />
-                </div>
-                {/* 饮食忌口 */}
-                <div>
-                  <label style={{ display: 'block', fontSize: T.lblF, fontWeight: T.lblW, color: T.cLabel, marginBottom: T.s8 }}>饮食忌口</label>
-                  <MultiSelect
-                    values={restrictions}
-                    onChange={(vals) => {
-                      if (vals.includes('__none__')) setRestrictions(['__none__']);
-                      else setRestrictions(vals.filter((v) => v !== '__none__'));
-                    }}
-                    options={[{ value: '__none__', label: '无（不忌口）' }, ...dietOpts.map((d) => ({ value: d, label: d }))]}
-                    placeholder="可多选，无则选「无」"
-                  />
                 </div>
                 {/* 经期状态 */}
                 <div>

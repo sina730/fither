@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { register } from '../utils/auth';
+import { register, getCurrentUser } from '../utils/auth';
+import { storage } from '../utils/storage';
+
+function uk(key) {
+  const u = getCurrentUser();
+  return u ? `${key}__${u.email}` : key;
+}
 
 export default function Register() {
   const navigate = useNavigate();
@@ -25,7 +31,8 @@ export default function Register() {
 
     const result = register(email, password);
     if (result.ok) {
-      navigate('/onboarding');
+      const hasProfile = !!storage.get(uk('profile'));
+      navigate(hasProfile ? '/plan' : '/onboarding');
     } else {
       setError(result.error);
     }
